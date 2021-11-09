@@ -14,10 +14,10 @@ class Payment(BaseModel, Base):
 
     _type = Column(String(50), nullable=True)
     date = Column(DateTime, nullable=True)
-    txn_id = Column(String(20), nullable=False, primary_key=True)
+    txn_id = Column(String(20), nullable=False)
     total = Column(Float, nullable=True)
     delivered = Column(Boolean, nullable=True)
-    order_id = Column(Integer, ForeignKey('orders.order_id'))
+    order_id = Column(String(60), ForeignKey('orders.id'))
 
     order = relationship("Order", back_populates="payments")
 
