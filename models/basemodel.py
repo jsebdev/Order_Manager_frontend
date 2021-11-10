@@ -44,3 +44,10 @@ class BaseModel:
         """
         models.storage.new(self)
         models.storage.save()
+
+    def delete(self):
+        """
+        Deletes object in database
+        """
+        models.storage.delete(self)
+        models.storage.save()
