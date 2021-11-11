@@ -61,6 +61,21 @@ def order_by_dates(date0, date1):
         return jsonify(orders_info(orders))
     return ("Not found", 404)
 
+@app.route("/orders/shipping/{<string:key>=<string:value>}")
+def order_by_shipping(key, value):
+    """
+    return all orders with the given key (city, state, country)
+    """
+    kwargs = {}
+    kwargs[key] = value
+    shippings = storage.all("Shipping", **kwargs)
+    orders = [shipping.order for shipping in shippings.values()]
+    print(orders)
+    print(type(orders))
+    orders_i = orders_info(orders)
+    print(orders_i)
+    return jsonify(orders_i)
+
 
 def orders_info(orders):
     """
@@ -87,6 +102,7 @@ def order_info(order):
 
     shipping_info = order.shipping.to_dict()
     shipping_info.pop('order_id', None)
+    shipping_info.pop('order', None)
 
     user_information = order.user.to_dict()
     user_information.pop('password')
