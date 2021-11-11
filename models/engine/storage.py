@@ -11,6 +11,7 @@ from models.payment import Payment
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from os import getenv
+from datetime import datetime
 
 
 classes = {'User': User,
@@ -91,6 +92,17 @@ the_class.{}.in_(array)).order_by(the_class.id).all()'.format(key))
             print("No class of type {:s}".format(cls))
             return None
         return objs_dict
+
+    def order_by_dates(self, d0, d1):
+        """
+        Return query of orders between date0 and date1
+        the dates format must be %d-%m-%Y
+        """
+        date0 = datetime.strptime(d0, '%d-%m-%Y')
+        date1 = datetime.strptime(d1, '%d-%m-%Y')
+        orders = self.__session.query(Order).filter(Order.date >= date0,
+                Order.date <= date1).all()
+        return orders
 
     def reload(self):
         """reloads data from the database"""

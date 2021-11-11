@@ -45,8 +45,28 @@ def order_by_id(order_id):
 def orders_by_ids(order_ids):
     ids = order_ids.split(',')
     orders = storage.all_inclusive("Order", id=ids)
-    orders = [order_info(order) for order in list(orders.values())]
-    return jsonify(orders)
+    if orders:
+        return jsonify(orders_info(orders.values()))
+    return ("Not found", 404)
+
+
+@app.route("/orders/<string:date0> - <string:date1>", methods=["GET"])
+def order_by_dates(date0, date1):
+    """
+    Return info of orders between date0 and date1
+    the dates format must be %d-%m-%Y
+    """
+    orders = storage.order_by_dates(date0, date1)
+    if orders:
+        return jsonify(orders_info(orders))
+    return ("Not found", 404)
+
+
+def orders_info(orders):
+    """
+    Return list of order dictionaries with orders info from orders
+    """
+    return [order_info(order) for order in list(orders)]
 
 
 def order_info(order):
