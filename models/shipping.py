@@ -19,4 +19,4 @@ class Shipping(BaseModel, Base):
     cost = Column(Float, nullable=True)
     order_id = Column(String(60), ForeignKey('orders.id'), nullable=False)
 
-    order = relationship("Order", back_populates="shippings")
+    order = relationship("Order", back_populates="shipping")

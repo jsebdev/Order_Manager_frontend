@@ -19,8 +19,9 @@ class Order(BaseModel, Base):
     subtotal = Column(Float, nullable=True)
     taxes = Column(Float, nullable=True)
     paid = Column(Boolean, nullable=True)
+    sent = Column(Boolean, nullable=True)
 
     user = relationship("User", back_populates="orders")
-    shippings = relationship("Shipping", order_by=Shipping.id, back_populates="order")
-    payments = relationship("Payment", order_by=Payment.txn_id, back_populates="order")
-
+    shipping = relationship("Shipping", back_populates="order", uselist=False)
+    payments = relationship("Payment", order_by=Payment.txn_id,
+                            back_populates="order")

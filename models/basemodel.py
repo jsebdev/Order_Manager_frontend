@@ -32,11 +32,18 @@ class BaseModel:
         """
         String representation of the BaseModel class
         """
-        obj_dict = self.__dict__.copy()
-        obj_dict.pop('_sa_instance_state', None)
+        obj_dict = self.to_dict()
         obj_dict.pop('id', None)
         return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
                                          obj_dict)
+
+    def to_dict(self):
+        """
+        Convert object to dictionary
+        """
+        obj_dict = self.__dict__.copy()
+        obj_dict.pop('_sa_instance_state', None)
+        return obj_dict
 
     def save(self):
         """

@@ -45,6 +45,7 @@ test',
         """
         Method to return all instances from database of a given class or
         all instances from all classes
+        kwargs must be None or specific columns and values respectively
         """
         objs_dict = {}
         if cls is None:
@@ -57,6 +58,33 @@ test',
             the_class = classes[cls]
             objs = self.__session.query(the_class).filter_by(
                 **kwargs).order_by(the_class.id).all()
+            for obj in objs:
+                objs_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+        else:
+            print("No class of type {:s}".format(cls))
+            return None
+        return objs_dict
+
+    def all_inclusive(self, cls=None, **kwargs):
+        """
+        Method to return all instances from database of a given class or
+        all instances from all classes
+        kwargs must be a dictionary with only one key and an array of values
+        as value
+        """
+        key = list(kwargs)[0]
+        array = list(kwargs.values())[0]
+        objs_dict = {}
+        if cls is None:
+            for one_class in classes.values():
+                objs = eval('self._Storage__session.query(one_class).filter(\
+one_class.{}.in_(array)).order_by(one_class.id).all()'.format(key))
+                for obj in objs:
+                    objs_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+        elif cls in classes.keys():
+            the_class = classes[cls]
+            objs = eval('self._Storage__session.query(the_class).filter(\
+the_class.{}.in_(array)).order_by(the_class.id).all()'.format(key))
             for obj in objs:
                 objs_dict[obj.__class__.__name__ + '.' + obj.id] = obj
         else:
