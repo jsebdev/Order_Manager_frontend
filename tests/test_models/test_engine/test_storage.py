@@ -55,11 +55,9 @@ class testStorage(unittest.TestCase):
         user1 = models.user.User(name="Laura")
         user0.save()
         user1.save()
-        user_saved = storage.all('User', id=user0.id)
-        user_saved = next(iter(user_saved.values()))
+        user_saved = storage.all('User', id=user0.id)[0]
         self.assertEqual(user0, user_saved)
-        user_saved = storage.all('User', id=user1.id)
-        user_saved = next(iter(user_saved.values()))
+        user_saved = storage.all('User', id=user1.id)[0]
         self.assertEqual(user1, user_saved)
 
     def test_create_order(self):
@@ -70,7 +68,6 @@ class testStorage(unittest.TestCase):
         order00.save()
 
         user_saved = storage.all('User', id=user0.id)
-        user_saved = next(iter(user_saved.values()))
         self.assertEqual(user0.orders, [order00])
 
         with self.assertRaises(exc.IntegrityError):

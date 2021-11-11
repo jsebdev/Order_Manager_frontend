@@ -20,4 +20,3 @@ class Payment(BaseModel, Base):
     order_id = Column(String(60), ForeignKey('orders.id'))
 
     order = relationship("Order", back_populates="payments")
-

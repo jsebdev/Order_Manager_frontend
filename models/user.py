@@ -21,4 +21,5 @@ class User(BaseModel, Base):
     password = Column(String(50), nullable=True)
     user_name = Column(String(50), nullable=True)
 
-    orders = relationship("Order", order_by=Order.id, back_populates="user")
+    orders = relationship("Order", order_by=Order.id, back_populates="user",
+                          cascade="all, delete, delete-orphan")

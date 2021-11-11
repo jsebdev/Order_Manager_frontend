@@ -28,7 +28,7 @@ def get_token():
 @app.route("/users/all", methods=["GET"])
 def all_users():
     users = storage.all("User")
-    users = [user.to_dict() for user in users.values()]
+    users = [user.to_dict() for user in users]
     for user in users:
         user.pop('password')
         user.pop('user_name')
@@ -39,7 +39,7 @@ def all_users():
 def user_by_id(user_id):
     user = storage.all("User", id=user_id)
     if user:
-        user = list(user.values())[0]
+        user = user[0]
     else:
         return ("Not found", 404)
     return user.to_dict()
@@ -49,7 +49,7 @@ def user_by_id(user_id):
 def order_by_id(order_id):
     order = storage.all("Order", id=order_id)
     if order:
-        order = list(order.values())[0]
+        order = order[0]
     else:
         return ("Not found", 404)
     return order_info(order)
@@ -60,7 +60,7 @@ def orders_by_ids(order_ids):
     ids = order_ids.split(',')
     orders = storage.all_inclusive("Order", id=ids)
     if orders:
-        return jsonify(orders_info(orders.values()))
+        return jsonify(orders_info(orders))
     return ("Not found", 404)
 
 
@@ -84,7 +84,7 @@ def order_by_shipping(key, value):
     kwargs = {}
     kwargs[key] = value
     shippings = storage.all("Shipping", **kwargs)
-    orders = [shipping.order for shipping in shippings.values()]
+    orders = [shipping.order for shipping in shippings]
     return jsonify(orders_info(orders))
 
 
@@ -94,8 +94,10 @@ def order_by_user(user_id):
     Return info for orders of user with user_id
     """
     user = storage.all("User", id=user_id)
-    user = list(user.values())[0]
-    return jsonify(orders_info(user.orders))
+    if user:
+        user = user[0]
+        return jsonify(orders_info(user.orders))
+    return ("Not found", 404)
 
 
 def orders_info(orders):
