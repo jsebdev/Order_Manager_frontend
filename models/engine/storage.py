@@ -103,7 +103,10 @@ the_class.{}.in_(array)).order_by(the_class.id).all()'.format(key))
 
 
     def all_logged_users(self):
-        pass
+        """Return all users with user_name and password different than Null"""
+        users = self.__session.query(User).filter(User.user_name != None, User.password != None).all()
+        return users
+
 
 
     def order_by_dates(self, d0, d1):

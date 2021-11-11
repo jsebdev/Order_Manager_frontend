@@ -16,13 +16,13 @@ def hello_world():
 
 @app.route("/login", methods=["POST"])
 def get_token():
-    form = request.form
-    return "this is a post"
-
-
-@app.route("/login", methods=["GET"])
-def login():
-    return "this is a get"
+    password = request.form.get('password')
+    username = request.form.get('username')
+    loged_users = storage.all_logged_users()
+    for user in loged_users:
+        if user.user_name == username and user.password == password:
+            return "Alicia_in_worderland"
+    return "Not quite right"
 
 
 @app.route("/users/all", methods=["GET"])
