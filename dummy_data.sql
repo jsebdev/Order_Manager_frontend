@@ -1,12 +1,12 @@
 USE orders;
 INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`, `password`, `user_name`)
-VALUES ("a", "pepe", "Grillo", "a", "pepe@hotmail.com", "Univalle", "pepe", "pepegrillo");
+VALUES ("a", "pepe", "Grillo", "a", "pepe@hotmail.com", "Univalle", "pepe_pwd", "pepegrillo");
 INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`, `password`, `user_name`)
-VALUES ("b", "Juancho", "Grillo", "b", "pepe@hotmail.com", "Univalle", "juacho", "pepegrillo");
-INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`, `password`, `user_name`)
-VALUES ("c", "Carracho", "Grillo", "c", "pepe@hotmail.com", "Univalle", "carracho", "pepegrillo");
-INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`, `password`, `user_name`)
-VALUES ("d", "Ponito", "Grillo", "d", "pepe@hotmail.com", "Univalle", "ponito", "pepegrillo");
+VALUES ("b", "Juancho", "Grillo", "b", "pepe@hotmail.com", "Univalle", "juancho_pwd", "juancho");
+INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`)
+VALUES ("c", "Carracho", "Grillo", "c", "pepe@hotmail.com", "Univalle");
+INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`)
+VALUES ("d", "Ponito", "Grillo", "d", "pepe@hotmail.com", "Univalle");
 
 INSERT INTO `orders` VALUES ("o1", "a", "2001-1-05 14:29:36", 125.6, 12.1, true, true); 
 INSERT INTO `orders` VALUES ("o2", "a", "2002-1-05 14:29:36", 125.6, 12.1, true, false); 

@@ -2,7 +2,7 @@
 """ Flask Application for api"""
 
 from os import getenv
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from models import storage
 
 
@@ -14,10 +14,24 @@ def hello_world():
     return "<p>Hello, World! yea</p>"
 
 
+@app.route("/login", methods=["POST"])
+def get_token():
+    form = request.form
+    return "this is a post"
+
+
+@app.route("/login", methods=["GET"])
+def login():
+    return "this is a get"
+
+
 @app.route("/users/all", methods=["GET"])
 def all_users():
     users = storage.all("User")
     users = [user.to_dict() for user in users.values()]
+    for user in users:
+        user.pop('password')
+        user.pop('user_name')
     return jsonify(users)
 
 

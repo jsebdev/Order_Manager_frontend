@@ -53,18 +53,17 @@ test',
             for one_class in classes.values():
                 objs = self.__session.query(one_class).filter_by(
                     **kwargs).order_by(one_class.id).all()
-                for obj in objs:
-                    objs_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+                objs_dict = Storage.add_to_dict(objs_dict, objs)
         elif cls in classes.keys():
             the_class = classes[cls]
             objs = self.__session.query(the_class).filter_by(
                 **kwargs).order_by(the_class.id).all()
-            for obj in objs:
-                objs_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+            objs_dict = Storage.add_to_dict(objs_dict, objs)
         else:
             print("No class of type {:s}".format(cls))
             return None
         return objs_dict
+
 
     def all_inclusive(self, cls=None, **kwargs):
         """
@@ -80,18 +79,32 @@ test',
             for one_class in classes.values():
                 objs = eval('self._Storage__session.query(one_class).filter(\
 one_class.{}.in_(array)).order_by(one_class.id).all()'.format(key))
-                for obj in objs:
-                    objs_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+                objs_dict = Storage.add_to_dict(objs_dict, objs)
         elif cls in classes.keys():
             the_class = classes[cls]
             objs = eval('self._Storage__session.query(the_class).filter(\
 the_class.{}.in_(array)).order_by(the_class.id).all()'.format(key))
-            for obj in objs:
-                objs_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+            objs_dict = Storage.add_to_dict(objs_dict, objs)
         else:
             print("No class of type {:s}".format(cls))
             return None
         return objs_dict
+
+    @classmethod
+    def add_to_dict(cls, objs_dict, objs):
+        """
+        This method add to the dictionary dic, all the objects in list objs with
+        formated like key. The key's format is '<Class>.<id>'
+        """
+        for obj in objs:
+            objs_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+        print("it works")
+        return objs_dict
+
+
+    def all_logged_users(self):
+        pass
+
 
     def order_by_dates(self, d0, d1):
         """
