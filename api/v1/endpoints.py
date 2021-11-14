@@ -5,16 +5,15 @@ from os import getenv
 from flask import Flask, jsonify, request
 from models import storage
 
+from api.v1 import api
 
-def create_app():
-    app = Flask(__name__)
-    return app
+print('hola')
+print('adios')
+print('changos')
+print(api)
 
 
-app = create_app()
-
-
-@app.route("/login", methods=["POST"])
+@api.route("/logins", methods=["POST"])
 def get_token():
     """
     Get secret token if username and password are correct
@@ -28,20 +27,17 @@ def get_token():
     return "Not quite right"
 
 
-@app.route("/users/all", methods=["GET"])
+@api.route("/users/all", methods=["GET"])
 def all_users():
     """
     Return info about all users
     """
     users = storage.all("User")
     users = [user.to_dict() for user in users]
-    for user in users:
-        user.pop('password')
-        user.pop('user_name')
     return jsonify(users)
 
 
-@app.route("/users/<string:user_id>", methods=["GET"])
+@api.route("/users/<string:user_id>", methods=["GET"])
 def user_by_id(user_id):
     """
     Return info of user with <user_id>
@@ -54,7 +50,7 @@ def user_by_id(user_id):
     return user.to_dict()
 
 
-@app.route("/orders/<string:order_id>", methods=["GET"])
+@api.route("/orders/<string:order_id>", methods=["GET"])
 def order_by_id(order_id):
     """
     Return info about order with <order_id>
@@ -67,7 +63,7 @@ def order_by_id(order_id):
     return order_info(order)
 
 
-@app.route("/orders/[<string:order_ids>]", methods=["GET"])
+@api.route("/orders/[<string:order_ids>]", methods=["GET"])
 def orders_by_ids(order_ids):
     """
     return info about orders with id in <order_ids>
@@ -79,7 +75,7 @@ def orders_by_ids(order_ids):
     return ("Not found", 404)
 
 
-@app.route("/orders/<string:date0> - <string:date1>", methods=["GET"])
+@api.route("/orders/<string:date0> - <string:date1>", methods=["GET"])
 def order_by_dates(date0, date1):
     """
     Return info of orders between date0 and date1
@@ -91,7 +87,7 @@ def order_by_dates(date0, date1):
     return ("Not found", 404)
 
 
-@app.route("/orders/shipping/{<string:key>=<string:value>}")
+@api.route("/orders/shipping/{<string:key>=<string:value>}")
 def order_by_shipping(key, value):
     """
     return all orders with the given key (city, state, country)
@@ -103,7 +99,7 @@ def order_by_shipping(key, value):
     return jsonify(orders_info(orders))
 
 
-@app.route("/orders/user/<string:user_id>")
+@api.route("/orders/user/<string:user_id>")
 def order_by_user(user_id):
     """
     Return info for orders of user with user_id
@@ -143,8 +139,6 @@ def order_info(order):
     shipping_info.pop('order', None)
 
     user_information = order.user.to_dict()
-    user_information.pop('password', None)
-    user_information.pop('user_name', None)
     user_information.pop('orders', None)
 
     return {
@@ -159,13 +153,3 @@ def order_info(order):
         'total': order.subtotal + order.taxes,
         'user_information': user_information
     }
-
-
-if __name__ == "__main__":
-    port = getenv('PORT')
-    host = getenv('HOST')
-    if not port:
-        port = 5001
-    if not host:
-        host = '0.0.0.0'
-    app.run(host=host, port=port, threaded=True, debug=True)

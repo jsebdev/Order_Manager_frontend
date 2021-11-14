@@ -1,5 +1,5 @@
 """
-In This module are the form class used by flask_wtf
+In This module are the form classes used by flask_wtf
 """
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
