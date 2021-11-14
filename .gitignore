@@ -105,6 +105,6 @@ dist
 
 
 #Other files or directories to ignore
-otherSolutions/**
+otherSolutions
 tests.py
 **/__pycache__/**

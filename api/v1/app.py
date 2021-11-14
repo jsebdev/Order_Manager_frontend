@@ -6,16 +6,19 @@ from flask import Flask, jsonify, request
 from models import storage
 
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    return app
 
 
-@app.route("/", methods=["GET"])
-def hello_world():
-    return "<p>Hello, World! yea</p>"
+app = create_app()
 
 
 @app.route("/login", methods=["POST"])
 def get_token():
+    """
+    Get secret token if username and password are correct
+    """
     password = request.form.get('password')
     username = request.form.get('username')
     loged_users = storage.all_logged_users()
@@ -27,6 +30,9 @@ def get_token():
 
 @app.route("/users/all", methods=["GET"])
 def all_users():
+    """
+    Return info about all users
+    """
     users = storage.all("User")
     users = [user.to_dict() for user in users]
     for user in users:
@@ -37,6 +43,9 @@ def all_users():
 
 @app.route("/users/<string:user_id>", methods=["GET"])
 def user_by_id(user_id):
+    """
+    Return info of user with <user_id>
+    """
     user = storage.all("User", id=user_id)
     if user:
         user = user[0]
@@ -47,6 +56,9 @@ def user_by_id(user_id):
 
 @app.route("/orders/<string:order_id>", methods=["GET"])
 def order_by_id(order_id):
+    """
+    Return info about order with <order_id>
+    """
     order = storage.all("Order", id=order_id)
     if order:
         order = order[0]
@@ -57,6 +69,9 @@ def order_by_id(order_id):
 
 @app.route("/orders/[<string:order_ids>]", methods=["GET"])
 def orders_by_ids(order_ids):
+    """
+    return info about orders with id in <order_ids>
+    """
     ids = order_ids.split(',')
     orders = storage.all_inclusive("Order", id=ids)
     if orders:
@@ -150,7 +165,7 @@ if __name__ == "__main__":
     port = getenv('PORT')
     host = getenv('HOST')
     if not port:
-        port = 5000
+        port = 5001
     if not host:
         host = '0.0.0.0'
     app.run(host=host, port=port, threaded=True, debug=True)

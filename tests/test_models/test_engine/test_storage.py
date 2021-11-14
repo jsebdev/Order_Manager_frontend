@@ -4,9 +4,6 @@ import pep8
 from models import engine
 from models import storage
 import models
-# from MySQLdb import IntegrityError
-# from django.db import IntegrityError
-# from errors import IntegrityError
 from sqlalchemy import exc
 
 

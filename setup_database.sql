@@ -48,7 +48,3 @@ FLUSH PRIVILEGES;
   -- PRIMARY KEY (`txn_id`),
   -- FOREIGN KEY (`order_id`) REFERENCES `orders`(`order_id`)
 -- );
-
-
-
-

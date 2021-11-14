@@ -5,11 +5,12 @@ Contains the class Storage
 
 from models.basemodel import Base
 from models.user import User
+from models.app_user import App_User
 from models.order import Order
 from models.shipping import Shipping
 from models.payment import Payment
 from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, exc
 from os import getenv
 from datetime import datetime
 
@@ -17,7 +18,8 @@ from datetime import datetime
 classes = {'User': User,
            'Order': Order,
            'Shipping': Shipping,
-           'Payment': Payment}
+           'Payment': Payment,
+           'App_User': App_User}
 
 
 class Storage:
@@ -38,7 +40,6 @@ test',
                 pool_pre_ping=True)
             self.clear_all()
             self.reload()
-            self.dummy_database()
         else:
             self.__engine = create_engine(
                 'mysql+mysqldb://orders_dev:orders_dev_pwd@localhost/orders',
@@ -77,6 +78,31 @@ test',
             objs = self.__session.query(the_class).filter_by(
                 **kwargs).order_by(the_class.id).all()
             # objs_dict = Storage.add_to_dict(objs_dict, objs)
+        else:
+            print("No class of type {:s}".format(cls))
+            return None
+        return objs
+
+    def one(self, cls, **kwargs):
+        """
+        Method to return first instance from database of a given class that
+        fulfills kwargs filters
+        kwargs must be None or specific columns and values respectively
+        """
+        if cls in classes.keys():
+            the_class = classes[cls]
+            try:
+                objs = self.__session.query(the_class).filter_by(
+                    **kwargs).order_by(the_class.id).one()
+            except exc.NoResultFound:
+                print("No row was found for query that was supposed to return\
+ one")
+                return None
+            except exc.MultipleResultsFound:
+                print("Multiple rows was found for query that was supposed\
+ to return one")
+                return None
+
         else:
             print("No class of type {:s}".format(cls))
             return None
