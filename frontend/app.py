@@ -5,9 +5,15 @@ from flask import Flask, render_template, request, redirect, url_for
 from frontend.forms import LoginForm, SignupForm
 from flask_login import LoginManager, current_user, login_user
 from flask_login import UserMixin, login_required, logout_user
+from flask_assets import Environment, Bundle
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'AliceInWonderland'
+assets = Environment(app)
+
+scss = Bundle('scss/main.scss', filters='libsass', output='css/all.css')
+assets.register('css_all', scss)
+
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
