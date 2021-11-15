@@ -23,6 +23,7 @@ def get_token():
 
 
 @api.route("/users/all", methods=["GET"])
+@api.route("/users/", methods=["GET"])
 def all_users():
     """
     Return info about all users

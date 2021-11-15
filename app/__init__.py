@@ -24,4 +24,8 @@ def create_app():
     # scss bundle
     scss = Bundle('scss/main.scss', filters='libsass', output='css/all.css')
     assets.register('css_all', scss)
+
+    # Set strict slashes to false
+    app.url_map.strict_slashes = False
+
     return app
