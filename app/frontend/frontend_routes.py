@@ -1,26 +1,16 @@
-from api.v1.endpoints import api
-from models import storage
+#!/usr/bin/python3
+"""This module contains the routes for the frontend"""
+
+from app.models import storage
 from werkzeug.urls import url_parse
-from models.app_user import App_User
+from app.models.app_user import App_User
 from flask import Flask, render_template, request, redirect, url_for
-from forms.forms import LoginForm, SignupForm
-from flask_login import LoginManager, current_user, login_user
+from app.forms.forms import LoginForm, SignupForm
+from flask_login import current_user, login_user
 from flask_login import UserMixin, login_required, logout_user
-from flask_assets import Environment, Bundle
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'AliceInWonderland'
-assets = Environment(app)
-
-app.register_blueprint(api)
-
-
-scss = Bundle('scss/main.scss', filters='libsass', output='css/all.css')
-assets.register('css_all', scss)
-
-
-login_manager = LoginManager(app)
-login_manager.login_view = "login"
+from app.frontend import frontend
+from flask_login import LoginManager
+from app import login_manager
 
 
 @login_manager.user_loader
@@ -31,7 +21,7 @@ def load_user(user_id):
     return None
 
 
-@app.route('/')
+@frontend.route('/')
 def index():
     """
     Return the index html
@@ -39,13 +29,13 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/signup', methods=["GET", "Post"])
+@frontend.route('/signup', methods=["GET", "Post"])
 def signup():
     """
     Return the signup form html
     """
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('frontend.index'))
     form = SignupForm()
     if form.validate_on_submit():
         name = form.name.data
@@ -58,17 +48,17 @@ def signup():
         next = request.args.get('next', None)
         if next:
             return redirect(next)
-        return redirect(url_for('index'))
+        return redirect(url_for('frontend.index'))
     return render_template('signup.html', form=form)
 
 
-@app.route('/login', methods=["GET", "POST"])
+@frontend.route('/login', methods=["GET", "POST"])
 def login():
     """
     Return the login form html
     """
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('frontend.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = storage.one("App_User", email=form.email.data)
@@ -76,19 +66,19 @@ def login():
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
             if not next_page or url_parse(next_page).netloc != '':
-                next_page = url_for('index')
+                next_page = url_for('frontend.index')
             return redirect(next_page)
     return render_template('login.html', form=form)
 
 
-@app.route('/logout')
+@frontend.route('/logout')
 def logout():
     """Log the user out"""
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('frontend.index'))
 
 
-@app.route('/restricted')
+@frontend.route('/restricted')
 @login_required
 def restricte():
     return render_template('restricted.html')

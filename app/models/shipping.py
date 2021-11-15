@@ -2,7 +2,7 @@
 Shipping class file
 """
 from sqlalchemy import Column, String, DateTime, Float, Boolean, Integer, ForeignKey
-from models.basemodel import BaseModel, Base
+from app.models.basemodel import BaseModel, Base
 from sqlalchemy.orm import relationship
 
 

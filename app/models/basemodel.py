@@ -4,7 +4,8 @@ Base class file
 from sqlalchemy import Column, String
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
-import models
+# import app.models
+from app import models
 
 Base = declarative_base()
 

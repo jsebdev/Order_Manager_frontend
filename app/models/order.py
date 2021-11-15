@@ -3,9 +3,9 @@ Order class file
 """
 from sqlalchemy import Column, String, DateTime, Float, Boolean, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from models.basemodel import BaseModel, Base
-from models.shipping import Shipping
-from models.payment import Payment
+from app.models.basemodel import BaseModel, Base
+from app.models.shipping import Shipping
+from app.models.payment import Payment
 
 
 class Order(BaseModel, Base):

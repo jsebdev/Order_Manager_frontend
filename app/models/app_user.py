@@ -3,8 +3,8 @@ App user class file
 """
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from models.basemodel import Base, BaseModel
-from models.order import Order
+from app.models.basemodel import Base, BaseModel
+from app.models.order import Order
 from flask_login import UserMixin
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash

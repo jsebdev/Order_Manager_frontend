@@ -3,12 +3,12 @@
 Contains the class Storage
 """
 
-from models.basemodel import Base
-from models.user import User
-from models.app_user import App_User
-from models.order import Order
-from models.shipping import Shipping
-from models.payment import Payment
+from app.models.basemodel import Base
+from app.models.user import User
+from app.models.app_user import App_User
+from app.models.order import Order
+from app.models.shipping import Shipping
+from app.models.payment import Payment
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine, exc
 from os import getenv

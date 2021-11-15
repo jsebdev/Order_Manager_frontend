@@ -3,14 +3,9 @@
 
 from os import getenv
 from flask import Flask, jsonify, request
-from models import storage
+from app.models import storage
 
-from api.v1 import api
-
-print('hola')
-print('adios')
-print('changos')
-print(api)
+from app.api.v1 import api
 
 
 @api.route("/logins", methods=["POST"])
