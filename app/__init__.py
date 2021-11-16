@@ -6,10 +6,10 @@ from flask_login import LoginManager
 login_manager = LoginManager()
 
 
-def create_app():
+def create_app(settings_module='config.dev'):
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'AliceInWonderland'
     assets = Environment(app)
+    app.config.from_object(settings_module)
 
     # Init login_manager
     login_manager.init_app(app)

@@ -13,7 +13,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine, exc
 from os import getenv
 from datetime import datetime
-
+import importlib
 
 classes = {'User': User,
            'Order': Order,
@@ -33,18 +33,14 @@ class Storage:
     def __init__(self):
         """Instantiate a Storage object"""
         test = getenv('TEST')
-        if test == 'test':
-            self.__engine = create_engine(
-                'mysql+mysqldb://orders_dev:orders_dev_pwd@localhost/orders_\
-test',
-                pool_pre_ping=True)
+
+        app_settings_s = getenv('APP_SETTINGS')
+        app_settings = importlib.import_module(app_settings_s)
+        self.__engine = create_engine(app_settings.DATABASE_URI,
+                                      pool_pre_ping=True)
+        if app_settings_s == 'config.test':
             self.clear_all()
-            self.reload()
-        else:
-            self.__engine = create_engine(
-                'mysql+mysqldb://orders_dev:orders_dev_pwd@localhost/orders',
-                pool_pre_ping=True)
-            self.reload()
+        self.reload()
 
     def clear_all(self):
         """

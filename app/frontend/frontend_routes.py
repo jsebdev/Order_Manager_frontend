@@ -45,6 +45,7 @@ def signup():
                         email=email,
                         password=password)
         user.save()
+        login_user(user, remember=False)
         next = request.args.get('next', None)
         if next:
             return redirect(next)
