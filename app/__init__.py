@@ -1,5 +1,5 @@
 from flask_assets import Environment, Bundle
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
 
 # LoginManager
@@ -28,4 +28,19 @@ def create_app(settings_module='config.dev'):
     # Set strict slashes to false
     app.url_map.strict_slashes = False
 
+    # Error handlers
+    register_error_handlers(app)
+
     return app
+
+
+def register_error_handlers(app):
+    """Error handlers"""
+
+    @app.errorhandler(500)
+    def base_error_handler(e):
+        return render_template('500.html'), 500
+
+    @app.errorhandler(404)
+    def error_404_handler(e):
+        return render_template('404.html'), 404

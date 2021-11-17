@@ -4,6 +4,7 @@
 from os import getenv
 from flask import Flask, jsonify, request
 from app.models import storage
+from werkzeug.exceptions import NotFound
 
 from app.api.v1 import api
 
@@ -42,7 +43,7 @@ def user_by_id(user_id):
     if user:
         user = user[0]
     else:
-        return ("Not found", 404)
+        raise NotFound(user_id)
     return user.to_dict()
 
 
@@ -55,7 +56,7 @@ def order_by_id(order_id):
     if order:
         order = order[0]
     else:
-        return ("Not found", 404)
+        raise NotFound(order_id)
     return order_info(order)
 
 
