@@ -1,6 +1,7 @@
 from flask_assets import Environment, Bundle
 from flask import Flask, render_template
 from flask_login import LoginManager
+import logging
 
 # LoginManager
 login_manager = LoginManager()
@@ -11,9 +12,11 @@ def create_app(settings_module='config.dev'):
     assets = Environment(app)
     app.config.from_object(settings_module)
 
+    configure_logging(app)
+
     # Init login_manager
     login_manager.init_app(app)
-    login_manager.login_view = "login"
+    login_manager.login_view = "frontend.login"
 
     # Api and frontend Blueprints registrations
     from app.api.v1 import api
@@ -44,3 +47,35 @@ def register_error_handlers(app):
     @app.errorhandler(404)
     def error_404_handler(e):
         return render_template('404.html'), 404
+
+
+def configure_logging(app):
+    del app.logger.handlers[:]
+
+    loggers = [app.logger, logging.getLogger('sqlalchemy')]
+    handlers = []
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(verbose_formatter())
+    if (app.config['APP_ENV'] == app.config['APP_ENV_DEV']) or (
+            app.config['APP_ENV'] == app.config['APP_ENV_TEST']):
+        console_handler.setLevel(logging.DEBUG)
+        handlers.append(console_handler)
+    elif app.config['APP_ENV'] == app.config['APP_ENV_PROD']:
+        console_handler.setLevel(logging.INFO)
+        handlers.append(console_handler)
+
+        jjj
+
+    for log in loggers:
+        for handler in handlers:
+            log.addHandler(handler)
+        log.propate = False
+        log.setLevel(logging.DEBUG)
+
+
+def verbose_formatter():
+    return logging.Formatter(
+        '[%(asctime)s.%(msecs)d]\t %(levelname)s \t[%(name)s.%(funcName)s:%(lineno)d]\t %(message)s',
+        datefmt='%d/%m/%Y %H:%M:%S'
+    )
