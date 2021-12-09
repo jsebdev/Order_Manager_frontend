@@ -52,7 +52,8 @@ def register_error_handlers(app):
 def configure_logging(app):
     del app.logger.handlers[:]
 
-    loggers = [app.logger, logging.getLogger('sqlalchemy')]
+    # loggers = [app.logger, logging.getLogger('sqlalchemy')]
+    loggers = [app.logger, ]
     handlers = []
 
     console_handler = logging.StreamHandler()
@@ -64,8 +65,6 @@ def configure_logging(app):
     elif app.config['APP_ENV'] == app.config['APP_ENV_PROD']:
         console_handler.setLevel(logging.INFO)
         handlers.append(console_handler)
-
-        jjj
 
     for log in loggers:
         for handler in handlers:

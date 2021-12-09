@@ -3,6 +3,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>{%block title%}{%endblock%}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap" rel="stylesheet">
 		{% assets "css_all" %}
 		<!--
 			<link rel="stylesheet" href="{{ url_for("static", filename="css/all.css") }}">
@@ -12,7 +15,7 @@
 	</head>
 	<body>
 		<div class="container d-flex flex-column vh-100">
-			<div class="container-fluid p-3 d-flex justify-content-end">
+			<header class="container-fluid p-3 d-flex justify-content-end">
 				<ul class="user_info d-flex">
 					<li><a href="{{ url_for('frontend.index') }}">Home</a></li>
 					{% if current_user.is_anonymous %}
@@ -25,7 +28,7 @@
 					<li><a href="{{ url_for('frontend.logout') }}">Log out</a></li>
 					{% endif %}
 				</ul>
-			</div>
+			</header>
 			{% block content %}{% endblock %}
 		</div>
 	</body>

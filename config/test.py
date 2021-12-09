@@ -5,3 +5,5 @@ APP_ENV = APP_ENV_TEST
 
 TESTING = True
 DEBUG = True
+
+WRG_CSRF_ENABLED = False

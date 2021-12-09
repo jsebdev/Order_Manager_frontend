@@ -29,7 +29,7 @@ def index():
     """
     Return the index html
     """
-    logger.info('Mostrando con nustro propio logger')
+    # logger.info('Mostrando con nuestro propio logger')
     return render_template('index.html')
 
 
