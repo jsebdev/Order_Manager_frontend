@@ -71,6 +71,16 @@ def user_by_id(user_id):
     return user.to_dict()
 
 
+@api.route("/orders", methods=["GET"])
+def orders():
+    """
+    Return info about all orders
+    """
+    orders = storage.all("Order")
+    print('the orders are', orders)
+    return jsonify(orders_info(orders))
+
+
 @api.route("/orders/<string:order_id>", methods=["GET"])
 def order_by_id(order_id):
     """
@@ -143,6 +153,7 @@ def order_info(order):
     """
     Return order dictionary with order info
     """
+    print('one order is ', order)
     last_payment_date = None
     for payment in order.payments:
         if last_payment_date is None or payment.date > last_payment_date:
@@ -155,9 +166,11 @@ def order_info(order):
     else:
         order_status = "Sent and received"
 
-    shipping_info = order.shipping.to_dict()
-    shipping_info.pop('order_id', None)
-    shipping_info.pop('order', None)
+    print('the order shipping info is ', order.shipping)
+    shipping_info = order.shipping.to_dict() if order.shipping else None
+    if shipping_info:
+        shipping_info.pop('order_id', None)
+        shipping_info.pop('order', None)
 
     user_information = order.user.to_dict()
     user_information.pop('orders', None)
