@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../Forms.scss";
+import "../forms.scss";
 
-function Login({ login }) {
+function Login({ login, userName }) {
   const navigate = useNavigate();
 
   const onSubmit = async (event) => {
@@ -15,6 +15,12 @@ function Login({ login }) {
       navigate("/dashboard");
     }
   };
+
+  React.useLayoutEffect(() => {
+    if (userName) {
+      navigate("/dashboard");
+    }
+  });
 
   return (
     <React.Fragment>

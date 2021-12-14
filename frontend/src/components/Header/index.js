@@ -28,7 +28,13 @@ function Header({ userName, logout, showSidebar, setShowSidebar, mobileView }) {
                   <p>Hola {userName}</p>
                 </li>
                 <li className="login-link">
-                  <Link to="/" onClick={logout}>
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      setShowSidebar(false);
+                      logout();
+                    }}
+                  >
                     Log out
                   </Link>
                 </li>

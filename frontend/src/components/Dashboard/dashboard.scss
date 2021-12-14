@@ -1,0 +1,8 @@
+@use "../../common.scss";
+.icon-option {
+  font-size: 4rem;
+}
+
+.col-option {
+  @include common.boxDecorate();
+}

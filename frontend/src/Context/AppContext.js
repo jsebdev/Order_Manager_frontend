@@ -88,6 +88,13 @@ function Provider({ children }) {
     }
   };
 
+  // const checkLogedin = () => {
+  //   if (userName) {
+  //     return true;
+  //   }
+  //   return false;
+  // };
+
   const checkUser = () => {
     const name = localStorage.getItem("userName");
     setUserName(name);
@@ -115,6 +122,7 @@ function Provider({ children }) {
         setShowSidebar,
         mobileView,
         checkMobile,
+        // checkLogedin,
       }}
     >
       {children}
