@@ -17,18 +17,14 @@ function Welcome({ userName }) {
           Welcome to your daily order manager
         </h1>
         <div className="container login-container">
-          <div className="row align-items-start mt-5">
-            <div className="col login-col">
-              <div className="login-container-sm">
-                <h3>Are you new?</h3>
-                <Link to="/signup">Sign up!</Link>
-              </div>
+          <div className="row mt-5">
+            <div className="col-10 offset-1 col-sm-4 offset-sm-1 col-lg-3 offset-lg-2 login-col mb-5">
+              <h3>Are you new?</h3>
+              <Link to="/signup">Sign up!</Link>
             </div>
-            <div className="col login-col">
-              <div className="login-container-sm">
-                <h3>Have an account?</h3>
-                <Link to="/login">Log in!</Link>
-              </div>
+            <div className="col-10 offset-1 col-sm-4 offset-sm-2 col-lg-3 offset-lg-2 login-col mb-5">
+              <h3>Have an account?</h3>
+              <Link to="/login">Log in!</Link>
             </div>
           </div>
         </div>
