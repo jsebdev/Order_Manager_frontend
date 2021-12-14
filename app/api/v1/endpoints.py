@@ -5,22 +5,29 @@ from os import getenv
 from flask import Flask, jsonify, request
 from app.models import storage
 from werkzeug.exceptions import NotFound
+from flask_jwt_extended import create_access_token
 
 from app.api.v1 import api
 
 
-@api.route("/logins", methods=["POST"])
+@api.route("/login", methods=["POST"])
 def get_token():
     """
     Get secret token if username and password are correct
     """
-    password = request.form.get('password')
-    username = request.form.get('username')
-    loged_users = storage.all_logged_users()
-    for user in loged_users:
-        if user.user_name == username and user.password == password:
-            return "Alicia_in_worderland"
-    return "Not quite right"
+    print('the request.form is ', request.form)
+
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    print('the email is', email)
+    print('the password is', password)
+    user = storage.one("App_User", email=email)
+    if user is None or not user.check_password(password):
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    access_token = create_access_token(identity=email)
+
+    return jsonify({"access_token": access_token, "user": {"name": user.name, "email": user.email}}), 200
 
 
 @api.route("/users/all", methods=["GET"])

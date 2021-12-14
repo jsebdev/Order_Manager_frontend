@@ -1,8 +1,8 @@
 USE orders;
-INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`, `password`, `user_name`)
-VALUES ("a", "pepe", "Grillo", "a", "pepe@hotmail.com", "Univalle", "pepe_pwd", "pepegrillo");
-INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`, `password`, `user_name`)
-VALUES ("b", "Juancho", "Grillo", "b", "pepe@hotmail.com", "Univalle", "juancho_pwd", "juancho");
+INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`)
+VALUES ("a", "pepe", "Grillo", "a", "pepe@hotmail.com", "Univalle");
+INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`)
+VALUES ("b", "Juancho", "Grillo", "b", "pepe@hotmail.com", "Univalle");
 INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`)
 VALUES ("c", "Carracho", "Grillo", "c", "pepe@hotmail.com", "Univalle");
 INSERT INTO `users` (`id`, `name`, `last_name`, `gov_id`, `email`, `company`)

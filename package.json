@@ -1,0 +1,31 @@
+{
+  "name": "hbtn_col_assestment_test",
+  "version": "1.0.0",
+  "description": "This is a web app that handles the process of creating orders for a retailer company",
+  "main": "index.js",
+  "dependencies": {
+    "history": "^5.1.0",
+    "js-tokens": "^4.0.0",
+    "loose-envify": "^1.4.0",
+    "object-assign": "^4.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.1.1",
+    "regenerator-runtime": "^0.13.9",
+    "scheduler": "^0.20.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sebas93cay/hbtn_col_assestment_test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sebas93cay/hbtn_col_assestment_test/issues"
+  },
+  "homepage": "https://github.com/Sebas93cay/hbtn_col_assestment_test#readme"
+}

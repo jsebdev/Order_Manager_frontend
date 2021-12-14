@@ -1,6 +1,11 @@
 from flask_assets import Environment, Bundle
 from flask import Flask, render_template
 from flask_login import LoginManager
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+from flask_cors import CORS
+
 import logging
 
 # LoginManager
@@ -9,8 +14,11 @@ login_manager = LoginManager()
 
 def create_app(settings_module='config.dev'):
     app = Flask(__name__)
+    CORS(app)
     assets = Environment(app)
     app.config.from_object(settings_module)
+
+    jwt = JWTManager(app)
 
     configure_logging(app)
 
