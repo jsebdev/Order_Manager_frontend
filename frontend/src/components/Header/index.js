@@ -56,14 +56,16 @@ function Header({
               </React.Fragment>
             )}
           </ul>
-          <ul className="nav-menu">
-            <li>
-              <Link to="/orders">Orders</Link>
-            </li>
-            <li>
-              <Link to="/clients">Clients</Link>
-            </li>
-          </ul>
+          {userName && (
+            <ul className="nav-menu">
+              <li>
+                <Link to="/orders">Orders</Link>
+              </li>
+              <li>
+                <Link to="/clients">Clients</Link>
+              </li>
+            </ul>
+          )}
         </nav>
         {mobileView && (
           <div
