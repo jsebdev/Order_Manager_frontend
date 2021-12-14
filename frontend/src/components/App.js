@@ -8,7 +8,16 @@ import React, { useContext } from "react";
 import { Context } from "../Store/AppContext";
 
 function App() {
-  const { login, userName, checkUser, logout } = useContext(Context);
+  const {
+    login,
+    userName,
+    checkUser,
+    logout,
+    showSidebar,
+    setShowSidebar,
+    checkMobile,
+    mobileView,
+  } = useContext(Context);
 
   React.useEffect(() => {
     checkUser();
@@ -17,7 +26,14 @@ function App() {
   return (
     <Router>
       <React.Fragment>
-        <Header userName={userName} logout={logout}></Header>
+        <Header
+          userName={userName}
+          logout={logout}
+          showSidebar={showSidebar}
+          setShowSidebar={setShowSidebar}
+          checkMobile={checkMobile}
+          mobileView={mobileView}
+        ></Header>
         <Routes>
           <Route path="/" element={<Welcome userName={userName} />}></Route>
           <Route path="/login" element={<Login login={login} />}></Route>

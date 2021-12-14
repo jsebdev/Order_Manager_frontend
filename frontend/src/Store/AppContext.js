@@ -5,6 +5,18 @@ const Context = React.createContext();
 function Provider({ children }) {
   const [userName, setUserName] = useState(null);
   const [token, setToken] = useState(null);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [mobileView, setMobileView] = useState(true);
+
+  const checkMobile = () => {
+    if (window.innerWidth <= 1000) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  };
+
+  window.addEventListener("resize", checkMobile);
 
   const login = async (email, password) => {
     const data = {
@@ -62,6 +74,10 @@ function Provider({ children }) {
         token,
         checkUser,
         logout,
+        showSidebar,
+        setShowSidebar,
+        mobileView,
+        checkMobile,
       }}
     >
       {children}
