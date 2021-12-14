@@ -35,7 +35,9 @@ function Header({
                   <p>Hola {userName}</p>
                 </li>
                 <li className="login-link">
-                  <button onClick={logout}>Log out</button>
+                  <Link to="/" onClick={logout}>
+                    Log out
+                  </Link>
                 </li>
               </React.Fragment>
             ) : (
