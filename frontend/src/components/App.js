@@ -5,7 +5,7 @@ import { Login } from "./Forms/Login";
 import { Signup } from "./Forms/Signup";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React, { useContext } from "react";
-import { Context } from "../Store/AppContext";
+import { Context } from "../Context/AppContext";
 
 function App() {
   const {
@@ -17,6 +17,7 @@ function App() {
     setShowSidebar,
     checkMobile,
     mobileView,
+    signup,
   } = useContext(Context);
 
   React.useEffect(() => {
@@ -31,13 +32,12 @@ function App() {
           logout={logout}
           showSidebar={showSidebar}
           setShowSidebar={setShowSidebar}
-          checkMobile={checkMobile}
           mobileView={mobileView}
         ></Header>
         <Routes>
           <Route path="/" element={<Welcome userName={userName} />}></Route>
           <Route path="/login" element={<Login login={login} />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/signup" element={<Signup signup={signup} />}></Route>
         </Routes>
       </React.Fragment>
     </Router>

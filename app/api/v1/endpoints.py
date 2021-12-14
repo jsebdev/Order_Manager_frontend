@@ -8,6 +8,7 @@ from werkzeug.exceptions import NotFound
 from flask_jwt_extended import create_access_token
 
 from app.api.v1 import api
+from app.models.app_user import App_User
 
 
 @api.route("/login", methods=["POST"])
@@ -15,18 +16,34 @@ def get_token():
     """
     Get secret token if username and password are correct
     """
-    print('the request.form is ', request.form)
-
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    print('the email is', email)
-    print('the password is', password)
     user = storage.one("App_User", email=email)
     if user is None or not user.check_password(password):
         return jsonify({"msg": "Bad username or password"}), 401
-
     access_token = create_access_token(identity=email)
+    return jsonify({"access_token": access_token, "user": {"name": user.name, "email": user.email}}), 200
 
+
+@api.route("/signup", methods=["POST"])
+def create_user():
+    """
+    Create new user and Get secret token
+    """
+    print('the request.form is ', request.form)
+
+    name = request.json.get("name", None)
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    print('the name is', name)
+    print('the email is', email)
+    print('the password is', password)
+    user = storage.one("App_User", email=email)
+    if user:
+        return jsonify({"msg": "There is already a user with that email"}), 405
+    user = App_User(password=password, name=name, email=email)
+    access_token = create_access_token(identity=email)
+    user.save()
     return jsonify({"access_token": access_token, "user": {"name": user.name, "email": user.email}}), 200
 
 

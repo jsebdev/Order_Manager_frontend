@@ -1,31 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../Forms.scss";
 
-function Signup() {
-  const onSubmit = (event) => {
+function Signup({ signup }) {
+  const navigate = useNavigate();
+  const onSubmit = async (event) => {
     event.preventDefault();
-    const data = {
-      name: event.target.username.value,
-      email: event.target.email.value,
-      password: event.target.password.value,
-    };
-    const opts = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    fetch("http://localhost:5000/api/v1/login", opts)
-      .then((res) => {
-        if (res.status === 200) return res.json();
-        alert("there has been an error, status code: ", res.status);
-      })
-      .then()
-      .catch((error) => {
-        console.log("There was a tragic error", error);
-      });
+    const log = await signup(
+      event.target.name.value,
+      event.target.email.value,
+      event.target.password.value
+    );
+    if (log) {
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -49,7 +37,7 @@ function Signup() {
             <label htmlFor="password">Password</label>
             <input type="password" name="password" required />
           </div>
-          <button type="submit">Log In</button>
+          <button type="submit">Sign up</button>
         </div>
       </div>
     </form>

@@ -1,15 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./header.scss";
 
-function Header({
-  userName,
-  logout,
-  showSidebar,
-  setShowSidebar,
-  checkMobile,
-  mobileView,
-}) {
+function Header({ userName, logout, showSidebar, setShowSidebar, mobileView }) {
   const handleClick = () => setShowSidebar(!showSidebar);
 
   // useEffect(() => checkMobile(), []);
