@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./dashboard.scss";
 
 function Dashboard({ userName }) {
@@ -17,19 +17,21 @@ function Dashboard({ userName }) {
       <div className="container">
         <div className="row pt-5">
           <div className={`${colClass} offset-md-2`}>
-            <i class="bi bi-file-earmark-plus icon-option"></i>
+            <i className="bi bi-file-earmark-plus icon-option"></i>
             <p> New Order </p>
           </div>
           <div className={`${colClass} offset-md-2`}>
-            <i class="bi bi-search icon-option"></i>
+            <i className="bi bi-search icon-option"></i>
             <p> Search </p>
           </div>
           <div className={`${colClass} offset-md-2`}>
-            <i class="bi bi-journal-bookmark-fill icon-option"></i>
-            <p> Orders </p>
+            <Link to="/dashboard/orders">
+              <i className="bi bi-journal-bookmark-fill icon-option"></i>
+              <p> Orders </p>
+            </Link>
           </div>
           <div className={`${colClass} offset-md-2`}>
-            <i class="bi bi-person-lines-fill icon-option"></i>
+            <i className="bi bi-person-lines-fill icon-option"></i>
             <p> Clients </p>
           </div>
         </div>

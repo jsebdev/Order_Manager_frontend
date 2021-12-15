@@ -88,13 +88,6 @@ function Provider({ children }) {
     }
   };
 
-  // const checkLogedin = () => {
-  //   if (userName) {
-  //     return true;
-  //   }
-  //   return false;
-  // };
-
   const checkUser = () => {
     const name = localStorage.getItem("userName");
     setUserName(name);
@@ -107,6 +100,20 @@ function Provider({ children }) {
     localStorage.removeItem("token");
     setUserName(null);
     setToken(null);
+  };
+
+  const fetchAllOrders = async () => {
+    try {
+      let res = await fetch("http://localhost:5000/api/v1/orders");
+      if (res.status !== 200) {
+        alert(`Something wrong happened, status code is ${res.status}`);
+        return false;
+      }
+      res = await res.json();
+      return res;
+    } catch (error) {
+      console.log("There was a tragic error", error);
+    }
   };
 
   return (
@@ -122,7 +129,7 @@ function Provider({ children }) {
         setShowSidebar,
         mobileView,
         checkMobile,
-        // checkLogedin,
+        fetchAllOrders,
       }}
     >
       {children}

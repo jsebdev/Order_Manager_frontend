@@ -16,6 +16,11 @@ function Login({ login, userName }) {
     }
   };
 
+  React.useEffect(() => {
+    if (userName) {
+      navigate("/dashboard");
+    }
+  });
   React.useLayoutEffect(() => {
     if (userName) {
       navigate("/dashboard");

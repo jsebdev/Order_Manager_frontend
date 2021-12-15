@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../forms.scss";
 
-function Signup({ signup }) {
+function Signup({ signup, userName }) {
   const navigate = useNavigate();
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -15,6 +15,12 @@ function Signup({ signup }) {
       navigate("/dashboard");
     }
   };
+
+  React.useEffect(() => {
+    if (userName) {
+      navigate("/dashboard");
+    }
+  });
 
   return (
     <form className="container-sm mt-5" onSubmit={onSubmit}>

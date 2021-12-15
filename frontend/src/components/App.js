@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React, { useContext } from "react";
 import { Context } from "../Context/AppContext";
 import { Dashboard } from "./Dashboard";
+import { Orders } from "./Orders";
 
 function App() {
   const {
@@ -18,7 +19,7 @@ function App() {
     setShowSidebar,
     mobileView,
     signup,
-    // checkLogedin,
+    fetchAllOrders,
   } = useContext(Context);
 
   React.useEffect(() => {
@@ -41,10 +42,17 @@ function App() {
             path="/login"
             element={<Login login={login} userName={userName} />}
           ></Route>
-          <Route path="/signup" element={<Signup signup={signup} />}></Route>
+          <Route
+            path="/signup"
+            element={<Signup signup={signup} userName={userName} />}
+          ></Route>
           <Route
             path="/dashboard"
             element={<Dashboard userName={userName} />}
+          ></Route>
+          <Route
+            path="/dashboard/orders"
+            element={<Orders fetchAllOrders={fetchAllOrders} />}
           ></Route>
         </Routes>
       </React.Fragment>
