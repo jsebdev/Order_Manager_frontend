@@ -36,25 +36,27 @@ function App() {
           setShowSidebar={setShowSidebar}
           mobileView={mobileView}
         ></Header>
-        <Routes>
-          <Route path="/" element={<Welcome userName={userName} />}></Route>
-          <Route
-            path="/login"
-            element={<Login login={login} userName={userName} />}
-          ></Route>
-          <Route
-            path="/signup"
-            element={<Signup signup={signup} userName={userName} />}
-          ></Route>
-          <Route
-            path="/dashboard"
-            element={<Dashboard userName={userName} />}
-          ></Route>
-          <Route
-            path="/dashboard/orders"
-            element={<Orders fetchAllOrders={fetchAllOrders} />}
-          ></Route>
-        </Routes>
+        <body>
+          <Routes>
+            <Route path="/" element={<Welcome userName={userName} />}></Route>
+            <Route
+              path="/login"
+              element={<Login login={login} userName={userName} />}
+            ></Route>
+            <Route
+              path="/signup"
+              element={<Signup signup={signup} userName={userName} />}
+            ></Route>
+            <Route
+              path="/dashboard"
+              element={<Dashboard userName={userName} />}
+            ></Route>
+            <Route
+              path="/dashboard/orders"
+              element={<Orders fetchAllOrders={fetchAllOrders} />}
+            ></Route>
+          </Routes>
+        </body>
       </React.Fragment>
     </Router>
   );

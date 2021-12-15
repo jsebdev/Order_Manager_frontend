@@ -1,3 +1,38 @@
+$table-color: #0d6efd;
+$table-head-color: lighten($table-color, 5);
+$table-border: 1px solid lighten($table-color, 30);
+$table-even-row-color: lighten($table-color, 40);
+
 .table {
-  border: 2px solid red;
+  border-collapse: collapse;
+  margin: 50px 30px;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 5px 5px 20px #0005;
+}
+
+.table thead tr {
+  background-color: $table-head-color;
+  text-align: left;
+  font-weight: bold;
+  color: white;
+}
+
+.table th,
+.table td {
+  border-bottom: $table-border;
+  padding: 8px 10px;
+  // border-left: $table-border;
+  // border-right: $table-border;
+  margin: 1rem;
+}
+
+.table tbody tr:nth-of-type(even) {
+  background-color: $table-even-row-color;
+}
+
+.table tbody {
+  border-bottom: 2px solid $table-head-color;
 }

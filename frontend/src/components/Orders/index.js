@@ -1,5 +1,5 @@
 import React from "react";
-// import "./orders.scss";
+import "./orders.scss";
 import { useTable } from "react-table";
 
 function Orders({ fetchAllOrders }) {
@@ -85,7 +85,7 @@ function Orders({ fetchAllOrders }) {
 
   return (
     <React.Fragment>
-      <table {...getTableProps()}>
+      <table className="table" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -108,9 +108,6 @@ function Orders({ fetchAllOrders }) {
               </tr>
             );
           })}
-          <tr>
-            <td></td>
-          </tr>
         </tbody>
       </table>
     </React.Fragment>
