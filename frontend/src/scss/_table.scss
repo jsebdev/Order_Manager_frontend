@@ -11,6 +11,7 @@ $table-even-row-color: lighten($table-color, 40);
   border-radius: 5px 5px 0 0;
   overflow: hidden;
   box-shadow: 5px 5px 20px #0005;
+  table-layout: fixed;
 }
 
 .table thead tr {
@@ -24,9 +25,17 @@ $table-even-row-color: lighten($table-color, 40);
 .table td {
   border-bottom: $table-border;
   padding: 8px 10px;
-  // border-left: $table-border;
-  // border-right: $table-border;
   margin: 1rem;
+  width: 180px;
+  // white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.table td p {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .table tbody tr:nth-of-type(even) {

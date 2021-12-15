@@ -58,10 +58,10 @@ function Header({ userName, logout, showSidebar, setShowSidebar, mobileView }) {
           {userName && (
             <ul className="nav-menu">
               <li>
-                <Link to="/orders">Orders</Link>
+                <Link to="/dashboard/orders">Orders</Link>
               </li>
               <li>
-                <Link to="/clients">Clients</Link>
+                <Link to="/dashboard/clients">Clients</Link>
               </li>
             </ul>
           )}

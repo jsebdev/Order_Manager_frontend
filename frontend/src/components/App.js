@@ -53,7 +53,7 @@ function App() {
             ></Route>
             <Route
               path="/dashboard/orders"
-              element={<Orders fetchAllOrders={fetchAllOrders} />}
+              element={<Orders fetchAllOrders={fetchAllOrders}></Orders>}
             ></Route>
           </Routes>
         </body>
