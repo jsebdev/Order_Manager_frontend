@@ -117,7 +117,11 @@ function Provider({ children }) {
     try {
       let res = await fetch("http://localhost:5000/api/v1/" + items, opts);
       if (res.status !== 200) {
-        alert(`Something wrong happened, status code is ${res.status}`);
+        const status = res.status;
+        res = await res.json();
+        alert(
+          `Something wrong happened, status code is ${status} \nmsg: ${res.msg}`
+        );
         return false;
       }
       res = await res.json();

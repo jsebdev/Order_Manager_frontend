@@ -8,7 +8,7 @@ const NewOrder = () => {
 
   React.useEffect(() => {
     fetchAll("users").then((res) => {
-      setClients(res);
+      setClients(res || []);
     });
   }, []);
 

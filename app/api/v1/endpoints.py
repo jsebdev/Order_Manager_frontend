@@ -49,7 +49,9 @@ def create_user_app():
 
 
 @api.route("/users/all", methods=["GET"])
-@api.route("/users/", methods=["GET"])
+# Here the endpoints has / at the end but the strict_slashes is set to False because YOLO
+@api.route("/users/", methods=["GET"], strict_slashes=False)
+# @api.route("/users/", methods=["GET"])
 @jwt_required()
 def all_users():
     """
