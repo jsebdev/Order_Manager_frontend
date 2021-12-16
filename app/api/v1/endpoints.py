@@ -5,10 +5,11 @@ from os import getenv
 from flask import Flask, jsonify, request
 from app.models import storage
 from werkzeug.exceptions import NotFound
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 
 from app.api.v1 import api
 from app.models.app_user import App_User
+from flask_cors import cross_origin
 
 
 @api.route("/login", methods=["POST"])
@@ -26,7 +27,7 @@ def get_token():
 
 
 @api.route("/signup", methods=["POST"])
-def create_user():
+def create_user_app():
     """
     Create new user and Get secret token
     """
@@ -49,6 +50,7 @@ def create_user():
 
 @api.route("/users/all", methods=["GET"])
 @api.route("/users/", methods=["GET"])
+@jwt_required()
 def all_users():
     """
     Return info about all users
@@ -72,6 +74,7 @@ def user_by_id(user_id):
 
 
 @api.route("/orders", methods=["GET"])
+@jwt_required()
 def orders():
     """
     Return info about all orders

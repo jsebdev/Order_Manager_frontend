@@ -3,14 +3,16 @@ import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
 
 function Clients() {
-  const {
-    clients,
-    setClients,
-    fetchAll: fetchAllClients,
-  } = React.useContext(Context);
+  // const {
+  //   clients,
+  //   setClients,
+  //   fetchAll,
+  // } = React.useContext(Context);
+  const { fetchAll } = React.useContext(Context);
+  const [clients, setClients] = React.useState([]);
   React.useEffect(() => {
-    fetchAllClients("users").then((res) => {
-      setClients(res);
+    fetchAll("users").then((res) => {
+      setClients(res || []);
     });
   }, []);
 

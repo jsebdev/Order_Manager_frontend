@@ -105,8 +105,17 @@ function Provider({ children }) {
   };
 
   const fetchAll = async (items) => {
+    setToken(localStorage.getItem("token"));
+    console.log("the token is ", token);
+    const opts = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/" + items);
+      let res = await fetch("http://localhost:5000/api/v1/" + items, opts);
       if (res.status !== 200) {
         alert(`Something wrong happened, status code is ${res.status}`);
         return false;

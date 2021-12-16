@@ -14,7 +14,9 @@ login_manager = LoginManager()
 
 def create_app(settings_module='config.dev'):
     app = Flask(__name__)
-    CORS(app)
+
+    # CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     assets = Environment(app)
     app.config.from_object(settings_module)
 
