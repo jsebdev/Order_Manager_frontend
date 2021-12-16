@@ -7,6 +7,8 @@ function Provider({ children }) {
   const [token, setToken] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
   const [mobileView, setMobileView] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [clients, setClients] = useState([]);
 
   const checkMobile = () => {
     if (window.innerWidth <= 1000) {
@@ -102,9 +104,9 @@ function Provider({ children }) {
     setToken(null);
   };
 
-  const fetchAllOrders = async () => {
+  const fetchAll = async (items) => {
     try {
-      let res = await fetch("http://localhost:5000/api/v1/orders");
+      let res = await fetch("http://localhost:5000/api/v1/" + items);
       if (res.status !== 200) {
         alert(`Something wrong happened, status code is ${res.status}`);
         return false;
@@ -129,7 +131,11 @@ function Provider({ children }) {
         setShowSidebar,
         mobileView,
         checkMobile,
-        fetchAllOrders,
+        fetchAll,
+        showModal,
+        setShowModal,
+        clients,
+        setClients,
       }}
     >
       {children}

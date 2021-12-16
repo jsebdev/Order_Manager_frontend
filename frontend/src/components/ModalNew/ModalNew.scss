@@ -1,0 +1,31 @@
+@use "../../scss/common.scss";
+
+.neworder {
+  background-color: #0002;
+  position: fixed;
+  top: -10px;
+  bottom: -10px;
+  left: -10px;
+  right: -10px;
+  display: flex;
+  align-items: center;
+}
+.neworder-container {
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid rgb(53, 53, 53);
+}
+.popup {
+  position: relative;
+}
+
+.close {
+  transform: rotate(45deg);
+  width: fit-content;
+  position: absolute;
+  right: 10px;
+  top: 2px;
+  font-size: 1.5rem;
+  color: #0007;
+  cursor: pointer;
+}

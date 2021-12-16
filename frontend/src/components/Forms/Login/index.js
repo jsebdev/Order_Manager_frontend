@@ -21,11 +21,11 @@ function Login({ login, userName }) {
       navigate("/dashboard");
     }
   });
-  React.useLayoutEffect(() => {
-    if (userName) {
-      navigate("/dashboard");
-    }
-  });
+  // React.useLayoutEffect(() => {
+  //   if (userName) {
+  //     navigate("/dashboard");
+  //   }
+  // });
 
   return (
     <React.Fragment>

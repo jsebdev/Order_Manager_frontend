@@ -1,0 +1,36 @@
+.form-title {
+  margin-top: 1rem;
+  margin-inline-start: 2rem;
+}
+.form-style {
+  // border: 1px solid green;
+  margin-block: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin formGrid() {
+  display: grid;
+  grid-template-columns: 100px auto;
+}
+
+.form-style > div:not(.groupform) {
+  @include formGrid();
+}
+.form-style > div {
+  padding-inline: 2rem;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid #0005;
+  width: 100%;
+}
+
+.form-style > div > div {
+  @include formGrid();
+  margin: 2px;
+}
+
+.btn-form {
+  margin-top: 1rem;
+  width: 100px;
+}

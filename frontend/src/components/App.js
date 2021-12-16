@@ -8,8 +8,12 @@ import React, { useContext } from "react";
 import { Context } from "../Context/AppContext";
 import { Dashboard } from "./Dashboard";
 import { Orders } from "./Orders";
+import { Clients } from "./Clients";
+import { ModalNew } from "./ModalNew";
+import { NewOrder } from "./NewOrder";
+import { DropDown } from "./test";
 
-function App() {
+const App = () => {
   const {
     login,
     userName,
@@ -19,7 +23,9 @@ function App() {
     setShowSidebar,
     mobileView,
     signup,
-    fetchAllOrders,
+    fetchAll,
+    showModal,
+    setShowModal,
   } = useContext(Context);
 
   React.useEffect(() => {
@@ -36,7 +42,7 @@ function App() {
           setShowSidebar={setShowSidebar}
           mobileView={mobileView}
         ></Header>
-        <body>
+        <div>
           <Routes>
             <Route path="/" element={<Welcome userName={userName} />}></Route>
             <Route
@@ -49,17 +55,29 @@ function App() {
             ></Route>
             <Route
               path="/dashboard"
-              element={<Dashboard userName={userName} />}
+              element={
+                <Dashboard userName={userName} setShowModal={setShowModal} />
+              }
             ></Route>
             <Route
               path="/dashboard/orders"
-              element={<Orders fetchAllOrders={fetchAllOrders}></Orders>}
+              element={<Orders fetchAllOrders={fetchAll}></Orders>}
             ></Route>
+            <Route
+              path="/dashboard/clients"
+              element={<Clients fetchAllClients={fetchAll}></Clients>}
+            ></Route>
+            <Route path="/dropdown" element={<DropDown />}></Route>
           </Routes>
-        </body>
+        </div>
+        {showModal && (
+          <ModalNew setShowModal={setShowModal}>
+            <NewOrder></NewOrder>
+          </ModalNew>
+        )}
       </React.Fragment>
     </Router>
   );
-}
+};
 
 export { App };

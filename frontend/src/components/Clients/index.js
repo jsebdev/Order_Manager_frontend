@@ -1,28 +1,28 @@
 import React from "react";
 import { Table } from "../Table";
+import { Context } from "../../Context/AppContext";
 
-function Orders({ fetchAllOrders }) {
-  const [orders, setOrders] = React.useState([]);
+function Clients() {
+  const {
+    clients,
+    setClients,
+    fetchAll: fetchAllClients,
+  } = React.useContext(Context);
   React.useEffect(() => {
-    fetchAllOrders("orders").then((res) => {
-      console.log("before", res);
-      setOrders(res || []);
+    fetchAllClients("users").then((res) => {
+      setClients(res);
     });
   }, []);
 
-  const data = React.useMemo(() => [...orders], [orders]);
+  const data = React.useMemo(() => [...clients], [clients]);
   const columns = React.useMemo(
     () =>
-      orders[0]
-        ? Object.keys(orders[0])
-            .filter(
-              (key) => key !== "shipping_info" && key !== "user_information"
-            )
-            .map((key) => {
-              return { Header: key, accessor: key };
-            })
+      clients[0]
+        ? Object.keys(clients[0]).map((key) => {
+            return { Header: key, accessor: key };
+          })
         : [],
-    [orders]
+    [clients]
   );
 
   const tableHooks = (hooks) => {
@@ -35,7 +35,7 @@ function Orders({ fetchAllOrders }) {
           <button
             className="btn btn-primary"
             onClick={() => {
-              alert("Editing: " + row.values.order_id);
+              alert("Editing: " + row.values.id);
             }}
           >
             Edit
@@ -47,15 +47,15 @@ function Orders({ fetchAllOrders }) {
 
   return (
     <>
-      {orders[0] ? (
+      {clients[0] ? (
         <Table columns={columns} data={data} tableHooks={tableHooks}></Table>
       ) : (
         <div className="container text-center mt-5 fs-2">
-          Orders comming ...
+          Clients comming ...
         </div>
       )}
     </>
   );
 }
 
-export { Orders };
+export { Clients };

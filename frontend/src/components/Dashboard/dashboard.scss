@@ -5,4 +5,14 @@
 
 .col-option {
   @include common.boxDecorate();
+  color: common.$main-color;
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.col-option:hover {
+  color: darken(common.$main-color, $amount: 10);
+  cursor: pointer;
 }
