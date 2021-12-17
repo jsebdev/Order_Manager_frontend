@@ -3,16 +3,17 @@ import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
 
 function Clients() {
-  // const {
-  //   clients,
-  //   setClients,
-  //   fetchAll,
-  // } = React.useContext(Context);
-  const { fetchAll } = React.useContext(Context);
-  const [clients, setClients] = React.useState([]);
+  const { navigate, clients, setClients, fetchAll, logout } =
+    React.useContext(Context);
   React.useEffect(() => {
     fetchAll("users").then((res) => {
-      setClients(res || []);
+      console.log(res);
+      if (res.status !== 200) {
+        alert("no es 200", res.status);
+        // logout();
+        // navigate("/login");
+      }
+      setClients(res.res || []);
     });
   }, []);
 

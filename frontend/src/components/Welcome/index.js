@@ -5,7 +5,6 @@ import "./Welcome.scss";
 function Welcome({ userName }) {
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(userName);
     if (userName !== null) {
       navigate("/dashboard");
     }

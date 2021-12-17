@@ -2,7 +2,7 @@
 """ Flask Application for api"""
 
 from os import getenv
-from flask import Flask, jsonify, request
+from flask import Flask, json, jsonify, request
 from app.models import storage
 from werkzeug.exceptions import NotFound
 from flask_jwt_extended import create_access_token, jwt_required
@@ -10,6 +10,8 @@ from flask_jwt_extended import create_access_token, jwt_required
 from app.api.v1 import api
 from app.models.app_user import App_User
 from flask_cors import cross_origin
+
+from app.models.order import Order
 
 
 @api.route("/login", methods=["POST"])
@@ -31,14 +33,12 @@ def create_user_app():
     """
     Create new user and Get secret token
     """
-    print('the request.form is ', request.form)
-
     name = request.json.get("name", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    print('the name is', name)
-    print('the email is', email)
-    print('the password is', password)
+    # print('the name is', name)
+    # print('the email is', email)
+    # print('the password is', password)
     user = storage.one("App_User", email=email)
     if user:
         return jsonify({"msg": "There is already a user with that email"}), 405
@@ -48,10 +48,30 @@ def create_user_app():
     return jsonify({"access_token": access_token, "user": {"name": user.name, "email": user.email}}), 200
 
 
+@api.route("/createorder", methods=["POST"])
+@jwt_required()
+def create_order():
+    """Create new order"""
+    client_id = request.json.get("client_id", None)
+    subtotal = request.json.get("subtotal", None)
+    taxes = request.json.get("taxes", None)
+    paid = request.json.get("paid", False)
+    sent = request.json.get("sent", False)
+
+    newOrder = Order(user_id=client_id, subtotal=subtotal,
+                     taxes=taxes, paid=paid, sent=sent)
+    print("client id is ", client_id)
+    print("taxes are", taxes)
+    print("typeof taxes are", type(taxes))
+    if (client_id):
+        newOrder.save()
+        return jsonify({"msg": "order created"}), 200
+    return jsonify({"msg": "client id missing"}), 400
+
+
 @api.route("/users/all", methods=["GET"])
 # Here the endpoints has / at the end but the strict_slashes is set to False because YOLO
 @api.route("/users/", methods=["GET"], strict_slashes=False)
-# @api.route("/users/", methods=["GET"])
 @jwt_required()
 def all_users():
     """
@@ -63,6 +83,7 @@ def all_users():
 
 
 @api.route("/users/<string:user_id>", methods=["GET"])
+@jwt_required()
 def user_by_id(user_id):
     """
     Return info of user with <user_id>
@@ -76,17 +97,18 @@ def user_by_id(user_id):
 
 
 @api.route("/orders", methods=["GET"])
-@jwt_required()
+# @jwt_required()
 def orders():
     """
     Return info about all orders
     """
     orders = storage.all("Order")
-    print('the orders are', orders)
+    # print('the orders are', orders)
     return jsonify(orders_info(orders))
 
 
 @api.route("/orders/<string:order_id>", methods=["GET"])
+@jwt_required()
 def order_by_id(order_id):
     """
     Return info about order with <order_id>
@@ -100,6 +122,7 @@ def order_by_id(order_id):
 
 
 @api.route("/orders/[<string:order_ids>]", methods=["GET"])
+@jwt_required()
 def orders_by_ids(order_ids):
     """
     return info about orders with id in <order_ids>
@@ -112,6 +135,7 @@ def orders_by_ids(order_ids):
 
 
 @api.route("/orders/<string:date0> - <string:date1>", methods=["GET"])
+@jwt_required()
 def order_by_dates(date0, date1):
     """
     Return info of orders between date0 and date1
@@ -124,6 +148,7 @@ def order_by_dates(date0, date1):
 
 
 @api.route("/orders/shipping/{<string:key>=<string:value>}")
+@jwt_required()
 def order_by_shipping(key, value):
     """
     return all orders with the given key (city, state, country)
@@ -136,6 +161,7 @@ def order_by_shipping(key, value):
 
 
 @api.route("/orders/user/<string:user_id>")
+@jwt_required()
 def order_by_user(user_id):
     """
     Return info for orders of user with user_id
@@ -158,7 +184,7 @@ def order_info(order):
     """
     Return order dictionary with order info
     """
-    print('one order is ', order)
+    # print('one order is ', order)
     last_payment_date = None
     for payment in order.payments:
         if last_payment_date is None or payment.date > last_payment_date:
@@ -171,24 +197,36 @@ def order_info(order):
     else:
         order_status = "Sent and received"
 
-    print('the order shipping info is ', order.shipping)
+    # print('the order shipping info is ', order.shipping)
     shipping_info = order.shipping.to_dict() if order.shipping else None
     if shipping_info:
         shipping_info.pop('order_id', None)
         shipping_info.pop('order', None)
 
-    user_information = order.user.to_dict()
-    user_information.pop('orders', None)
+    user_information = order.user.to_dict() if order.user else None
+    if user_information:
+        user_information.pop('orders', None)
+
+    customer_name = ''
+    gov_id = ''
+    customer_id = ''
+    if order.user:
+        customer_name = (order.user.name or "") + ' ' + \
+            (order.user.last_name or "")
+        gov_id = order.user.gov_id or ''
+        customer_id = order.user.id or ''
 
     return {
         'order_id': order.id,
-        'customer_id': order.user.id,
-        'customer_name': order.user.name + ' ' + order.user.last_name,
-        'gov_id': order.user.gov_id,
+        'customer_id': customer_id,
+        'customer_name': customer_name,
+        'gov_id': gov_id,
         'order_date': order.date,
         'last_payment_date': last_payment_date,
         'order_status': order_status,
         'shipping_info': shipping_info,
-        'total': order.subtotal + order.taxes,
+        'subtotal': (order.subtotal or 0),
+        'taxes': (order.taxes or 0),
+        'total': (order.subtotal or 0) + (order.taxes or 0),
         'user_information': user_information
     }

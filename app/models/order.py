@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship
 from app.models.basemodel import BaseModel, Base
 from app.models.shipping import Shipping
 from app.models.payment import Payment
+from datetime import datetime
 
 
 class Order(BaseModel, Base):
@@ -14,7 +15,7 @@ class Order(BaseModel, Base):
     """
     __tablename__ = 'orders'
 
-    user_id = Column(String(60), ForeignKey('users.id'))
+    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     date = Column(DateTime, nullable=True)
     subtotal = Column(Float, nullable=True)
     taxes = Column(Float, nullable=True)
@@ -26,3 +27,7 @@ class Order(BaseModel, Base):
                             cascade="all, delete, delete-orphan")
     payments = relationship("Payment", order_by=Payment.txn_id,
                             back_populates="order", cascade="all, delete, delete-orphan")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.date = datetime.now()

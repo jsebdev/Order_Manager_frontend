@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Context = React.createContext();
 
 function Provider({ children }) {
+  const navigate = useNavigate();
   const [userName, setUserName] = useState(null);
   const [token, setToken] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -20,6 +22,48 @@ function Provider({ children }) {
 
   window.addEventListener("resize", checkMobile);
   useEffect(() => checkMobile(), []);
+
+  const createClient = async ({ client }) => {};
+
+  const createOrder = async ({
+    clientId,
+    client,
+    subtotal,
+    taxes,
+    paid,
+    sent,
+  }) => {
+    if (!clientId) {
+      clientId = await createClient({ client });
+    }
+    const data = {
+      client_id: clientId,
+      subtotal: subtotal,
+      taxes: taxes,
+      paid: paid,
+      sent: sent,
+    };
+    console.log("new order the token is ", token);
+    const opts = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(data),
+    };
+    console.log("data is", data);
+    try {
+      let res = await fetch("http://localhost:5000/api/v1/createorder", opts);
+      if (res.status !== 200) {
+        return { state: false, status: res.status, msg: res.msg };
+      }
+      // let response = res.json();
+      return { state: true, status: res.status, msg: res.msg };
+    } catch (error) {
+      console.log("There was a tragic error", error);
+    }
+  };
 
   const login = async (email, password) => {
     const data = {
@@ -106,7 +150,6 @@ function Provider({ children }) {
 
   const fetchAll = async (items) => {
     setToken(localStorage.getItem("token"));
-    console.log("the token is ", token);
     const opts = {
       method: "GET",
       headers: {
@@ -119,13 +162,14 @@ function Provider({ children }) {
       if (res.status !== 200) {
         const status = res.status;
         res = await res.json();
-        alert(
-          `Something wrong happened, status code is ${status} \nmsg: ${res.msg}`
-        );
-        return false;
+        // alert(
+        //   `Something wrong happened, status code is ${status} \nmsg: ${res.msg}`
+        // );
+        console.log("no fue 200 en appcontext token:", token);
+        return { status: status, res: res };
       }
       res = await res.json();
-      return res;
+      return { status: 200, res: res };
     } catch (error) {
       console.log("There was a tragic error", error);
     }
@@ -149,6 +193,8 @@ function Provider({ children }) {
         setShowModal,
         clients,
         setClients,
+        createOrder,
+        navigate,
       }}
     >
       {children}

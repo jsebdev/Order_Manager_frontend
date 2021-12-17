@@ -1,5 +1,5 @@
-from flask_assets import Environment, Bundle
 from flask import Flask, render_template
+from flask_assets import Environment, Bundle
 from flask_login import LoginManager
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -16,7 +16,7 @@ def create_app(settings_module='config.dev'):
     app = Flask(__name__)
 
     # CORS(app)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, resources={r"/*": {"origins": "*"}})
     assets = Environment(app)
     app.config.from_object(settings_module)
 

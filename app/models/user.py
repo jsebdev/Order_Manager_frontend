@@ -1,7 +1,6 @@
-"""
+"""  """"""
 User class file
 """
-
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from app.models.basemodel import Base, BaseModel

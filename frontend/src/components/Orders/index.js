@@ -6,7 +6,11 @@ function Orders({ fetchAllOrders }) {
   React.useEffect(() => {
     fetchAllOrders("orders").then((res) => {
       console.log("before", res);
-      setOrders(res || []);
+      if (res.status !== 200) {
+        logout();
+        navigate("/login");
+      }
+      setOrders(res.res || []);
     });
   }, []);
 
