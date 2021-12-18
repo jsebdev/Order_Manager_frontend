@@ -58,13 +58,10 @@ const App = () => {
               <Dashboard userName={userName} setShowModal={setShowModal} />
             }
           ></Route>
-          <Route
-            path="/dashboard/orders"
-            element={<Orders fetchAllOrders={fetchAll}></Orders>}
-          ></Route>
+          <Route path="/dashboard/orders" element={<Orders></Orders>}></Route>
           <Route
             path="/dashboard/clients"
-            element={<Clients fetchAllClients={fetchAll}></Clients>}
+            element={<Clients></Clients>}
           ></Route>
           <Route path="/dropdown" element={<DropDown />}></Route>
         </Routes>

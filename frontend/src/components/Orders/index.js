@@ -1,11 +1,13 @@
 import React from "react";
 import { Table } from "../Table";
+import { Context } from "../../Context/AppContext";
 
-function Orders({ fetchAllOrders }) {
-  const [orders, setOrders] = React.useState([]);
+function Orders() {
+  const { orders, setOrders, fetchAll, navigate, logout } =
+    React.useContext(Context);
   React.useEffect(() => {
-    fetchAllOrders("orders").then((res) => {
-      console.log("before", res);
+    fetchAll("orders").then((res) => {
+      console.log("in orders res: ", res);
       if (res.status !== 200) {
         logout();
         navigate("/login");

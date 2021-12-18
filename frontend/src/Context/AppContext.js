@@ -11,6 +11,7 @@ function Provider({ children }) {
   const [mobileView, setMobileView] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [clients, setClients] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   const checkMobile = () => {
     if (window.innerWidth <= 1000) {
@@ -61,7 +62,9 @@ function Provider({ children }) {
       // let response = res.json();
       return { state: true, status: res.status, msg: res.msg };
     } catch (error) {
+      console.log("we are taking care");
       console.log("There was a tragic error", error);
+      return { state: false, status: undefined, msg: error };
     }
   };
 
@@ -70,6 +73,7 @@ function Provider({ children }) {
       email: email,
       password: password,
     };
+
     // console.log(JSON.stringify(data));
     const opts = {
       method: "POST",
@@ -172,6 +176,7 @@ function Provider({ children }) {
       return { status: 200, res: res };
     } catch (error) {
       console.log("There was a tragic error", error);
+      return { state: false, status: undefined, msg: error, res: undefined };
     }
   };
 
@@ -193,6 +198,8 @@ function Provider({ children }) {
         setShowModal,
         clients,
         setClients,
+        orders,
+        setOrders,
         createOrder,
         navigate,
       }}
