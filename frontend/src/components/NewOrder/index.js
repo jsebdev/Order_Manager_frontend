@@ -89,7 +89,6 @@ const NewOrder = () => {
             </>
           ) : (
             <div>
-              please
               <label htmlFor="client">Client</label>
               <select name="client" id="client">
                 {clients.length > 0 &&

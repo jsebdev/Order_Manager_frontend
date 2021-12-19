@@ -16,6 +16,8 @@ function Provider({ children }) {
   const updateItems = (itemsType) => {
     fetchAll(itemsType).then((res) => {
       if (res.status !== 200) {
+        setShowModal(false);
+        setShowSidebar(false);
         logout();
         navigate("/login");
       }

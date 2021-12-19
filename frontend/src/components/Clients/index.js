@@ -3,7 +3,7 @@ import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
 
 function Clients() {
-  const { updateItems, clients } = React.useContext(Context);
+  const { deleteItem, updateItems, clients } = React.useContext(Context);
   React.useEffect(() => {
     updateItems("users");
   }, []);
@@ -33,6 +33,22 @@ function Clients() {
             }}
           >
             Edit
+          </button>
+        ),
+      },
+      {
+        id: "Delete",
+        Header: "Delete",
+        Cell: ({ row }) => (
+          <button
+            className="btn btn-danger"
+            onClick={async () => {
+              deleteItem(row.values.id).then(() => {
+                updateItems("users");
+              });
+            }}
+          >
+            Delete
           </button>
         ),
       },
