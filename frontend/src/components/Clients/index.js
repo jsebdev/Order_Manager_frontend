@@ -9,11 +9,10 @@ function Clients() {
     fetchAll("users").then((res) => {
       console.log(res);
       if (res.status !== 200) {
-        alert("no es 200", res.status);
-        // logout();
-        // navigate("/login");
+        logout();
+        navigate("/login");
       }
-      setClients(res.res || []);
+      setClients(res.items || []);
     });
   }, []);
 

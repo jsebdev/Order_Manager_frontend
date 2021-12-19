@@ -4,8 +4,15 @@ import { Context } from "../../Context/AppContext";
 import "./new_order_form.scss";
 
 const NewOrder = () => {
-  const { clients, setClients, fetchAll, createOrder, logout, setShowModal } =
-    React.useContext(Context);
+  const {
+    clients,
+    setClients,
+    fetchAll,
+    createOrder,
+    logout,
+    setShowModal,
+    createClient,
+  } = React.useContext(Context);
   const [clientType, setClientType] = React.useState("ExistingClient");
   const navigate = useNavigate();
 
@@ -16,15 +23,13 @@ const NewOrder = () => {
         logout();
         navigate("/login");
       }
-      setClients(res.res || []);
-      console.log("clients in new order useeffect are: ", clients);
+      setClients(res.items || []);
     });
   }, []);
 
   const orderSubmited = async (event) => {
     event.preventDefault();
     const form = event.target;
-    console.log(event.target.clienttype.value);
     if (form.clienttype.value === "ExistingClient") {
       const clientId = form.client.value;
       let subtotal = form.subtotal.value;
@@ -41,6 +46,16 @@ const NewOrder = () => {
       } else {
         alert(res.msg);
       }
+    } else {
+      const name = form.name.value;
+      const lastname = form.lastname.value;
+      const govid = form.govid.value;
+      const email = form.email.value;
+      const company = form.company.value;
+      debugger;
+      console.log("hola");
+      const res = await createClient({ name, lastname, govid, email, company });
+      console.log(res);
     }
   };
 
@@ -76,7 +91,7 @@ const NewOrder = () => {
               </div>
               <div>
                 <label htmlFor="email">Email</label>
-                <input type="text" name="govid" />
+                <input type="text" name="email" />
               </div>
               <div>
                 <label htmlFor="company">Company</label>

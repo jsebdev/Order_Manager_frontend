@@ -12,6 +12,7 @@ from app.models.app_user import App_User
 from flask_cors import cross_origin
 
 from app.models.order import Order
+from app.models.user import User
 
 
 @api.route("/login", methods=["POST"])
@@ -46,6 +47,24 @@ def create_user_app():
     access_token = create_access_token(identity=email)
     user.save()
     return jsonify({"access_token": access_token, "user": {"name": user.name, "email": user.email}}), 200
+
+
+@api.route("/createclient", methods=["POST"])
+@jwt_required()
+def create_user():
+    """Create new order"""
+    name = request.json.get("name", None)
+    last_name = request.json.get("last_name", None)
+    gov_id = request.json.get("gov_id", False)
+    email = request.json.get("email", False)
+    company = request.json.get("company", False)
+    print(name, last_name, gov_id, email, company)
+
+    newUser = User(name=name,
+                   last_name=last_name, gov_id=gov_id, email=email, company=company)
+    newUser.save()
+    print(newUser)
+    return jsonify({"msg": "user created", "user": newUser.to_dict()}), 200
 
 
 @api.route("/createorder", methods=["POST"])
