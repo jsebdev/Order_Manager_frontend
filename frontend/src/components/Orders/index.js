@@ -62,7 +62,19 @@ function Orders() {
   return (
     <>
       {orders[0] ? (
-        <Table columns={columns} data={data} tableHooks={tableHooks}></Table>
+        <Table
+          columns={columns}
+          data={data}
+          tableHooks={tableHooks}
+          columnOrder={[
+            "order_id",
+            "customer_name",
+            "gov_id",
+            "subtotal",
+            "taxes",
+            "total",
+          ]}
+        ></Table>
       ) : (
         <div className="container text-center mt-5 fs-2">
           Orders comming ...

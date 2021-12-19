@@ -58,7 +58,19 @@ function Clients() {
   return (
     <>
       {clients[0] ? (
-        <Table columns={columns} data={data} tableHooks={tableHooks}></Table>
+        <Table
+          columns={columns}
+          data={data}
+          tableHooks={tableHooks}
+          columnOrder={[
+            "id",
+            "name",
+            "last_name",
+            "email",
+            "gov_id",
+            "company",
+          ]}
+        ></Table>
       ) : (
         <div className="container text-center mt-5 fs-2">
           Clients comming ...

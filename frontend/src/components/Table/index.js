@@ -1,14 +1,22 @@
-import React from "react";
-import { useTable, useSortBy } from "react-table";
+import React, { useContext } from "react";
+import { useTable, useSortBy, useColumnOrder } from "react-table";
 
-function Table({ columns, data, tableHooks }) {
+function Table({ columns, data, tableHooks, columnOrder }) {
   const tableInstance = useTable(
-    { columns: columns, data: data },
+    {
+      columns: columns,
+      data: data,
+      initialState: {
+        columnOrder: columnOrder,
+      },
+    },
     tableHooks,
-    useSortBy
+    useSortBy,
+    useColumnOrder
   );
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
+
   return (
     <React.Fragment>
       <div className="table-container">
