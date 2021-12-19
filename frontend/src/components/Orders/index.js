@@ -3,10 +3,19 @@ import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
 
 function Orders() {
-  const { updateItems, orders, deleteItem } = React.useContext(Context);
+  const { setShowSpinner, updateItems, orders, deleteItem } =
+    React.useContext(Context);
   React.useEffect(() => {
     updateItems("orders");
   }, []);
+
+  React.useEffect(() => {
+    if (orders[0]) {
+      setShowSpinner(false);
+    } else {
+      setShowSpinner(true);
+    }
+  }, [orders]);
 
   const data = React.useMemo(() => [...orders], [orders]);
   const columns = React.useMemo(

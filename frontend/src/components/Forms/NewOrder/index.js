@@ -1,11 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../../Context/AppContext";
-import "./new_order_form.scss";
+import { Context } from "../../../Context/AppContext";
+import "../inside_forms.scss";
 
 const NewOrder = () => {
-  const { clients, createOrder, updateItems, createClient } =
-    React.useContext(Context);
+  const {
+    setShowNewOrderModal,
+    clients,
+    createOrder,
+    updateItems,
+    createClient,
+    setShowSpinner,
+  } = React.useContext(Context);
   const [clientType, setClientType] = React.useState("ExistingClient");
   const navigate = useNavigate();
 
@@ -15,6 +21,7 @@ const NewOrder = () => {
 
   const orderSubmited = async (event) => {
     event.preventDefault();
+    setShowSpinner(true);
     const form = event.target;
     let subtotal = form.subtotal.value;
     let taxes = form.taxes.value;
@@ -42,10 +49,12 @@ const NewOrder = () => {
       taxes,
     });
     if (res.state === true) {
+      setShowNewOrderModal(false);
       alert("order created");
     } else {
       alert(res.msg);
     }
+    setShowSpinner(false);
   };
 
   return (

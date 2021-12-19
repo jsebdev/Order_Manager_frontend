@@ -10,8 +10,10 @@ import { Dashboard } from "./Dashboard";
 import { Orders } from "./Orders";
 import { Clients } from "./Clients";
 import { ModalNew } from "./ModalNew";
-import { NewOrder } from "./NewOrder";
+import { NewOrder } from "./Forms/NewOrder";
 import { DropDown } from "./test";
+import { ModalEditClient } from "./ModalEditClient";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 const App = () => {
   const {
@@ -23,9 +25,11 @@ const App = () => {
     setShowSidebar,
     mobileView,
     signup,
-    fetchAll,
-    showModal,
-    setShowModal,
+    showNewOrderModal,
+    setShowNewOrderModal,
+    showEditClientModal,
+    setShowEditClientModal,
+    showSpinner,
   } = useContext(Context);
 
   React.useEffect(() => {
@@ -55,7 +59,10 @@ const App = () => {
           <Route
             path="/dashboard"
             element={
-              <Dashboard userName={userName} setShowModal={setShowModal} />
+              <Dashboard
+                userName={userName}
+                setShowNewOrderModal={setShowNewOrderModal}
+              />
             }
           ></Route>
           <Route path="/dashboard/orders" element={<Orders></Orders>}></Route>
@@ -64,13 +71,29 @@ const App = () => {
             element={<Clients></Clients>}
           ></Route>
           <Route path="/dropdown" element={<DropDown />}></Route>
+          <Route
+            path="/loading"
+            element={<LoadingSpinner></LoadingSpinner>}
+          ></Route>
         </Routes>
       </div>
-      {showModal && (
-        <ModalNew setShowModal={setShowModal}>
+      {showNewOrderModal && (
+        <ModalNew
+          setShowModal={setShowNewOrderModal}
+          elementId={"new-order-modal"}
+        >
           <NewOrder></NewOrder>
         </ModalNew>
       )}
+      {showEditClientModal && (
+        <ModalNew
+          setShowModal={setShowEditClientModal}
+          elementId={"edit-client-modal"}
+        >
+          <ModalEditClient></ModalEditClient>
+        </ModalNew>
+      )}
+      {showSpinner && <LoadingSpinner></LoadingSpinner>}
     </React.Fragment>
   );
 };

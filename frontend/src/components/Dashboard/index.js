@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Context } from "../../Context/AppContext";
 import "./dashboard.scss";
 
-function Dashboard({ userName, setShowModal }) {
+function Dashboard() {
   const colClass = `col-option col-8 offset-2 col-md-3 my-2 d-flex flex-column text-center py-4`;
+  const { userName, setShowNewOrderModal } = React.useContext(Context);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -19,7 +21,7 @@ function Dashboard({ userName, setShowModal }) {
           <div
             className={`${colClass} offset-md-2`}
             onClick={() => {
-              setShowModal((value) => !value);
+              setShowNewOrderModal((value) => !value);
             }}
           >
             <i className="bi bi-bag-plus-fill icon-option"></i>

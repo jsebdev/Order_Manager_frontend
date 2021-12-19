@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../forms.scss";
+// import "../sign_up_forms.scss";
 
 function Signup({ signup, userName }) {
   const navigate = useNavigate();

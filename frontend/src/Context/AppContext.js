@@ -6,17 +6,20 @@ const Context = React.createContext();
 function Provider({ children }) {
   const navigate = useNavigate();
   const [userName, setUserName] = useState(null);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState("eltoken");
   const [showSidebar, setShowSidebar] = useState(false);
   const [mobileView, setMobileView] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [showNewOrderModal, setShowNewOrderModal] = useState(false);
+  const [showEditClientModal, setShowEditClientModal] = useState(false);
   const [clients, setClients] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [clientToEdit, setClientToEdit] = useState({});
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const updateItems = (itemsType) => {
     fetchAll(itemsType).then((res) => {
       if (res.status !== 200) {
-        setShowModal(false);
+        setShowNewOrderModal(false);
         setShowSidebar(false);
         logout();
         navigate("/login");
@@ -262,8 +265,8 @@ function Provider({ children }) {
         mobileView,
         checkMobile,
         fetchAll,
-        showModal,
-        setShowModal,
+        showNewOrderModal,
+        setShowNewOrderModal,
         clients,
         setClients,
         orders,
@@ -273,6 +276,12 @@ function Provider({ children }) {
         navigate,
         deleteItem,
         updateItems,
+        showEditClientModal,
+        setShowEditClientModal,
+        clientToEdit,
+        setClientToEdit,
+        showSpinner,
+        setShowSpinner,
       }}
     >
       {children}
