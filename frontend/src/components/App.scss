@@ -5,3 +5,14 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.body-container {
+  flex-grow: 1;
+  overflow-x: scroll;
+}

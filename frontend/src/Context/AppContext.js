@@ -17,6 +17,7 @@ function Provider({ children }) {
   const [showSpinner, setShowSpinner] = useState(false);
 
   const updateItems = (itemsType) => {
+    setShowSpinner(true);
     fetchAll(itemsType).then((res) => {
       if (res.status !== 200) {
         setShowNewOrderModal(false);
@@ -30,6 +31,7 @@ function Provider({ children }) {
       if (itemsType === "users") {
         setClients(res.items || []);
       }
+      setShowSpinner(false);
     });
   };
 

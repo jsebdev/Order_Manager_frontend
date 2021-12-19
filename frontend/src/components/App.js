@@ -45,7 +45,7 @@ const App = () => {
         setShowSidebar={setShowSidebar}
         mobileView={mobileView}
       ></Header>
-      <div>
+      <div className="body-container">
         <Routes>
           <Route path="/" element={<Welcome userName={userName} />}></Route>
           <Route

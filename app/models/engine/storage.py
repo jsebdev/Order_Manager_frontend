@@ -85,7 +85,6 @@ class Storage:
         fulfills kwargs filters
         kwargs must be None or specific columns and values respectively
         """
-        print("the cls is ", cls)
         if cls is None:
             for one_class in classes.values():
                 try:

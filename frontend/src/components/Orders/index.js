@@ -9,14 +9,6 @@ function Orders() {
     updateItems("orders");
   }, []);
 
-  React.useEffect(() => {
-    if (orders[0]) {
-      setShowSpinner(false);
-    } else {
-      setShowSpinner(true);
-    }
-  }, [orders]);
-
   const data = React.useMemo(() => [...orders], [orders]);
   const columns = React.useMemo(
     () =>
@@ -71,19 +63,22 @@ function Orders() {
   return (
     <>
       {orders[0] ? (
-        <Table
-          columns={columns}
-          data={data}
-          tableHooks={tableHooks}
-          columnOrder={[
-            "order_id",
-            "customer_name",
-            "gov_id",
-            "subtotal",
-            "taxes",
-            "total",
-          ]}
-        ></Table>
+        <>
+          <h1 className="h1 text-center mt-5">Orders</h1>
+          <Table
+            columns={columns}
+            data={data}
+            tableHooks={tableHooks}
+            columnOrder={[
+              "order_id",
+              "customer_name",
+              "gov_id",
+              "subtotal",
+              "taxes",
+              "total",
+            ]}
+          ></Table>
+        </>
       ) : (
         <div className="container text-center mt-5 fs-2">
           Orders comming ...
