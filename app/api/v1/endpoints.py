@@ -30,6 +30,7 @@ def get_token():
 
 
 @api.route("/signup", methods=["POST"])
+@jwt_required()
 def create_user_app():
     """
     Create new user and Get secret token
@@ -37,9 +38,6 @@ def create_user_app():
     name = request.json.get("name", None)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    # print('the name is', name)
-    # print('the email is', email)
-    # print('the password is', password)
     user = storage.one("App_User", email=email)
     if user:
         return jsonify({"msg": "There is already a user with that email"}), 405
@@ -47,6 +45,16 @@ def create_user_app():
     access_token = create_access_token(identity=email)
     user.save()
     return jsonify({"access_token": access_token, "user": {"name": user.name, "email": user.email}}), 200
+
+
+@api.route("/delete/<string:id>", methods=["DELETE"])
+@jwt_required()
+def delete_item(id):
+    item = storage.one(id=id)
+    if item:
+        item.delete()
+        return ({"msg": "deleted"})
+    return ({"msg": "Could not find item with id: "+id})
 
 
 @api.route("/createclient", methods=["POST"])

@@ -79,13 +79,23 @@ class Storage:
             return None
         return objs
 
-    def one(self, cls, **kwargs):
+    def one(self, cls=None, **kwargs):
         """
         Method to return first instance from database of a given class that
         fulfills kwargs filters
         kwargs must be None or specific columns and values respectively
         """
-        if cls in classes.keys():
+        print("the cls is ", cls)
+        if cls is None:
+            for one_class in classes.values():
+                try:
+                    objs = self.__session.query(one_class).filter_by(
+                        **kwargs).order_by(one_class.id).one()
+                except exc.NoResultFound:
+                    objs = None
+                if objs:
+                    return objs
+        elif cls in classes.keys():
             the_class = classes[cls]
             try:
                 objs = self.__session.query(the_class).filter_by(
@@ -98,7 +108,6 @@ class Storage:
                 print("Multiple rows was found for query that was supposed\
  to return one")
                 return None
-
         else:
             print("No class of type {:s}".format(cls))
             return None

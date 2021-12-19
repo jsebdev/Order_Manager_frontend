@@ -13,6 +13,21 @@ function Provider({ children }) {
   const [clients, setClients] = useState([]);
   const [orders, setOrders] = useState([]);
 
+  const updateItems = (itemsType) => {
+    fetchAll(itemsType).then((res) => {
+      if (res.status !== 200) {
+        logout();
+        navigate("/login");
+      }
+      if (itemsType === "orders") {
+        setOrders(res.items || []);
+      }
+      if (itemsType === "users") {
+        setClients(res.items || []);
+      }
+    });
+  };
+
   const checkMobile = () => {
     if (window.innerWidth <= 1000) {
       setMobileView(true);
@@ -23,6 +38,30 @@ function Provider({ children }) {
 
   window.addEventListener("resize", checkMobile);
   useEffect(() => checkMobile(), []);
+
+  const deleteItem = async (id) => {
+    const opts = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    try {
+      let res = await fetch("http://localhost:5000/api/v1/delete/" + id, opts);
+      if (res.status !== 200) {
+        return { state: false, status: res.status, msg: res.msg };
+      }
+      let response = await res.json();
+      return {
+        state: true,
+        status: res.status,
+        msg: response.msg,
+      };
+    } catch (error) {
+      console.log("There was a tragic error", error);
+      return { state: false, status: undefined, msg: error };
+    }
+  };
 
   const createClient = async ({ name, lastname, govid, email, company }) => {
     const data = { name, last_name: lastname, gov_id: govid, email, company };
@@ -39,7 +78,6 @@ function Provider({ children }) {
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }
-      debugger;
       let response = await res.json();
       return {
         state: true,
@@ -231,6 +269,8 @@ function Provider({ children }) {
         createOrder,
         createClient,
         navigate,
+        deleteItem,
+        updateItems,
       }}
     >
       {children}

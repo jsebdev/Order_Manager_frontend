@@ -3,17 +3,9 @@ import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
 
 function Orders() {
-  const { orders, setOrders, fetchAll, navigate, logout } =
-    React.useContext(Context);
+  const { updateItems, orders, deleteItem } = React.useContext(Context);
   React.useEffect(() => {
-    fetchAll("orders").then((res) => {
-      console.log("in orders res: ", res);
-      if (res.status !== 200) {
-        logout();
-        navigate("/login");
-      }
-      setOrders(res.items || []);
-    });
+    updateItems("orders");
   }, []);
 
   const data = React.useMemo(() => [...orders], [orders]);
@@ -45,6 +37,22 @@ function Orders() {
             }}
           >
             Edit
+          </button>
+        ),
+      },
+      {
+        id: "Delete",
+        Header: "Delete",
+        Cell: ({ row }) => (
+          <button
+            className="btn btn-danger"
+            onClick={async () => {
+              deleteItem(row.values.order_id).then(() => {
+                updateItems("orders");
+              });
+            }}
+          >
+            Delete
           </button>
         ),
       },

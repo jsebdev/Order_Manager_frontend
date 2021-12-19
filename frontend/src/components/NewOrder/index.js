@@ -4,27 +4,13 @@ import { Context } from "../../Context/AppContext";
 import "./new_order_form.scss";
 
 const NewOrder = () => {
-  const {
-    clients,
-    setClients,
-    fetchAll,
-    createOrder,
-    logout,
-    setShowModal,
-    createClient,
-  } = React.useContext(Context);
+  const { clients, createOrder, updateItems, createClient } =
+    React.useContext(Context);
   const [clientType, setClientType] = React.useState("ExistingClient");
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    fetchAll("users").then((res) => {
-      if (res.status !== 200) {
-        setShowModal(false);
-        logout();
-        navigate("/login");
-      }
-      setClients(res.items || []);
-    });
+    updateItems("users");
   }, []);
 
   const orderSubmited = async (event) => {

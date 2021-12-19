@@ -3,17 +3,9 @@ import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
 
 function Clients() {
-  const { navigate, clients, setClients, fetchAll, logout } =
-    React.useContext(Context);
+  const { updateItems, clients } = React.useContext(Context);
   React.useEffect(() => {
-    fetchAll("users").then((res) => {
-      console.log(res);
-      if (res.status !== 200) {
-        logout();
-        navigate("/login");
-      }
-      setClients(res.items || []);
-    });
+    updateItems("users");
   }, []);
 
   const data = React.useMemo(() => [...clients], [clients]);
