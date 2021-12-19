@@ -30,32 +30,35 @@ const NewOrder = () => {
   const orderSubmited = async (event) => {
     event.preventDefault();
     const form = event.target;
+    let subtotal = form.subtotal.value;
+    let taxes = form.taxes.value;
+    taxes = taxes === "" ? 0 : taxes;
+    subtotal = subtotal === "" ? 0 : subtotal;
+    let clientId;
     if (form.clienttype.value === "ExistingClient") {
-      const clientId = form.client.value;
-      let subtotal = form.subtotal.value;
-      let taxes = form.taxes.value;
-      taxes = taxes === "" ? 0 : taxes;
-      subtotal = subtotal === "" ? 0 : subtotal;
-      const res = await createOrder({
-        clientId,
-        subtotal,
-        taxes,
-      });
-      if (res.state === true) {
-        alert("order created");
-      } else {
-        alert(res.msg);
-      }
+      clientId = form.client.value;
     } else {
       const name = form.name.value;
       const lastname = form.lastname.value;
       const govid = form.govid.value;
       const email = form.email.value;
       const company = form.company.value;
-      debugger;
-      console.log("hola");
       const res = await createClient({ name, lastname, govid, email, company });
-      console.log(res);
+      if (res.state) {
+        clientId = res.client.id;
+      } else {
+        clientId = undefined;
+      }
+    }
+    const res = await createOrder({
+      clientId,
+      subtotal,
+      taxes,
+    });
+    if (res.state === true) {
+      alert("order created");
+    } else {
+      alert(res.msg);
     }
   };
 

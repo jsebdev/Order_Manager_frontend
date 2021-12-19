@@ -39,12 +39,13 @@ function Provider({ children }) {
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }
-      let response = res.json();
+      debugger;
+      let response = await res.json();
       return {
         state: true,
         status: res.status,
         msg: response.msg,
-        user: response.user,
+        client: response.user,
       };
     } catch (error) {
       console.log("There was a tragic error", error);
@@ -83,7 +84,6 @@ function Provider({ children }) {
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }
-      // let response = res.json();
       return { state: true, status: res.status, msg: res.msg };
     } catch (error) {
       console.log("There was a tragic error", error);
