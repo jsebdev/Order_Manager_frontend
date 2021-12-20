@@ -1,5 +1,5 @@
-@use "../../scss/common.scss";
+@use "../../scss/mixins.scss" as *;
 
 .form-decorate {
-  @include common.boxDecorate();
+  @include boxDecorate();
 }

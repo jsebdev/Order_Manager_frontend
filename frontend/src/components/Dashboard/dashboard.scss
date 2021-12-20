@@ -1,11 +1,12 @@
-@use "../../scss/common.scss";
+@use "../../scss/mixins.scss" as *;
+@use "../../scss/variables" as *;
 .icon-option {
   font-size: 4rem;
 }
 
 .col-option {
-  @include common.boxDecorate();
-  color: common.$main-color;
+  @include boxDecorate();
+  color: $main-color;
   a {
     text-decoration: none;
     color: inherit;
@@ -13,6 +14,6 @@
 }
 
 .col-option:hover {
-  color: darken(common.$main-color, $amount: 10);
+  color: darken($main-color, $amount: 10);
   cursor: pointer;
 }

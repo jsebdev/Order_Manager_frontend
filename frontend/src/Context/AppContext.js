@@ -6,7 +6,7 @@ const Context = React.createContext();
 function Provider({ children }) {
   const navigate = useNavigate();
   const [userName, setUserName] = useState(null);
-  const [token, setToken] = useState("eltoken");
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [showSidebar, setShowSidebar] = useState(false);
   const [mobileView, setMobileView] = useState(true);
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);

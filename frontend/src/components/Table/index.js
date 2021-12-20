@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { useTable, useSortBy, useColumnOrder } from "react-table";
+import {
+  useTable,
+  useSortBy,
+  useColumnOrder,
+  useAbsoluteLayout,
+  useBlockLayout,
+  useFlexLayout,
+} from "react-table";
 
 function Table({ columns, data, tableHooks, columnOrder }) {
   const tableInstance = useTable(
@@ -12,7 +19,10 @@ function Table({ columns, data, tableHooks, columnOrder }) {
     },
     tableHooks,
     useSortBy,
-    useColumnOrder
+    useColumnOrder,
+    // useAbsoluteLayout
+    // useBlockLayout
+    useFlexLayout
   );
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
@@ -20,7 +30,7 @@ function Table({ columns, data, tableHooks, columnOrder }) {
   return (
     <React.Fragment>
       <div className="table-container">
-        <table className="table" {...getTableProps()}>
+        <table className="orderTable" {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>

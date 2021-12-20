@@ -1,9 +1,9 @@
-@use "../../scss/common.scss";
+@use "../../scss/mixins.scss" as *;
 
 .login-container div {
   text-align: center;
 }
 
 .login-col {
-  @include common.boxDecorate();
+  @include boxDecorate();
 }

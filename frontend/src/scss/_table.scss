@@ -1,4 +1,4 @@
-@import "./variables";
+// @import "./variables";
 $table-head-color: lighten($main-color, 5);
 $table-border: 1px solid lighten($main-color, 30);
 $table-even-row-color: lighten($main-color, 40);
@@ -6,9 +6,11 @@ $table-even-row-color: lighten($main-color, 40);
 .table-container {
   // overflow-x: scroll;
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.table {
+.orderTable {
   border-collapse: collapse;
   margin: 20px 30px;
   font-size: 0.9em;
@@ -19,34 +21,37 @@ $table-even-row-color: lighten($main-color, 40);
   table-layout: fixed;
 }
 
-.table thead tr {
+.orderTable thead tr {
   background-color: $table-head-color;
   text-align: left;
   font-weight: bold;
   color: white;
 }
 
-.table th,
-.table td {
-  border-bottom: $table-border;
+.orderTable th,
+.orderTable td {
   padding: 8px 10px;
-  margin: 1rem;
-  width: 180px;
-  // white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align: middle;
 }
 
-.table td p {
+.orderTable td p {
   display: inline-block;
   vertical-align: middle;
 }
 
-.table tbody tr:nth-of-type(even) {
+.orderTable tbody tr:nth-of-type(even) {
   background-color: $table-even-row-color;
 }
 
-.table tbody {
-  border-bottom: 2px solid $table-head-color;
+.button-cell {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+.orderTable tbody {
+  // border-bottom: 2px solid $table-head-color;
 }

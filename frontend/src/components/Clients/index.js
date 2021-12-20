@@ -38,41 +38,39 @@ function Clients() {
     hooks.visibleColumns.push((columns) => [
       ...columns,
       {
-        id: "Edit",
-        Header: "Edit",
+        id: "Options",
+        Header: "Option",
+        width: 300,
         Cell: ({ row }) => (
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              setClientToEdit({
-                id: row.values.id,
-                name: row.values.name,
-                lastName: row.values.last_name,
-                govId: row.values.gov_id,
-                email: row.values.email,
-                company: row.values.company,
-              });
-              setShowEditClientModal(true);
-            }}
-          >
-            Edit
-          </button>
-        ),
-      },
-      {
-        id: "Delete",
-        Header: "Delete",
-        Cell: ({ row }) => (
-          <button
-            className="btn btn-danger"
-            onClick={async () => {
-              deleteItem(row.values.id).then(() => {
-                updateItems("users");
-              });
-            }}
-          >
-            Delete
-          </button>
+          <div className="button-cell">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                setClientToEdit({
+                  id: row.values.id,
+                  name: row.values.name,
+                  lastName: row.values.last_name,
+                  govId: row.values.gov_id,
+                  email: row.values.email,
+                  company: row.values.company,
+                });
+                setShowEditClientModal(true);
+              }}
+            >
+              Edit
+            </button>
+            <button className="btn btn-info">Orders</button>
+            <button
+              className="btn btn-danger"
+              onClick={async () => {
+                deleteItem(row.values.id).then(() => {
+                  updateItems("users");
+                });
+              }}
+            >
+              Delete
+            </button>
+          </div>
         ),
       },
     ]);
