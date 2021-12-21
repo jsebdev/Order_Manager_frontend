@@ -11,7 +11,7 @@ import { Orders } from "./Orders";
 import { Clients } from "./Clients";
 import { ModalNew } from "./ModalNew";
 import { NewOrder } from "./Forms/NewOrder";
-import { DropDown } from "./test";
+import { Test } from "./test";
 import { ModalEditClient } from "./ModalEditClient";
 import { LoadingSpinner } from "./LoadingSpinner";
 
@@ -70,11 +70,11 @@ const App = () => {
             path="/dashboard/clients"
             element={<Clients></Clients>}
           ></Route>
-          <Route path="/dropdown" element={<DropDown />}></Route>
           <Route
             path="/loading"
             element={<LoadingSpinner></LoadingSpinner>}
           ></Route>
+          <Route path="/test" element={<Test></Test>}></Route>
         </Routes>
       </div>
       {showNewOrderModal && (
