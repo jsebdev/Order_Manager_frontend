@@ -1,13 +1,9 @@
 import React from "react";
-import { Table } from "../Table";
-import { Context } from "../../Context/AppContext";
+import { Table } from "../../Table";
+import { Context } from "../../../Context/AppContext";
 
-function Orders() {
-  const { setShowSpinner, updateItems, orders, deleteItem } =
-    React.useContext(Context);
-  React.useEffect(() => {
-    updateItems("orders");
-  }, []);
+function Orders({ title, orders, loaded }) {
+  const { deleteItem, showSpinner, updateItems } = React.useContext(Context);
 
   const data = React.useMemo(() => [...orders], [orders]);
   const columns = React.useMemo(
@@ -62,22 +58,28 @@ function Orders() {
 
   return (
     <>
-      {orders[0] ? (
+      {!showSpinner ? (
         <>
-          <h1 className="h1 text-center mt-5">Orders</h1>
-          <Table
-            columns={columns}
-            data={data}
-            tableHooks={tableHooks}
-            columnOrder={[
-              "order_id",
-              "customer_name",
-              "gov_id",
-              "subtotal",
-              "taxes",
-              "total",
-            ]}
-          ></Table>
+          <h1 className="h1 text-center mt-5">{title}</h1>
+          {orders[0] ? (
+            <Table
+              columns={columns}
+              data={data}
+              tableHooks={tableHooks}
+              columnOrder={[
+                "order_id",
+                "customer_name",
+                "gov_id",
+                "subtotal",
+                "taxes",
+                "total",
+              ]}
+            ></Table>
+          ) : (
+            <div className="container text-center pt-4">
+              No orders in system
+            </div>
+          )}
         </>
       ) : (
         <div className="container text-center mt-5 fs-2">

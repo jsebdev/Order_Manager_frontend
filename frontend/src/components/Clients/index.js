@@ -10,6 +10,8 @@ function Clients() {
     setShowEditClientModal,
     setClientToEdit,
     setShowSpinner,
+    showOrdersFromClient,
+    navigate,
   } = React.useContext(Context);
   React.useEffect(() => {
     updateItems("users");
@@ -59,7 +61,14 @@ function Clients() {
             >
               Edit
             </button>
-            <button className="btn btn-info">Orders</button>
+            <button
+              className="btn btn-info"
+              onClick={async () => {
+                navigate("dashboard/orders/" + row.values.id);
+              }}
+            >
+              Orders
+            </button>
             <button
               className="btn btn-danger"
               onClick={async () => {

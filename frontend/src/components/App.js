@@ -7,13 +7,13 @@ import { Routes, Route } from "react-router-dom";
 import React, { useContext } from "react";
 import { Context } from "../Context/AppContext";
 import { Dashboard } from "./Dashboard";
-import { Orders } from "./Orders";
 import { Clients } from "./Clients";
 import { ModalNew } from "./ModalNew";
 import { NewOrder } from "./Forms/NewOrder";
 import { Test } from "./test";
 import { ModalEditClient } from "./ModalEditClient";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { AllOrders } from "./Orders/AllOrders";
 
 const App = () => {
   const {
@@ -65,7 +65,11 @@ const App = () => {
               />
             }
           ></Route>
-          <Route path="/dashboard/orders" element={<Orders></Orders>}></Route>
+          <Route
+            path="/dashboard/orders"
+            element={<AllOrders></AllOrders>}
+          ></Route>
+          <Route path="/dashboard/orders/:clientId"></Route>
           <Route
             path="/dashboard/clients"
             element={<Clients></Clients>}
