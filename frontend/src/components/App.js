@@ -14,6 +14,7 @@ import { Test } from "./test";
 import { ModalEditClient } from "./ModalEditClient";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { AllOrders } from "./Orders/AllOrders";
+import { UserOrders } from "./Orders/UserOrders";
 
 const App = () => {
   const {
@@ -69,7 +70,10 @@ const App = () => {
             path="/dashboard/orders"
             element={<AllOrders></AllOrders>}
           ></Route>
-          <Route path="/dashboard/orders/:clientId"></Route>
+          <Route
+            path="/dashboard/orders/:clientId"
+            element={<UserOrders />}
+          ></Route>
           <Route
             path="/dashboard/clients"
             element={<Clients></Clients>}

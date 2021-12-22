@@ -15,22 +15,18 @@ function Provider({ children }) {
   const [orders, setOrders] = useState([]);
   const [clientToEdit, setClientToEdit] = useState({});
   const [showSpinner, setShowSpinner] = useState(false);
+  const [userOrders, setUserOrders] = useState([]);
 
-  const updateItems = (itemsType) => {
+  const updateItems = (endpoint, setter) => {
     setShowSpinner(true);
-    fetchAll(itemsType).then((res) => {
+    fetchAll(endpoint).then((res) => {
       if (res.status !== 200) {
         setShowNewOrderModal(false);
         setShowSidebar(false);
         logout();
         navigate("/login");
       }
-      if (itemsType === "orders") {
-        setOrders(res.items || []);
-      }
-      if (itemsType === "users") {
-        setClients(res.items || []);
-      }
+      setter(res.items || []);
       setShowSpinner(false);
     });
   };
@@ -328,6 +324,8 @@ function Provider({ children }) {
         showSpinner,
         setShowSpinner,
         editClient,
+        userOrders,
+        setUserOrders,
       }}
     >
       {children}

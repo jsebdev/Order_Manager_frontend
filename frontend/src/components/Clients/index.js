@@ -7,14 +7,14 @@ function Clients() {
     deleteItem,
     updateItems,
     clients,
+    setClients,
     setShowEditClientModal,
     setClientToEdit,
     setShowSpinner,
-    showOrdersFromClient,
     navigate,
   } = React.useContext(Context);
   React.useEffect(() => {
-    updateItems("users");
+    updateItems("users", setClients);
   }, []);
 
   React.useEffect(() => {

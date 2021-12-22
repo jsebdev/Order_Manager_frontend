@@ -7,6 +7,7 @@ const NewOrder = () => {
   const {
     setShowNewOrderModal,
     clients,
+    setClients,
     createOrder,
     updateItems,
     createClient,
@@ -16,7 +17,7 @@ const NewOrder = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    updateItems("users");
+    updateItems("users", setClients);
   }, []);
 
   const orderSubmited = async (event) => {
