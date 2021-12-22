@@ -90,7 +90,7 @@ function Provider({ children }) {
         state: true,
         status: res.status,
         msg: response.msg,
-        client: response.user,
+        client: response.client,
       };
     } catch (error) {
       console.log("There was a tragic error", error);
@@ -168,6 +168,49 @@ function Provider({ children }) {
       return true;
     } catch (error) {
       console.log("There was a tragic error", error);
+    }
+  };
+
+  const editClient = async (event) => {
+    event.preventDefault();
+    const data = {
+      client_id: event.target.id.value,
+      name: event.target.name.value,
+      last_name: event.target.lastname.value,
+      gov_id: event.target.govid.value,
+      email: event.target.email.value,
+      company: event.target.company.value,
+    };
+
+    const opts = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      let res = await fetch("http://localhost:5000/api/v1/updateclient", opts);
+      if (res.status === 401) {
+        navigate("/login");
+      }
+      if (res.status !== 200) {
+        const status = res.status;
+        res = await res.json();
+        return { status: status, res: res };
+      }
+      res = await res.json();
+      return { status: 200, msg: "client Updated" };
+    } catch (error) {
+      console.log("There was a tragic error", error);
+      return {
+        state: false,
+        status: undefined,
+        msg: error,
+        res: undefined,
+        items: [],
+      };
     }
   };
 
@@ -284,6 +327,7 @@ function Provider({ children }) {
         setClientToEdit,
         showSpinner,
         setShowSpinner,
+        editClient,
       }}
     >
       {children}

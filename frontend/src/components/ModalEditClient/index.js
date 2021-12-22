@@ -2,15 +2,24 @@ import React from "react";
 import { Context } from "../../Context/AppContext";
 
 export const ModalEditClient = () => {
-  const { clientToEdit } = React.useContext(Context);
-  const editClient = () => {
-    console.log("editing Client");
-  };
+  const { clientToEdit, editClient, setShowSpinner, updateItems } =
+    React.useContext(Context);
+  const [msg, setMsg] = React.useState(null);
 
   return (
     <React.Fragment>
       <h2 className="form-title">Edit Client</h2>
-      <form className="form-style" onSubmit={(event) => editClient(event)}>
+      <form
+        className="form-style"
+        onSubmit={async (event) => {
+          setMsg(null);
+          setShowSpinner(true);
+          const res = await editClient(event);
+          setMsg(res.msg);
+          updateItems("users");
+          setShowSpinner(false);
+        }}
+      >
         <div>
           <label htmlFor="id">Client Id:</label>
           <input
@@ -54,6 +63,7 @@ export const ModalEditClient = () => {
             defaultValue={clientToEdit.company}
           />
         </div>
+        {msg && <p style={{ color: "green" }}>{msg}</p>}
         <button className="btn btn-primary btn-form" type="submit">
           Update Client
         </button>

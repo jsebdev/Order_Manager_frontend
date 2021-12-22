@@ -30,7 +30,6 @@ def get_token():
 
 
 @api.route("/signup", methods=["POST"])
-@jwt_required()
 def create_user_app():
     """
     Create new user and Get secret token
@@ -45,6 +44,36 @@ def create_user_app():
     access_token = create_access_token(identity=email)
     user.save()
     return jsonify({"access_token": access_token, "user": {"name": user.name, "email": user.email}}), 200
+
+
+@api.route("/updateclient", methods=["PUT"])
+@jwt_required()
+def edit_client():
+    """
+    Edit Client with id client_id
+    """
+    print('empezamos en updateclient')
+    client_id = request.json.get("client_id", None)
+    name = request.json.get("name", None)
+    last_name = request.json.get("last_name", None)
+    gov_id = request.json.get("gov_id", None)
+    email = request.json.get("email", None)
+    company = request.json.get("company", None)
+    # print(client_id, name, last_name, gov_id, email, company, True, False)
+    # if company:
+    #     print('hay company')
+    # else:
+    #     print('no hay company')
+    user = storage.one("User", id=client_id)
+    if not user:
+        return jsonify({"msg": "there is no client with id "+client_id}), 404
+    user.name = name if name is not None else user.name
+    user.last_name = last_name if last_name is not None else user.last_name
+    user.gov_id = gov_id if gov_id is not None else user.gov_id
+    user.email = email if email is not None else user.email
+    user.company = company if company is not None else user.company
+    user.save()
+    return jsonify({"msg": "client updated", "client": user.to_dict()}), 200
 
 
 @api.route("/delete/<string:id>", methods=["DELETE"])
@@ -66,13 +95,12 @@ def create_user():
     gov_id = request.json.get("gov_id", False)
     email = request.json.get("email", False)
     company = request.json.get("company", False)
-    print(name, last_name, gov_id, email, company)
 
     newUser = User(name=name,
                    last_name=last_name, gov_id=gov_id, email=email, company=company)
     newUser.save()
     print(newUser)
-    return jsonify({"msg": "user created", "user": newUser.to_dict()}), 200
+    return jsonify({"msg": "user created", "client": newUser.to_dict()}), 200
 
 
 @api.route("/createorder", methods=["POST"])
