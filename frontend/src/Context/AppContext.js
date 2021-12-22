@@ -27,8 +27,8 @@ function Provider({ children }) {
         navigate("/login");
       }
       setter(res.items || []);
-      setShowSpinner(false);
     });
+    setShowSpinner(false);
   };
 
   const checkMobile = () => {

@@ -15,9 +15,14 @@
   grid-template-columns: 100px auto;
 }
 
-.form-style > div:not(.groupform) {
+.grid-input,
+.group-form > div {
   @include formGrid();
 }
+
+// .form-style > div:not(.groupform, .payments-container) {
+//   @include formGrid();
+// }
 .form-style > div {
   padding-inline: 2rem;
   padding-block: 1.5rem;
@@ -25,10 +30,10 @@
   width: 100%;
 }
 
-.form-style > div > div {
-  @include formGrid();
-  margin: 2px;
-}
+// .form-style > div > div {
+//   @include formGrid();
+//   margin: 2px;
+// }
 
 .form-style input,
 .form-style select {
@@ -47,4 +52,9 @@
 
 p {
   margin-block: 0.5rem;
+}
+
+.payment-button {
+  border: 1px solid #ddd;
+  margin-inline-end: 10px;
 }

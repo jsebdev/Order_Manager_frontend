@@ -36,12 +36,12 @@ INSERT INTO `shippings` VALUES ("s9", "Calle 6A # 28 - 32", "Cali", "Fontanuto",
 INSERT INTO `shippings` VALUES ("s10", "Calle 6A # 28 - 32", "Cali", "Valle", "Narnia", 0, "o10");
 
 
-INSERT INTO `payments` VALUES ("p1", "credit card", "2015-11-01 12:29:36", "foca", 15, true, "o1");
-INSERT INTO `payments` VALUES ("p2", "credit card", "2015-11-01 13:29:36", "gato", 15, false, "o2");
-INSERT INTO `payments` VALUES ("p3", "credit card", "2015-11-01 14:29:36", "cocoa", 15, true, "o3");
-INSERT INTO `payments` VALUES ("p4", "credit card", "2015-11-01 15:29:36", "maria", 15, true, "o4");
-INSERT INTO `payments` VALUES ("p5", "credit card", "2015-11-01 16:29:36", "adios", 15, true, "o5");
-INSERT INTO `payments` VALUES ("p6", "credit card", "2015-11-01 17:29:36", "mundo", 15, true, "o6");
-INSERT INTO `payments` VALUES ("p7", "credit card", "2015-11-01 18:29:36", "cruel", 15, true, "o6");
-INSERT INTO `payments` VALUES ("p8", "credit card", "2015-11-01 19:29:36", "jeje", 15, false, "o6");
+INSERT INTO `payments` VALUES ("p1", "credit card", "2015-11-01 12:29:36", "foca", 15, "o1");
+INSERT INTO `payments` VALUES ("p2", "credit card", "2015-11-01 13:29:36", "gato", 15, "o2");
+INSERT INTO `payments` VALUES ("p3", "credit card", "2015-11-01 14:29:36", "cocoa", 15, "o3");
+INSERT INTO `payments` VALUES ("p4", "credit card", "2015-11-01 15:29:36", "maria", 15, "o4");
+INSERT INTO `payments` VALUES ("p5", "credit card", "2015-11-01 16:29:36", "adios", 15, "o5");
+INSERT INTO `payments` VALUES ("p6", "credit card", "2015-11-01 17:29:36", "mundo", 15, "o6");
+INSERT INTO `payments` VALUES ("p7", "credit card", "2015-11-01 18:29:36", "cruel", 15, "o6");
+INSERT INTO `payments` VALUES ("p8", "credit card", "2015-11-01 19:29:36", "jeje", 15, "o6");
 

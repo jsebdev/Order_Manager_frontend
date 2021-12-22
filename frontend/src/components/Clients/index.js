@@ -10,20 +10,14 @@ function Clients() {
     setClients,
     setShowEditClientModal,
     setClientToEdit,
+    showSpinner,
     setShowSpinner,
     navigate,
   } = React.useContext(Context);
   React.useEffect(() => {
     updateItems("users", setClients);
+    console.log("after udpating clients");
   }, []);
-
-  React.useEffect(() => {
-    if (clients[0]) {
-      setShowSpinner(false);
-    } else {
-      setShowSpinner(true);
-    }
-  }, [clients]);
 
   const data = React.useMemo(() => [...clients], [clients]);
   const columns = React.useMemo(
@@ -73,7 +67,7 @@ function Clients() {
               className="btn btn-danger"
               onClick={async () => {
                 deleteItem(row.values.id).then(() => {
-                  updateItems("users");
+                  updateItems("users", setClients);
                 });
               }}
             >
@@ -87,22 +81,28 @@ function Clients() {
 
   return (
     <>
-      {clients[0] ? (
+      {!showSpinner ? (
         <>
-          <h1 className="h1 text-center mt-5">Clients</h1>
-          <Table
-            columns={columns}
-            data={data}
-            tableHooks={tableHooks}
-            columnOrder={[
-              "id",
-              "name",
-              "last_name",
-              "email",
-              "gov_id",
-              "company",
-            ]}
-          ></Table>
+          <h1 className="h1 text-center mt-5">All Clients</h1>
+          {clients[0] ? (
+            <Table
+              columns={columns}
+              data={data}
+              tableHooks={tableHooks}
+              columnOrder={[
+                "id",
+                "name",
+                "last_name",
+                "email",
+                "gov_id",
+                "company",
+              ]}
+            ></Table>
+          ) : (
+            <div className="container text-center pt-4">
+              No Clients in the system
+            </div>
+          )}
         </>
       ) : (
         <div className="container text-center mt-5 fs-2">

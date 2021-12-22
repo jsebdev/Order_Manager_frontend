@@ -12,6 +12,7 @@ from app.models.app_user import App_User
 from flask_cors import cross_origin
 
 from app.models.order import Order
+from app.models.payment import Payment
 from app.models.user import User
 
 
@@ -122,6 +123,21 @@ def create_order():
         newOrder.save()
         return jsonify({"msg": "order created"}), 200
     return jsonify({"msg": "client id missing"}), 400
+
+
+@api.route("/createpayment", methods=["POST"])
+@jwt_required()
+def create_payment():
+    """Create new order"""
+    payment_id = request.json.get("payment_id", None)
+    _type = request.json.get("type", None)
+    total = request.json.get("tota", False)
+    order_id = request.json.get("order_id", False)
+
+    new_payment = Payment(payment_id=payment_id,
+                          _type=_type, total=total, order_id=order_id)
+    new_payment.save()
+    return jsonify({"msg": "payment created", "payment": new_payment.to_dict()}), 200
 
 
 @api.route("/users/all", methods=["GET"])

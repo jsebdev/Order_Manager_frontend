@@ -77,7 +77,7 @@ function Orders({ title, orders, loaded }) {
             ></Table>
           ) : (
             <div className="container text-center pt-4">
-              No orders in system
+              No orders in the system
             </div>
           )}
         </>

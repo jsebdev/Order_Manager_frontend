@@ -14,7 +14,28 @@ const NewOrder = () => {
     setShowSpinner,
   } = React.useContext(Context);
   const [clientType, setClientType] = React.useState("ExistingClient");
-  const navigate = useNavigate();
+  const [payments, setPayments] = React.useState([]);
+  const updatePaymentType = (type, pIdx) => {
+    const newPayment = [...payments];
+    newPayment[pIdx].type = type;
+    setPayments(newPayment);
+  };
+  const updatePaymentTotal = (total, pIdx) => {
+    const newPayment = [...payments];
+    newPayment[pIdx].total = total;
+    setPayments(newPayment);
+  };
+
+  const addPayment = (event) => {
+    event.preventDefault();
+    setPayments([...payments, { type: "Credit Cart", total: 0 }]);
+  };
+  const removePayment = (event) => {
+    event.preventDefault();
+    const newPayment = [...payments];
+    newPayment.pop();
+    setPayments(newPayment);
+  };
 
   React.useEffect(() => {
     updateItems("users", setClients);
@@ -62,7 +83,7 @@ const NewOrder = () => {
     <React.Fragment>
       <h2 className="form-title">New Order</h2>
       <form className="form-style" onSubmit={(event) => orderSubmited(event)}>
-        <div>
+        <div className="grid-input">
           <label htmlFor="clienttype">Order:</label>
           <select
             name="clienttype"
@@ -73,7 +94,7 @@ const NewOrder = () => {
             <option value="NewClient">New Client</option>
           </select>
         </div>
-        <div className="groupform">
+        <div className="group-form">
           {clientType === "NewClient" ? (
             <>
               <div>
@@ -111,13 +132,66 @@ const NewOrder = () => {
             </div>
           )}
         </div>
-        <div>
+        <div className="grid-input">
           <label htmlFor="subtotal">Subtotal:</label>
           <input type="number" name="subtotal" />
         </div>
-        <div>
+        <div className="grid-input">
           <label htmlFor="taxes">Taxes:</label>
           <input type="number" name="taxes" />
+        </div>
+        <div className="payments-container">
+          <div>
+            <button
+              className="btn btn-ligth payment-button"
+              onClick={(event) => {
+                addPayment(event);
+              }}
+            >
+              Add Payment
+            </button>
+            <button
+              className="btn btn-ligth payment-button"
+              onClick={(event) => {
+                removePayment(event);
+              }}
+            >
+              Remove Payment
+            </button>
+          </div>
+          {payments.map((payment) => (
+            <p>
+              {payment.type} {payment.total}
+            </p>
+          ))}
+          {payments.map((payment, pIdx) => (
+            <div className="group-form">
+              <div>
+                <label htmlFor={pIdx + "paymenttype"}>Payment: </label>
+                <select
+                  name={pIdx + "paymenttype"}
+                  id="paymenttype"
+                  onClick={(event) => {
+                    updatePaymentType(event.target.value, pIdx);
+                  }}
+                >
+                  <option value="Credit Cart">Credit cart</option>
+                  <option value="Cash">Cash</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor={pIdx + "paymenttotal"}>Total: </label>
+                <input
+                  value={payment.total}
+                  type="number"
+                  name={pIdx + "paymenttotal"}
+                  onChange={(event) => {
+                    updatePaymentTotal(event.target.value, pIdx);
+                  }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
         <button className="btn btn-primary btn-form" type="submit">
           Create Order

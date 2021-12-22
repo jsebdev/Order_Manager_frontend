@@ -1,9 +1,10 @@
 """
 Payment class file
 """
-from sqlalchemy import Column, String, DateTime, Float, Boolean, Integer, ForeignKey
+from sqlalchemy import Column, String, DateTime, Float, Boolean, Integer, ForeignKey, Sequence
 from app.models.basemodel import BaseModel, Base
 from sqlalchemy.orm import relationship
+from datetime import datetime
 
 
 class Payment(BaseModel, Base):
@@ -14,9 +15,12 @@ class Payment(BaseModel, Base):
 
     _type = Column(String(50), nullable=True)
     date = Column(DateTime, nullable=True)
-    txn_id = Column(String(20), nullable=False)
     total = Column(Float, nullable=True)
-    delivered = Column(Boolean, nullable=True)
     order_id = Column(String(60), ForeignKey('orders.id'))
+    date = Column(DateTime, nullable=False)
 
     order = relationship("Order", back_populates="payments")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.date = datetime.now()
