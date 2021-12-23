@@ -2,8 +2,14 @@ import React from "react";
 import { Context } from "../../../Context/AppContext";
 
 export const ModalEditOrder = () => {
-  const { orderToEdit, editItem, setShowSpinner, updateItems, setOrders } =
-    React.useContext(Context);
+  const {
+    ordersEndpointToFetch,
+    orderToEdit,
+    editItem,
+    setShowSpinner,
+    updateItems,
+    setOrders,
+  } = React.useContext(Context);
   const [msg, setMsg] = React.useState(null);
 
   return (
@@ -25,7 +31,7 @@ export const ModalEditOrder = () => {
             "updateorder"
           );
           setMsg(res.msg);
-          updateItems("orders", setOrders);
+          updateItems(ordersEndpointToFetch, setOrders);
           setShowSpinner(false);
         }}
       >
