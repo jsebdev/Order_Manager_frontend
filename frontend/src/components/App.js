@@ -11,10 +11,11 @@ import { Clients } from "./Clients";
 import { ModalNew } from "./ModalNew";
 import { NewOrder } from "./Forms/NewOrder";
 import { Test } from "./test";
-import { ModalEditClient } from "./ModalEditClient";
+import { ModalEditClient } from "./Forms/ModalEditClient";
+import { ModalEditOrder } from "./Forms/ModalEditOrder";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { AllOrders } from "./Orders/AllOrders";
-import { UserOrders } from "./Orders/UserOrders";
+import { ClientOrders } from "./Orders/ClientOrders";
 
 const App = () => {
   const {
@@ -31,6 +32,8 @@ const App = () => {
     showEditClientModal,
     setShowEditClientModal,
     showSpinner,
+    showEditOrderModal,
+    setShowEditOrderModal,
   } = useContext(Context);
 
   React.useEffect(() => {
@@ -72,7 +75,7 @@ const App = () => {
           ></Route>
           <Route
             path="/dashboard/orders/:clientId"
-            element={<UserOrders />}
+            element={<ClientOrders />}
           ></Route>
           <Route
             path="/dashboard/clients"
@@ -99,6 +102,14 @@ const App = () => {
           elementId={"edit-client-modal"}
         >
           <ModalEditClient></ModalEditClient>
+        </ModalNew>
+      )}
+      {showEditOrderModal && (
+        <ModalNew
+          setShowModal={setShowEditOrderModal}
+          elementId={"edit-order-modal"}
+        >
+          <ModalEditOrder></ModalEditOrder>
         </ModalNew>
       )}
       {showSpinner && <LoadingSpinner></LoadingSpinner>}

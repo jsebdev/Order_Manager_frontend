@@ -113,11 +113,11 @@ def create_order():
     subtotal = request.json.get("subtotal", None)
     taxes = request.json.get("taxes", None)
     paid = request.json.get("paid", False)
-    sent = request.json.get("sent", False)
 
     newOrder = Order(user_id=client_id, subtotal=subtotal,
-                     taxes=taxes, paid=paid, sent=sent)
+                     taxes=taxes, paid=paid)
     order_dict = newOrder.to_dict()
+
     if (client_id):
         newOrder.save()
         return jsonify({"msg": "order created", "order": order_dict}), 200
@@ -276,12 +276,10 @@ def order_info(order):
         if last_payment_date is None or payment.date > last_payment_date:
             last_payment_date = payment.date
 
-    if not order.paid:
-        order_status = "Not paid"
-    elif order.sent:
-        order_status = "Paid but not sent"
+    if order.paid:
+        order_status = "Paid"
     else:
-        order_status = "Sent and received"
+        order_status = "Not paid"
 
     # print('the order shipping info is ', order.shipping)
     shipping_info = order.shipping.to_dict() if order.shipping else None
@@ -293,19 +291,19 @@ def order_info(order):
     if user_information:
         user_information.pop('orders', None)
 
-    customer_name = ''
+    client_name = ''
     gov_id = ''
-    customer_id = ''
+    client_id = ''
     if order.user:
-        customer_name = (order.user.name or "") + ' ' + \
+        client_name = (order.user.name or "") + ' ' + \
             (order.user.last_name or "")
         gov_id = order.user.gov_id or ''
-        customer_id = order.user.id or ''
+        client_id = order.user.id or ''
 
     return {
         'order_id': order.id,
-        'customer_id': customer_id,
-        'customer_name': customer_name,
+        'client_id': client_id,
+        'client_name': client_name,
         'gov_id': gov_id,
         'order_date': order.date,
         'last_payment_date': last_payment_date,
@@ -314,5 +312,6 @@ def order_info(order):
         'subtotal': (order.subtotal or 0),
         'taxes': (order.taxes or 0),
         'total': (order.subtotal or 0) + (order.taxes or 0),
-        'user_information': user_information
+        'user_information': user_information,
+        'paid': order.paid,
     }

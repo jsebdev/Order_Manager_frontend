@@ -1,8 +1,8 @@
 import React from "react";
-import { Context } from "../../Context/AppContext";
+import { Context } from "../../../Context/AppContext";
 
 export const ModalEditClient = () => {
-  const { clientToEdit, editClient, setShowSpinner, updateItems } =
+  const { clientToEdit, editItem, setShowSpinner, updateItems, setClients } =
     React.useContext(Context);
   const [msg, setMsg] = React.useState(null);
 
@@ -12,11 +12,22 @@ export const ModalEditClient = () => {
       <form
         className="form-style"
         onSubmit={async (event) => {
+          event.preventDefault();
           setMsg(null);
           setShowSpinner(true);
-          const res = await editClient(event);
+          const res = await editItem(
+            {
+              client_id: event.target.id.value,
+              name: event.target.name.value,
+              last_name: event.target.lastname.value,
+              gov_id: event.target.govid.value,
+              email: event.target.email.value,
+              company: event.target.company.value,
+            },
+            "updateclient"
+          );
           setMsg(res.msg);
-          updateItems("users");
+          updateItems("users", setClients);
           setShowSpinner(false);
         }}
       >

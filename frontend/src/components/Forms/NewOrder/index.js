@@ -67,14 +67,15 @@ const NewOrder = () => {
     event.preventDefault();
     setShowSpinner(true);
     const form = event.target;
-    let subtotal = form.subtotal.value;
-    let taxes = form.taxes.value;
-    taxes = taxes === "" ? 0 : taxes;
-    subtotal = subtotal === "" ? 0 : subtotal;
-    let clientId;
+    const paid =
+      prices.subtotal + prices.taxes + prices.shipping - prices.payment >= 0;
+    console.log("paid is ", paid);
+    const subtotal = form.subtotal.value === "" ? 0 : form.subtotal.value;
+    const taxes = form.taxes.value === "" ? 0 : form.taxes.value;
+    let client_id;
     let client;
     if (form.clienttype.value === "ExistingClient") {
-      clientId = form.client.value;
+      client_id = form.client.value;
       client = false;
     } else {
       const name = form.name.value;
@@ -83,13 +84,13 @@ const NewOrder = () => {
       const email = form.email.value;
       const company = form.company.value;
       client = { name, lastname, govid, email, company };
-      clientId = false;
+      client_id = null;
     }
-    const res = await createOrder({
-      clientId,
+    const res = await createOrder(client, {
       subtotal,
       taxes,
-      client,
+      client_id,
+      paid,
     });
     let orderId;
     if (res.state === true) {

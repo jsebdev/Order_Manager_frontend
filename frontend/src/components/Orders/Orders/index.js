@@ -2,9 +2,16 @@ import React from "react";
 import { Table } from "../../Table";
 import { Context } from "../../../Context/AppContext";
 
-function Orders({ title, orders, loaded }) {
-  const { deleteItem, showSpinner, updateItems, setOrders } =
-    React.useContext(Context);
+function Orders({ title }) {
+  const {
+    orders,
+    deleteItem,
+    showSpinner,
+    updateItems,
+    setOrders,
+    setShowEditOrderModal,
+    setOrderToEdit,
+  } = React.useContext(Context);
 
   const data = React.useMemo(() => [...orders], [orders]);
   const columns = React.useMemo(
@@ -25,33 +32,35 @@ function Orders({ title, orders, loaded }) {
     hooks.visibleColumns.push((columns) => [
       ...columns,
       {
-        id: "Edit",
-        Header: "Edit",
+        id: "Options",
+        Header: "Options",
+        width: 200,
         Cell: ({ row }) => (
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              alert("Editing: " + row.values.order_id);
-            }}
-          >
-            Edit
-          </button>
-        ),
-      },
-      {
-        id: "Delete",
-        Header: "Delete",
-        Cell: ({ row }) => (
-          <button
-            className="btn btn-danger"
-            onClick={async () => {
-              deleteItem(row.values.order_id).then(() => {
-                updateItems("orders", setOrders);
-              });
-            }}
-          >
-            Delete
-          </button>
+          <div className="button-cell">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                setOrderToEdit(
+                  orders.filter(
+                    (order) => order.order_id === row.values.order_id
+                  )[0]
+                );
+                setShowEditOrderModal(true);
+              }}
+            >
+              Edit
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={async () => {
+                deleteItem(row.values.order_id).then(() => {
+                  updateItems("orders", setOrders);
+                });
+              }}
+            >
+              Delete
+            </button>
+          </div>
         ),
       },
     ]);

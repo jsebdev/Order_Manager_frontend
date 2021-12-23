@@ -14,8 +14,9 @@ function Provider({ children }) {
   const [clients, setClients] = useState([]);
   const [orders, setOrders] = useState([]);
   const [clientToEdit, setClientToEdit] = useState({});
+  const [orderToEdit, setOrderToEdit] = useState({});
   const [showSpinner, setShowSpinner] = useState(false);
-  const [userOrders, setUserOrders] = useState([]);
+  const [showEditOrderModal, setShowEditOrderModal] = useState(false);
 
   const updateItems = (endpoint, setter) => {
     setShowSpinner(true);
@@ -94,36 +95,22 @@ function Provider({ children }) {
     }
   };
 
-  const createOrder = async ({
-    clientId,
-    client,
-    subtotal,
-    taxes,
-    paid,
-    sent,
-  }) => {
-    if (!clientId) {
-      const res = await createClient(client);
+  const createOrder = async (clientToCreate, order) => {
+    if (clientToCreate) {
+      const res = await createClient(clientToCreate);
       if (res.state) {
-        clientId = res.client.id;
+        order.client_id = res.client.id;
       } else {
-        clientId = undefined;
+        order.client_id = undefined;
       }
     }
-    const data = {
-      client_id: clientId,
-      subtotal: subtotal,
-      taxes: taxes,
-      paid: paid,
-      sent: sent,
-    };
     const opts = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(order),
     };
     try {
       let res = await fetch("http://localhost:5000/api/v1/createorder", opts);
@@ -229,27 +216,17 @@ function Provider({ children }) {
     }
   };
 
-  const editClient = async (event) => {
-    event.preventDefault();
-    const data = {
-      client_id: event.target.id.value,
-      name: event.target.name.value,
-      last_name: event.target.lastname.value,
-      gov_id: event.target.govid.value,
-      email: event.target.email.value,
-      company: event.target.company.value,
-    };
-
+  const editItem = async (item, endpoint) => {
     const opts = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(item),
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/updateclient", opts);
+      let res = await fetch("http://localhost:5000/api/v1/" + endpoint, opts);
       if (res.status === 401) {
         navigate("/login");
       }
@@ -259,7 +236,7 @@ function Provider({ children }) {
         return { status: status, res: res };
       }
       res = await res.json();
-      return { status: 200, msg: "client Updated" };
+      return { status: 200, msg: res.msg };
     } catch (error) {
       console.log("There was a tragic error", error);
       return {
@@ -385,11 +362,13 @@ function Provider({ children }) {
         setClientToEdit,
         showSpinner,
         setShowSpinner,
-        editClient,
-        userOrders,
-        setUserOrders,
+        editItem,
         createPayment,
         createShipping,
+        showEditOrderModal,
+        setShowEditOrderModal,
+        orderToEdit,
+        setOrderToEdit,
       }}
     >
       {children}
