@@ -11,6 +11,7 @@ function Orders({ title }) {
     setOrders,
     setShowEditOrderModal,
     setOrderToEdit,
+    ordersToFetch,
   } = React.useContext(Context);
 
   const data = React.useMemo(() => [...orders], [orders]);
@@ -54,7 +55,7 @@ function Orders({ title }) {
               className="btn btn-danger"
               onClick={async () => {
                 deleteItem(row.values.order_id).then(() => {
-                  updateItems("orders", setOrders);
+                  updateItems(ordersToFetch.endpoint, setOrders);
                 });
               }}
             >

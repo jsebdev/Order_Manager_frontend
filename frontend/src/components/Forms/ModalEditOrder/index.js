@@ -3,7 +3,7 @@ import { Context } from "../../../Context/AppContext";
 
 export const ModalEditOrder = () => {
   const {
-    ordersEndpointToFetch,
+    ordersToFetch,
     orderToEdit,
     editItem,
     setShowSpinner,
@@ -31,7 +31,7 @@ export const ModalEditOrder = () => {
             "updateorder"
           );
           setMsg(res.msg);
-          updateItems(ordersEndpointToFetch, setOrders);
+          updateItems(ordersToFetch.endpoint, setOrders);
           setShowSpinner(false);
         }}
       >

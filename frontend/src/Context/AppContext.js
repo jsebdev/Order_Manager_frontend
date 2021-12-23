@@ -17,7 +17,7 @@ function Provider({ children }) {
   const [orderToEdit, setOrderToEdit] = useState({});
   const [showSpinner, setShowSpinner] = useState(false);
   const [showEditOrderModal, setShowEditOrderModal] = useState(false);
-  const [ordersEndpointToFetch, setOrdersEndpointToFetch] = useState("");
+  const [ordersToFetch, setOrdersToFetch] = useState({});
 
   const updateItems = (endpoint, setter) => {
     setShowSpinner(true);
@@ -381,8 +381,8 @@ function Provider({ children }) {
         setShowEditOrderModal,
         orderToEdit,
         setOrderToEdit,
-        ordersEndpointToFetch,
-        setOrdersEndpointToFetch,
+        ordersToFetch,
+        setOrdersToFetch,
       }}
     >
       {children}

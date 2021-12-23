@@ -12,6 +12,7 @@ function Clients() {
     setClientToEdit,
     showSpinner,
     navigate,
+    setOrdersToFetch,
   } = React.useContext(Context);
   React.useEffect(() => {
     updateItems("users", setClients);
@@ -56,6 +57,9 @@ function Clients() {
             <button
               className="btn btn-info"
               onClick={async () => {
+                setOrdersToFetch({
+                  client_name: row.values.name,
+                });
                 navigate("dashboard/orders/" + row.values.id);
               }}
             >
