@@ -2,7 +2,7 @@ import React from "react";
 import { Context } from "../../../Context/AppContext";
 
 export const ModalEditOrder = () => {
-  const { orderToEdit, editOrder, setShowSpinner, updateItems, setOrders } =
+  const { orderToEdit, editItem, setShowSpinner, updateItems, setOrders } =
     React.useContext(Context);
   const [msg, setMsg] = React.useState(null);
 
@@ -15,16 +15,17 @@ export const ModalEditOrder = () => {
           event.preventDefault();
           setMsg(null);
           setShowSpinner(true);
-          const res = await editOrder({
-            order_id: event.target.id.value,
-            client_id: event.target.clientid.value,
-            subtotal: event.target.subtotal.value,
-            taxes: event.target.taxes.value,
-            paid: event.target.paid.checked,
-            sent: event.target.sent.checked,
-          });
+          const res = await editItem(
+            {
+              order_id: event.target.order_id.value,
+              subtotal: event.target.subtotal.value,
+              taxes: event.target.taxes.value,
+              paid: event.target.paid.checked,
+            },
+            "updateorder"
+          );
           setMsg(res.msg);
-          updateItems("order", setClients);
+          updateItems("orders", setOrders);
           setShowSpinner(false);
         }}
       >
@@ -61,7 +62,7 @@ export const ModalEditOrder = () => {
         </div>
         {msg && <p style={{ color: "green" }}>{msg}</p>}
         <button className="btn btn-primary btn-form" type="submit">
-          Update Client
+          Update Order
         </button>
       </form>
     </React.Fragment>

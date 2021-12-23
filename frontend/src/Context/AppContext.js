@@ -181,6 +181,17 @@ function Provider({ children }) {
     }
   };
 
+  const checkFetch = async (url, opts) => {
+    const res = await fetch(url, opts);
+    if (res.status === 401 || res.status === 422) {
+      setShowNewOrderModal(false);
+      setShowEditClientModal(false);
+      setShowEditOrderModal(false);
+      navigate("/login");
+    }
+    return res;
+  };
+
   const login = async (email, password) => {
     const data = {
       email: email,
@@ -226,10 +237,10 @@ function Provider({ children }) {
       body: JSON.stringify(item),
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/" + endpoint, opts);
-      if (res.status === 401) {
-        navigate("/login");
-      }
+      let res = await checkFetch(
+        "http://localhost:5000/api/v1/" + endpoint,
+        opts
+      );
       if (res.status !== 200) {
         const status = res.status;
         res = await res.json();

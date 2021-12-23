@@ -82,6 +82,10 @@ def edit_order():
     subtotal = request.json.get("subtotal", None)
     taxes = request.json.get("taxes", None)
     paid = request.json.get("paid", None)
+
+    if not order_id:
+        return jsonify({"msg": "missing order_id"}), 400
+
     order = storage.one("Order", id=order_id)
     if not order:
         return jsonify({"msg": "there is no order with id "+order_id}), 404
