@@ -20,12 +20,21 @@
   @include formGrid();
 }
 
+.grid-input input,
+.group-form input {
+  margin-block: auto;
+}
+
+.group-form {
+  padding: 10px;
+  // border: 1px solid #aaa;
+}
+
 // .form-style > div:not(.groupform, .payments-container) {
 //   @include formGrid();
 // }
 .form-style > div {
-  padding-inline: 2rem;
-  padding-block: 1.5rem;
+  padding: 1rem;
   border-bottom: 1px solid #0005;
   width: 100%;
 }

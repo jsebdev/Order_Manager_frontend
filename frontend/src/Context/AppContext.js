@@ -103,7 +103,12 @@ function Provider({ children }) {
     sent,
   }) => {
     if (!clientId) {
-      clientId = await createClient({ client });
+      const res = await createClient(client);
+      if (res.state) {
+        clientId = res.client.id;
+      } else {
+        clientId = undefined;
+      }
     }
     const data = {
       client_id: clientId,
@@ -122,6 +127,63 @@ function Provider({ children }) {
     };
     try {
       let res = await fetch("http://localhost:5000/api/v1/createorder", opts);
+      if (res.status !== 200) {
+        res = await res.json();
+        return {
+          state: false,
+          status: res.status,
+          msg: res.msg,
+          order: null,
+        };
+      }
+      res = await res.json();
+      return {
+        state: true,
+        status: res.status,
+        msg: res.msg,
+        order: res.order,
+      };
+    } catch (error) {
+      console.log("There was a tragic error", error);
+      return { state: false, status: undefined, msg: error };
+    }
+  };
+
+  const createPayment = async (payment) => {
+    const opts = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(payment),
+    };
+    try {
+      let res = await fetch("http://localhost:5000/api/v1/createpayment", opts);
+      if (res.status !== 200) {
+        return { state: false, status: res.status, msg: res.msg };
+      }
+      return { state: true, status: res.status, msg: res.msg };
+    } catch (error) {
+      console.log("There was a tragic error", error);
+      return { state: false, status: undefined, msg: error };
+    }
+  };
+
+  const createShipping = async (shipping) => {
+    const opts = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(shipping),
+    };
+    try {
+      let res = await fetch(
+        "http://localhost:5000/api/v1/createshipping",
+        opts
+      );
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }
@@ -326,6 +388,8 @@ function Provider({ children }) {
         editClient,
         userOrders,
         setUserOrders,
+        createPayment,
+        createShipping,
       }}
     >
       {children}

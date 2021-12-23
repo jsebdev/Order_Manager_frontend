@@ -16,7 +16,8 @@ class Shipping(BaseModel, Base):
     city = Column(String(50), nullable=True)
     state = Column(String(50), nullable=True)
     country = Column(String(50), nullable=True)
-    cost = Column(Float, nullable=True)
+    cost = Column(Float, nullable=True, default=0)
+    delivered = Column(Boolean, nullable=False, default=False)
     order_id = Column(String(60), ForeignKey('orders.id'), nullable=False)
 
     order = relationship("Order", back_populates="shipping")

@@ -103,10 +103,11 @@ dist
 # TernJS port file
 .tern-port
 
-
 #Other files or directories to ignore
 otherSolutions
 tests.py
 **/__pycache__/**
 frontend/static/.webassets-cache/**
 app/static/.webassets-cache/**
+
+test.py

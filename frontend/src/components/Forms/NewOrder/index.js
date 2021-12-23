@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Context } from "../../../Context/AppContext";
 import "../inside_forms.scss";
 
@@ -10,11 +9,34 @@ const NewOrder = () => {
     setClients,
     createOrder,
     updateItems,
-    createClient,
     setShowSpinner,
+    createPayment,
+    createShipping,
   } = React.useContext(Context);
   const [clientType, setClientType] = React.useState("ExistingClient");
   const [payments, setPayments] = React.useState([]);
+  const [shipping, setShipping] = React.useState(false);
+  const [prices, setPrices] = React.useState({
+    subtotal: 0,
+    taxes: 0,
+    shipping: 0,
+    payment: 0,
+  });
+
+  React.useEffect(() => {
+    const newPrices = { ...prices };
+    newPrices.payment = payments.reduce(
+      (total, payment) => total + payment.total,
+      0
+    );
+    setPrices(newPrices);
+  }, [payments]);
+
+  const updatePrices = (value, price) => {
+    const newPrices = { ...prices };
+    newPrices[price] = isNaN(value) ? 0 : value;
+    setPrices(newPrices);
+  };
   const updatePaymentType = (type, pIdx) => {
     const newPayment = [...payments];
     newPayment[pIdx].type = type;
@@ -22,7 +44,7 @@ const NewOrder = () => {
   };
   const updatePaymentTotal = (total, pIdx) => {
     const newPayment = [...payments];
-    newPayment[pIdx].total = total;
+    newPayment[pIdx].total = isNaN(total) ? 0 : total;
     setPayments(newPayment);
   };
 
@@ -50,32 +72,50 @@ const NewOrder = () => {
     taxes = taxes === "" ? 0 : taxes;
     subtotal = subtotal === "" ? 0 : subtotal;
     let clientId;
+    let client;
     if (form.clienttype.value === "ExistingClient") {
       clientId = form.client.value;
+      client = false;
     } else {
       const name = form.name.value;
       const lastname = form.lastname.value;
       const govid = form.govid.value;
       const email = form.email.value;
       const company = form.company.value;
-      const res = await createClient({ name, lastname, govid, email, company });
-      if (res.state) {
-        clientId = res.client.id;
-      } else {
-        clientId = undefined;
-      }
+      client = { name, lastname, govid, email, company };
+      clientId = false;
     }
     const res = await createOrder({
       clientId,
       subtotal,
       taxes,
+      client,
     });
+    let orderId;
     if (res.state === true) {
-      setShowNewOrderModal(false);
-      alert("order created");
+      orderId = res.order.id;
     } else {
       alert(res.msg);
     }
+    payments.forEach((payment) => {
+      createPayment({
+        type: payment.type,
+        total: payment.total,
+        order_id: orderId,
+      });
+    });
+    if (shipping) {
+      createShipping({
+        order_id: orderId,
+        address: form.address.value,
+        city: form.city.value,
+        state: form.state.value,
+        country: form.country.value,
+        cost: form.cost.value === "" ? 0 : form.cost.value,
+        delivered: form.delivered.checked,
+      });
+    }
+    setShowNewOrderModal(false);
     setShowSpinner(false);
   };
 
@@ -121,7 +161,7 @@ const NewOrder = () => {
           ) : (
             <div>
               <label htmlFor="client">Client</label>
-              <select name="client" id="client">
+              <select name="client" id="client" required>
                 {clients.length > 0 &&
                   clients.map((client) => (
                     <option key={client.id} value={client.id}>
@@ -133,12 +173,24 @@ const NewOrder = () => {
           )}
         </div>
         <div className="grid-input">
-          <label htmlFor="subtotal">Subtotal:</label>
-          <input type="number" name="subtotal" />
+          <label htmlFor="subtotal">Subtotal: $</label>
+          <input
+            type="number"
+            name="subtotal"
+            onChange={(event) =>
+              updatePrices(parseInt(event.target.value), "subtotal")
+            }
+          />
         </div>
         <div className="grid-input">
-          <label htmlFor="taxes">Taxes:</label>
-          <input type="number" name="taxes" />
+          <label htmlFor="taxes">Taxes: $</label>
+          <input
+            type="number"
+            name="taxes"
+            onChange={(event) =>
+              updatePrices(parseInt(event.target.value), "taxes")
+            }
+          />
         </div>
         <div className="payments-container">
           <div>
@@ -159,15 +211,12 @@ const NewOrder = () => {
               Remove Payment
             </button>
           </div>
-          {payments.map((payment) => (
-            <p>
-              {payment.type} {payment.total}
-            </p>
-          ))}
           {payments.map((payment, pIdx) => (
-            <div className="group-form">
+            <div key={"payment" + pIdx} className="group-form">
               <div>
-                <label htmlFor={pIdx + "paymenttype"}>Payment: </label>
+                <label htmlFor={pIdx + "paymenttype"}>
+                  Payment {pIdx + 1}:{" "}
+                </label>
                 <select
                   name={pIdx + "paymenttype"}
                   id="paymenttype"
@@ -182,17 +231,76 @@ const NewOrder = () => {
               <div>
                 <label htmlFor={pIdx + "paymenttotal"}>Total: </label>
                 <input
-                  value={payment.total}
                   type="number"
                   name={pIdx + "paymenttotal"}
                   onChange={(event) => {
-                    updatePaymentTotal(event.target.value, pIdx);
+                    updatePaymentTotal(parseInt(event.target.value), pIdx);
                   }}
                 />
               </div>
             </div>
           ))}
         </div>
+        <div className="grid-input">
+          <label htmlFor="enableshipping">Ship ?</label>
+          <input
+            className="w-auto"
+            type="checkbox"
+            name="enableshipping"
+            onChange={(event) => {
+              setShipping(event.target.checked);
+            }}
+          />
+        </div>
+        {shipping && (
+          <div className="group-form">
+            <div>
+              <label htmlFor="address">Address:</label>
+              <input type="text" name="address" />
+            </div>
+            <div>
+              <label htmlFor="city">City:</label>
+              <input type="text" name="city" />
+            </div>
+            <div>
+              <label htmlFor="State">State:</label>
+              <input type="text" name="state" />
+            </div>
+            <div>
+              <label htmlFor="country">Country:</label>
+              <input type="text" name="country" />
+            </div>
+            <div>
+              <label htmlFor="cost">Cost: $</label>
+              <input
+                type="number"
+                name="cost"
+                onChange={(event) =>
+                  updatePrices(parseInt(event.target.value), "shipping")
+                }
+              />
+            </div>
+            <div>
+              <label htmlFor="delivered">Deliver:</label>
+              {prices.subtotal +
+                prices.taxes +
+                prices.shipping -
+                prices.payment >
+              0 ? (
+                <input
+                  className="w-auto"
+                  type="checkbox"
+                  name="delivered"
+                  checked={false}
+                  readOnly
+                  disabled
+                />
+              ) : (
+                <input className="w-auto" type="checkbox" name="delivered" />
+              )}
+            </div>
+          </div>
+        )}
         <button className="btn btn-primary btn-form" type="submit">
           Create Order
         </button>

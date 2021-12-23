@@ -3,7 +3,8 @@ import { Table } from "../../Table";
 import { Context } from "../../../Context/AppContext";
 
 function Orders({ title, orders, loaded }) {
-  const { deleteItem, showSpinner, updateItems } = React.useContext(Context);
+  const { deleteItem, showSpinner, updateItems, setOrders } =
+    React.useContext(Context);
 
   const data = React.useMemo(() => [...orders], [orders]);
   const columns = React.useMemo(
@@ -45,7 +46,7 @@ function Orders({ title, orders, loaded }) {
             className="btn btn-danger"
             onClick={async () => {
               deleteItem(row.values.order_id).then(() => {
-                updateItems("orders");
+                updateItems("orders", setOrders);
               });
             }}
           >

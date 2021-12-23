@@ -13,6 +13,7 @@ from flask_cors import cross_origin
 
 from app.models.order import Order
 from app.models.payment import Payment
+from app.models.shipping import Shipping
 from app.models.user import User
 
 
@@ -116,28 +117,42 @@ def create_order():
 
     newOrder = Order(user_id=client_id, subtotal=subtotal,
                      taxes=taxes, paid=paid, sent=sent)
-    print("client id is ", client_id)
-    print("taxes are", taxes)
-    print("typeof taxes are", type(taxes))
+    order_dict = newOrder.to_dict()
     if (client_id):
         newOrder.save()
-        return jsonify({"msg": "order created"}), 200
+        return jsonify({"msg": "order created", "order": order_dict}), 200
     return jsonify({"msg": "client id missing"}), 400
 
 
 @api.route("/createpayment", methods=["POST"])
 @jwt_required()
 def create_payment():
-    """Create new order"""
-    payment_id = request.json.get("payment_id", None)
+    """Create new Payment"""
     _type = request.json.get("type", None)
-    total = request.json.get("tota", False)
+    total = request.json.get("total", False)
     order_id = request.json.get("order_id", False)
 
-    new_payment = Payment(payment_id=payment_id,
-                          _type=_type, total=total, order_id=order_id)
+    new_payment = Payment(_type=_type, total=total, order_id=order_id)
     new_payment.save()
-    return jsonify({"msg": "payment created", "payment": new_payment.to_dict()}), 200
+    return jsonify({"msg": "payment created"}), 200
+
+
+@api.route("/createshipping", methods=["POST"])
+@jwt_required()
+def create_shipping():
+    """Create new Shipping"""
+    address = request.json.get("address", "")
+    city = request.json.get("city", "")
+    state = request.json.get("state", "")
+    country = request.json.get("country", "")
+    cost = request.json.get("cost", 0)
+    delivered = request.json.get("delivered", False)
+    order_id = request.json.get("order_id", False)
+
+    new_shipping = Shipping(address=address, city=city, state=state,
+                            country=country, cost=cost, delivered=delivered, order_id=order_id)
+    new_shipping.save()
+    return jsonify({"msg": "shipping created"}), 200
 
 
 @api.route("/users/all", methods=["GET"])

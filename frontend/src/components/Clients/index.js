@@ -11,12 +11,10 @@ function Clients() {
     setShowEditClientModal,
     setClientToEdit,
     showSpinner,
-    setShowSpinner,
     navigate,
   } = React.useContext(Context);
   React.useEffect(() => {
     updateItems("users", setClients);
-    console.log("after udpating clients");
   }, []);
 
   const data = React.useMemo(() => [...clients], [clients]);
