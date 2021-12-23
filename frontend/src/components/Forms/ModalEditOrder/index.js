@@ -28,7 +28,7 @@ export const ModalEditOrder = () => {
           setShowSpinner(false);
         }}
       >
-        <div>
+        <div className="grid-input">
           <label htmlFor="order_id">order Id:</label>
           <input
             className="client-id"
@@ -38,8 +38,8 @@ export const ModalEditOrder = () => {
             readOnly
           />
         </div>
-        <div>
-          <label htmlFor="subtotal">Subtotal:</label>
+        <div className="grid-input">
+          <label htmlFor="subtotal">Subtotal: $</label>
           <input
             defaultValue={orderToEdit.subtotal}
             type="number"
@@ -47,11 +47,11 @@ export const ModalEditOrder = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="taxes">Taxes:</label>
+        <div className="grid-input">
+          <label htmlFor="taxes">Taxes: $</label>
           <input type="number" name="taxes" defaultValue={orderToEdit.taxes} />
         </div>
-        <div>
+        <div className="grid-input">
           <label htmlFor="paid">Paid:</label>
           {orderToEdit.paid ? (
             <input type="checkbox" name="paid" defaultChecked />

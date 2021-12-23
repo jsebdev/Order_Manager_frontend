@@ -31,7 +31,7 @@ export const ModalEditClient = () => {
           setShowSpinner(false);
         }}
       >
-        <div>
+        <div className="grid-input">
           <label htmlFor="id">Client Id:</label>
           <input
             className="client-id"
@@ -41,7 +41,7 @@ export const ModalEditClient = () => {
             readOnly
           />
         </div>
-        <div>
+        <div className="grid-input">
           <label htmlFor="name">Name:</label>
           <input
             defaultValue={clientToEdit.name}
@@ -50,7 +50,7 @@ export const ModalEditClient = () => {
             required
           />
         </div>
-        <div>
+        <div className="grid-input">
           <label htmlFor="lastname">Last Name:</label>
           <input
             type="text"
@@ -58,15 +58,15 @@ export const ModalEditClient = () => {
             defaultValue={clientToEdit.lastName}
           />
         </div>
-        <div>
+        <div className="grid-input">
           <label htmlFor="govid">Gov Id:</label>
           <input type="text" name="govid" defaultValue={clientToEdit.govId} />
         </div>
-        <div>
+        <div className="grid-input">
           <label htmlFor="email">Email</label>
           <input type="text" name="email" defaultValue={clientToEdit.email} />
         </div>
-        <div>
+        <div className="grid-input">
           <label htmlFor="company">Company</label>
           <input
             type="text"

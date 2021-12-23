@@ -69,7 +69,6 @@ const NewOrder = () => {
     const form = event.target;
     const paid =
       prices.subtotal + prices.taxes + prices.shipping - prices.payment >= 0;
-    console.log("paid is ", paid);
     const subtotal = form.subtotal.value === "" ? 0 : form.subtotal.value;
     const taxes = form.taxes.value === "" ? 0 : form.taxes.value;
     let client_id;

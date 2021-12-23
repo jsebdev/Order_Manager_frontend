@@ -54,18 +54,12 @@ def edit_client():
     """
     Edit Client with id client_id
     """
-    print('empezamos en updateclient')
     client_id = request.json.get("client_id", None)
     name = request.json.get("name", None)
     last_name = request.json.get("last_name", None)
     gov_id = request.json.get("gov_id", None)
     email = request.json.get("email", None)
     company = request.json.get("company", None)
-    # print(client_id, name, last_name, gov_id, email, company, True, False)
-    # if company:
-    #     print('hay company')
-    # else:
-    #     print('no hay company')
     user = storage.one("User", id=client_id)
     if not user:
         return jsonify({"msg": "there is no client with id "+client_id}), 404
@@ -76,6 +70,26 @@ def edit_client():
     user.company = company if company is not None else user.company
     user.save()
     return jsonify({"msg": "client updated", "client": user.to_dict()}), 200
+
+
+@api.route("/updateorder", methods=["PUT"])
+@jwt_required()
+def edit_order():
+    """
+    Edit Order with id order_id
+    """
+    order_id = request.json.get("order_id", None)
+    subtotal = request.json.get("subtotal", None)
+    taxes = request.json.get("taxes", None)
+    paid = request.json.get("paid", None)
+    order = storage.one("Order", id=order_id)
+    if not order:
+        return jsonify({"msg": "there is no order with id "+order_id}), 404
+    order.subtotal = subtotal if subtotal is not None else order.subtotal
+    order.taxes = taxes if taxes is not None else order.taxes
+    order.paid = paid if paid is not None else order.paid
+    order.save()
+    return jsonify({"msg": "order updated", "order": order.to_dict()}), 200
 
 
 @api.route("/delete/<string:id>", methods=["DELETE"])
