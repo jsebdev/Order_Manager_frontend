@@ -46,12 +46,15 @@ $table-even-row-color: lighten($main-color, 40);
 }
 
 .button-cell {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 100%;
+  // display: flex;
+  // justify-content: space-around;
+  // align-items: center;
+  // height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
 }
 
-.orderTable tbody {
-  // border-bottom: 2px solid $table-head-color;
-}
+// .orderTable tbody {
+//   border-bottom: 2px solid $table-head-color;
+// }

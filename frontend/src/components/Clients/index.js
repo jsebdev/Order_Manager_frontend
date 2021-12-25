@@ -1,6 +1,8 @@
 import React from "react";
 import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
+import { ModalNew } from "../ModalNew";
+import { ModalEditClient } from "../Forms/ModalEditClient";
 
 function Clients() {
   const {
@@ -9,6 +11,7 @@ function Clients() {
     clients,
     setClients,
     setShowEditClientModal,
+    showEditClientModal,
     setClientToEdit,
     showSpinner,
     navigate,

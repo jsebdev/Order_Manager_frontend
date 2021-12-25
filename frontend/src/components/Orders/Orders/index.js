@@ -12,6 +12,8 @@ function Orders({ title }) {
     setShowEditOrderModal,
     setOrderToEdit,
     ordersToFetch,
+    setShowShippingInfo,
+    orderToEdit,
   } = React.useContext(Context);
 
   const data = React.useMemo(() => [...orders], [orders]);
@@ -20,7 +22,10 @@ function Orders({ title }) {
       orders[0]
         ? Object.keys(orders[0])
             .filter(
-              (key) => key !== "shipping_info" && key !== "user_information"
+              (key) =>
+                key !== "shipping_info" &&
+                key !== "user_information" &&
+                key !== "paid"
             )
             .map((key) => {
               return { Header: key, accessor: key };
@@ -46,6 +51,8 @@ function Orders({ title }) {
                     (order) => order.order_id === row.values.order_id
                   )[0]
                 );
+                // console.log("orders in edit", orders);
+                // console.log("order to edit in edit: ", orderToEdit);
                 setShowEditOrderModal(true);
               }}
             >
@@ -61,6 +68,24 @@ function Orders({ title }) {
             >
               Delete
             </button>
+            <button
+              className="btn btn-info"
+              onClick={() => {
+                setOrderToEdit(
+                  orders.filter(
+                    (order) => order.order_id === row.values.order_id
+                  )[0]
+                );
+                // debugger;
+                // console.log("orders in shipping", orders);
+                // console.log(row);
+                // console.log("order to edit in shipping: ", orderToEdit);
+                setShowShippingInfo(true);
+              }}
+            >
+              Shipping
+            </button>
+            <button className="btn btn-info">Payments</button>
           </div>
         ),
       },

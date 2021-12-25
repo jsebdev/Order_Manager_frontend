@@ -18,19 +18,23 @@ function Provider({ children }) {
   const [showSpinner, setShowSpinner] = useState(false);
   const [showEditOrderModal, setShowEditOrderModal] = useState(false);
   const [ordersToFetch, setOrdersToFetch] = useState({});
+  const [showShippingInfo, setShowShippingInfo] = useState(false);
 
   const updateItems = (endpoint, setter) => {
-    setShowSpinner(true);
-    fetchAll(endpoint).then((res) => {
-      if (res.status !== 200) {
-        setShowNewOrderModal(false);
-        setShowSidebar(false);
-        logout();
-        navigate("/login");
-      }
-      setter(res.items || []);
+    return new Promise((resolve) => {
+      setShowSpinner(true);
+      fetchAll(endpoint).then((res) => {
+        if (res.status !== 200) {
+          setShowNewOrderModal(false);
+          setShowSidebar(false);
+          logout();
+          navigate("/login");
+        }
+        setter(res.items || []);
+        setShowSpinner(false);
+        resolve({ msg: "item updated" });
+      });
     });
-    setShowSpinner(false);
   };
 
   const checkMobile = () => {
@@ -52,7 +56,10 @@ function Provider({ children }) {
       },
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/delete/" + id, opts);
+      let res = await checkFetch(
+        "http://localhost:5000/api/v1/delete/" + id,
+        opts
+      );
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }
@@ -173,8 +180,10 @@ function Provider({ children }) {
         opts
       );
       if (res.status !== 200) {
+        res = await res.json();
         return { state: false, status: res.status, msg: res.msg };
       }
+      res = await res.json();
       return { state: true, status: res.status, msg: res.msg };
     } catch (error) {
       console.log("There was a tragic error", error);
@@ -188,6 +197,9 @@ function Provider({ children }) {
       setShowNewOrderModal(false);
       setShowEditClientModal(false);
       setShowEditOrderModal(false);
+      setShowShippingInfo(false);
+      setShowSpinner(false);
+      logout();
       navigate("/login");
     }
     return res;
@@ -383,6 +395,8 @@ function Provider({ children }) {
         setOrderToEdit,
         ordersToFetch,
         setOrdersToFetch,
+        showShippingInfo,
+        setShowShippingInfo,
       }}
     >
       {children}

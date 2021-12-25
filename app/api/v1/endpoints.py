@@ -96,6 +96,33 @@ def edit_order():
     return jsonify({"msg": "order updated", "order": order.to_dict()}), 200
 
 
+@api.route("/updateshipping", methods=["PUT"])
+@jwt_required()
+def edit_shipping():
+    """
+    Edit Shippping with id shipping_id
+    """
+    shipping_id = request.json.get("shipping_id", None)
+    address = request.json.get("address", None)
+    city = request.json.get("city", None)
+    state = request.json.get("state", None)
+    country = request.json.get("country", None)
+    cost = request.json.get("cost", None)
+    delivered = request.json.get("delivered", None)
+    shipping = storage.one("Shipping", id=shipping_id)
+
+    if not shipping:
+        return jsonify({"msg": "there is no shipping with id "+shipping_id}), 404
+    shipping.address = address if address is not None else shipping.address
+    shipping.city = city if city is not None else shipping.city
+    shipping.state = state if state is not None else shipping.state
+    shipping.country = country if country is not None else shipping.country
+    shipping.cost = cost if cost is not None else shipping.cost
+    shipping.delivered = delivered if delivered is not None else shipping.delivered
+    shipping.save()
+    return jsonify({"msg": "shipping updated", "shipping": shipping.to_dict()}), 200
+
+
 @api.route("/delete/<string:id>", methods=["DELETE"])
 @jwt_required()
 def delete_item(id):
@@ -166,6 +193,8 @@ def create_shipping():
     cost = request.json.get("cost", 0)
     delivered = request.json.get("delivered", False)
     order_id = request.json.get("order_id", False)
+
+    print('la order_id is', order_id)
 
     new_shipping = Shipping(address=address, city=city, state=state,
                             country=country, cost=cost, delivered=delivered, order_id=order_id)

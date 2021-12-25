@@ -38,7 +38,7 @@ export const ModalEditOrder = () => {
         <div className="grid-input">
           <label htmlFor="order_id">order Id:</label>
           <input
-            className="client-id"
+            className="form-id"
             defaultValue={orderToEdit.order_id}
             type="text"
             name="order_id"
