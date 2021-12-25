@@ -329,10 +329,14 @@ def order_info(order):
         order_status = "Not paid"
 
     # print('the order shipping info is ', order.shipping)
+    delivered = 'Not Delivered'
     shipping_info = order.shipping.to_dict() if order.shipping else None
+    print('shipping info:', shipping_info)
     if shipping_info:
         shipping_info.pop('order_id', None)
         shipping_info.pop('order', None)
+        if shipping_info['delivered']:
+            delivered = 'Delivered'
 
     user_information = order.user.to_dict() if order.user else None
     if user_information:
@@ -361,4 +365,5 @@ def order_info(order):
         'total': (order.subtotal or 0) + (order.taxes or 0),
         'user_information': user_information,
         'paid': order.paid,
+        'delivered': delivered
     }
