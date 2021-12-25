@@ -17,6 +17,7 @@ import { LoadingSpinner } from "./LoadingSpinner";
 import { AllOrders } from "./Orders/AllOrders";
 import { ClientOrders } from "./Orders/ClientOrders";
 import { ShippingInfo } from "./ShippingInfo";
+import { Payments } from "./Payments";
 
 const App = () => {
   const {
@@ -37,6 +38,8 @@ const App = () => {
     setShowEditOrderModal,
     showShippingInfo,
     setShowShippingInfo,
+    showPayments,
+    setShowPayments,
   } = useContext(Context);
 
   React.useEffect(() => {
@@ -115,13 +118,18 @@ const App = () => {
           <ModalEditOrder></ModalEditOrder>
         </ModalNew>
       )}
-      {showShippingInfo && <p>shipping info activated</p>}
       {showShippingInfo && (
         <ModalNew
           setShowModal={setShowShippingInfo}
           elementId={"shipping-info-modal"}
         >
           <ShippingInfo></ShippingInfo>
+        </ModalNew>
+      )}
+      {showSpinner && <LoadingSpinner></LoadingSpinner>}
+      {showPayments && (
+        <ModalNew setShowModal={setShowPayments} elementId={"payments-modal"}>
+          <Payments></Payments>
         </ModalNew>
       )}
       {showSpinner && <LoadingSpinner></LoadingSpinner>}

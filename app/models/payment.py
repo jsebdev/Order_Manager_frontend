@@ -17,7 +17,6 @@ class Payment(BaseModel, Base):
     date = Column(DateTime, nullable=True)
     total = Column(Float, nullable=True)
     order_id = Column(String(60), ForeignKey('orders.id'))
-    date = Column(DateTime, nullable=False)
 
     order = relationship("Order", back_populates="payments")
 

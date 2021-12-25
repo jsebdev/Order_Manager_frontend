@@ -18,7 +18,6 @@ class Order(BaseModel, Base):
     date = Column(DateTime, nullable=False)
     subtotal = Column(Float, nullable=True)
     taxes = Column(Float, nullable=True)
-    paid = Column(Boolean, nullable=True)
 
     user = relationship("User", back_populates="orders")
     shipping = relationship("Shipping", back_populates="order", uselist=False,

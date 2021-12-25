@@ -19,6 +19,7 @@ function Provider({ children }) {
   const [showEditOrderModal, setShowEditOrderModal] = useState(false);
   const [ordersToFetch, setOrdersToFetch] = useState({});
   const [showShippingInfo, setShowShippingInfo] = useState(false);
+  const [showPayments, setShowPayments] = useState(false);
 
   const updateItems = (endpoint, setter) => {
     return new Promise((resolve) => {
@@ -199,6 +200,7 @@ function Provider({ children }) {
       setShowEditOrderModal(false);
       setShowShippingInfo(false);
       setShowSpinner(false);
+      setShowPayments(false);
       logout();
       navigate("/login");
     }
@@ -397,6 +399,8 @@ function Provider({ children }) {
         setOrdersToFetch,
         showShippingInfo,
         setShowShippingInfo,
+        showPayments,
+        setShowPayments,
       }}
     >
       {children}

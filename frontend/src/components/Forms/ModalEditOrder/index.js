@@ -26,7 +26,6 @@ export const ModalEditOrder = () => {
               order_id: event.target.order_id.value,
               subtotal: event.target.subtotal.value,
               taxes: event.target.taxes.value,
-              paid: event.target.paid.checked,
             },
             "updateorder"
           );
@@ -57,14 +56,6 @@ export const ModalEditOrder = () => {
         <div className="grid-input">
           <label htmlFor="taxes">Taxes: $</label>
           <input type="number" name="taxes" defaultValue={orderToEdit.taxes} />
-        </div>
-        <div className="grid-input">
-          <label htmlFor="paid">Paid:</label>
-          {orderToEdit.paid ? (
-            <input type="checkbox" name="paid" defaultChecked />
-          ) : (
-            <input type="checkbox" name="paid" />
-          )}
         </div>
         {msg && <p style={{ color: "green" }}>{msg}</p>}
         <button className="btn btn-primary btn-form" type="submit">

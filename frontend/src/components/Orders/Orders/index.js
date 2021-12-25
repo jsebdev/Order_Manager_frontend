@@ -13,7 +13,7 @@ function Orders({ title }) {
     setOrderToEdit,
     ordersToFetch,
     setShowShippingInfo,
-    orderToEdit,
+    setShowPayments,
   } = React.useContext(Context);
 
   const data = React.useMemo(() => [...orders], [orders]);
@@ -25,7 +25,8 @@ function Orders({ title }) {
               (key) =>
                 key !== "shipping_info" &&
                 key !== "user_information" &&
-                key !== "paid"
+                key !== "paid" &&
+                key !== "payments"
             )
             .map((key) => {
               return { Header: key, accessor: key };
@@ -85,7 +86,19 @@ function Orders({ title }) {
             >
               Shipping
             </button>
-            <button className="btn btn-info">Payments</button>
+            <button
+              className="btn btn-info"
+              onClick={() => {
+                setOrderToEdit(
+                  orders.filter(
+                    (order) => order.order_id === row.values.order_id
+                  )[0]
+                );
+                setShowPayments(true);
+              }}
+            >
+              Payments
+            </button>
           </div>
         ),
       },

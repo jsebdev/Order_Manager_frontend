@@ -25,7 +25,7 @@ function Header({ userName, logout, showSidebar, setShowSidebar, mobileView }) {
             {userName ? (
               <React.Fragment>
                 <li className="fs-4">
-                  <p>Hola {userName}</p>
+                  <p className="m-0">Hola {userName}</p>
                 </li>
                 <li className="login-link">
                   <Link

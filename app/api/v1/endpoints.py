@@ -81,7 +81,6 @@ def edit_order():
     order_id = request.json.get("order_id", None)
     subtotal = request.json.get("subtotal", None)
     taxes = request.json.get("taxes", None)
-    paid = request.json.get("paid", None)
 
     if not order_id:
         return jsonify({"msg": "missing order_id"}), 400
@@ -91,7 +90,6 @@ def edit_order():
         return jsonify({"msg": "there is no order with id "+order_id}), 404
     order.subtotal = subtotal if subtotal is not None else order.subtotal
     order.taxes = taxes if taxes is not None else order.taxes
-    order.paid = paid if paid is not None else order.paid
     order.save()
     return jsonify({"msg": "order updated", "order": order.to_dict()}), 200
 
@@ -319,11 +317,19 @@ def order_info(order):
     """
     # print('one order is ', order)
     last_payment_date = None
+    payments = []
+    total_payments = 0
     for payment in order.payments:
         if last_payment_date is None or payment.date > last_payment_date:
             last_payment_date = payment.date
+        payment_dict = payment.to_dict()
+        payment_dict.pop('order_id', None)
+        payment_dict.pop('id', None)
+        payments.append(payment_dict)
+        total_payments = total_payments + payment.total
 
-    if order.paid:
+    paid = (order.subtotal or 0) + (order.taxes or 0) - total_payments <= 0
+    if paid:
         order_status = "Paid"
     else:
         order_status = "Not paid"
@@ -364,6 +370,7 @@ def order_info(order):
         'taxes': (order.taxes or 0),
         'total': (order.subtotal or 0) + (order.taxes or 0),
         'user_information': user_information,
-        'paid': order.paid,
-        'delivered': delivered
+        'paid': paid,
+        'delivered': delivered,
+        'payments': payments
     }

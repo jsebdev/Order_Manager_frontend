@@ -3,6 +3,7 @@ import { Context } from "../../../Context/AppContext";
 import "../inside_forms.scss";
 
 const NewOrder = () => {
+  const [deliverState, setDeliverState] = React.useState(false);
   const {
     setShowNewOrderModal,
     clients,
@@ -31,6 +32,23 @@ const NewOrder = () => {
     );
     setPrices(newPrices);
   }, [payments]);
+
+  const checkDebth = () =>
+    prices.subtotal + prices.taxes + prices.shipping - prices.payment > 0;
+
+  const handleDeliver = () => {
+    if (checkDebth()) {
+      setDeliverState(false);
+    } else {
+      setDeliverState(!deliverState);
+    }
+  };
+
+  React.useEffect(() => {
+    if (checkDebth()) {
+      setDeliverState(false);
+    }
+  }, [prices]);
 
   const updatePrices = (value, price) => {
     const newPrices = { ...prices };
@@ -67,8 +85,11 @@ const NewOrder = () => {
     event.preventDefault();
     setShowSpinner(true);
     const form = event.target;
-    const paid =
-      prices.subtotal + prices.taxes + prices.shipping - prices.payment >= 0;
+    console.log(
+      "la deuda es ",
+      prices.subtotal + prices.taxes + prices.shipping - prices.payment
+    );
+    const paid = !checkDebth();
     const subtotal = form.subtotal.value === "" ? 0 : form.subtotal.value;
     const taxes = form.taxes.value === "" ? 0 : form.taxes.value;
     let client_id;
@@ -282,22 +303,14 @@ const NewOrder = () => {
             </div>
             <div>
               <label htmlFor="delivered">Deliver:</label>
-              {prices.subtotal +
-                prices.taxes +
-                prices.shipping -
-                prices.payment >
-              0 ? (
-                <input
-                  className="w-auto"
-                  type="checkbox"
-                  name="delivered"
-                  checked={false}
-                  readOnly
-                  disabled
-                />
-              ) : (
-                <input className="w-auto" type="checkbox" name="delivered" />
-              )}
+              <input
+                className="w-auto"
+                type="checkbox"
+                name="delivered"
+                checked={deliverState}
+                onClick={handleDeliver}
+                disabled={checkDebth()}
+              />
             </div>
           </div>
         )}
