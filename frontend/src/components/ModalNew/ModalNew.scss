@@ -8,7 +8,9 @@
   padding-block: 12vh;
   overflow-y: scroll;
 }
-.neworder-container {
+.modal-container {
+  display: flex;
+  flex-direction: column;
   background-color: white;
   border-radius: 10px;
   border: 2px solid rgb(53, 53, 53);

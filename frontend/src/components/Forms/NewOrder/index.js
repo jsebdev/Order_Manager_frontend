@@ -85,10 +85,6 @@ const NewOrder = () => {
     event.preventDefault();
     setShowSpinner(true);
     const form = event.target;
-    console.log(
-      "la deuda es ",
-      prices.subtotal + prices.taxes + prices.shipping - prices.payment
-    );
     const paid = !checkDebth();
     const subtotal = form.subtotal.value === "" ? 0 : form.subtotal.value;
     const taxes = form.taxes.value === "" ? 0 : form.taxes.value;

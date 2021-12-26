@@ -4,10 +4,10 @@ $table-border: 1px solid lighten($main-color, 30);
 $table-even-row-color: lighten($main-color, 40);
 
 .table-container {
-  height: 100%;
   display: flex;
-  // justify-content: center;
-  // padding-inline: 30px;
+  width: fit-content;
+  min-width: 100%;
+  justify-content: center;
 }
 
 .orderTable {

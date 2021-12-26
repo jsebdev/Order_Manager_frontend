@@ -155,7 +155,10 @@ function Provider({ children }) {
       body: JSON.stringify(payment),
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/createpayment", opts);
+      let res = await checkFetch(
+        "http://localhost:5000/api/v1/createpayment",
+        opts
+      );
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }

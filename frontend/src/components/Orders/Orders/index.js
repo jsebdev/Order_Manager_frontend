@@ -29,7 +29,10 @@ function Orders({ title }) {
                 key !== "payments"
             )
             .map((key) => {
-              return { Header: key, accessor: key };
+              let width = 150;
+              if (["subtotal", "taxes", "total"].includes(key)) width = 80;
+              if (["gov_id", "order_status"].includes(key)) width = 100;
+              return { Header: key, accessor: key, width: width };
             })
         : [],
     [orders]
@@ -41,7 +44,7 @@ function Orders({ title }) {
       {
         id: "Options",
         Header: "Options",
-        width: 200,
+        width: 300,
         Cell: ({ row }) => (
           <div className="button-cell">
             <button
@@ -52,8 +55,6 @@ function Orders({ title }) {
                     (order) => order.order_id === row.values.order_id
                   )[0]
                 );
-                // console.log("orders in edit", orders);
-                // console.log("order to edit in edit: ", orderToEdit);
                 setShowEditOrderModal(true);
               }}
             >
@@ -77,10 +78,6 @@ function Orders({ title }) {
                     (order) => order.order_id === row.values.order_id
                   )[0]
                 );
-                // debugger;
-                // console.log("orders in shipping", orders);
-                // console.log(row);
-                // console.log("order to edit in shipping: ", orderToEdit);
                 setShowShippingInfo(true);
               }}
             >
