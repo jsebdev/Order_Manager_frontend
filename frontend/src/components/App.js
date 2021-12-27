@@ -18,6 +18,7 @@ import { AllOrders } from "./Orders/AllOrders";
 import { ClientOrders } from "./Orders/ClientOrders";
 import { ShippingInfo } from "./ShippingInfo";
 import { Payments } from "./Payments";
+import { SearchModal } from "./Forms/SearchModal";
 
 const App = () => {
   const {
@@ -40,6 +41,8 @@ const App = () => {
     setShowShippingInfo,
     showPayments,
     setShowPayments,
+    showSearchModal,
+    setShowSearchModal,
   } = useContext(Context);
 
   React.useEffect(() => {
@@ -126,10 +129,14 @@ const App = () => {
           <ShippingInfo></ShippingInfo>
         </ModalNew>
       )}
-      {showSpinner && <LoadingSpinner></LoadingSpinner>}
       {showPayments && (
         <ModalNew setShowModal={setShowPayments} elementId={"payments-modal"}>
           <Payments></Payments>
+        </ModalNew>
+      )}
+      {showSearchModal && (
+        <ModalNew setShowModal={setShowSearchModal} elementId={"search-modal"}>
+          <SearchModal></SearchModal>
         </ModalNew>
       )}
       {showSpinner && <LoadingSpinner></LoadingSpinner>}

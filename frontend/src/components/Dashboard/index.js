@@ -5,7 +5,8 @@ import "./dashboard.scss";
 
 function Dashboard() {
   const colClass = `col-option col-8 offset-2 col-md-3 my-2 d-flex flex-column text-center py-4`;
-  const { userName, setShowNewOrderModal } = React.useContext(Context);
+  const { userName, setShowNewOrderModal, setShowSearchModal } =
+    React.useContext(Context);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -27,7 +28,10 @@ function Dashboard() {
             <i className="bi bi-bag-plus-fill icon-option"></i>
             <p>New Order</p>
           </div>
-          <div className={`${colClass} offset-md-2`}>
+          <div
+            className={`${colClass} offset-md-2`}
+            onClick={() => setShowSearchModal(true)}
+          >
             <i className="bi bi-search icon-option"></i>
             <p> Search </p>
           </div>

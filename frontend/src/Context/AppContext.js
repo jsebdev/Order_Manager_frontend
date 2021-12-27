@@ -20,6 +20,7 @@ function Provider({ children }) {
   const [ordersToFetch, setOrdersToFetch] = useState({});
   const [showShippingInfo, setShowShippingInfo] = useState(false);
   const [showPayments, setShowPayments] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
 
   const updateItems = (endpoint, setter) => {
     return new Promise((resolve) => {
@@ -204,6 +205,7 @@ function Provider({ children }) {
       setShowShippingInfo(false);
       setShowSpinner(false);
       setShowPayments(false);
+      setShowSearchModal(false);
       logout();
       navigate("/login");
     }
@@ -404,6 +406,8 @@ function Provider({ children }) {
         setShowShippingInfo,
         showPayments,
         setShowPayments,
+        showSearchModal,
+        setShowSearchModal,
       }}
     >
       {children}
