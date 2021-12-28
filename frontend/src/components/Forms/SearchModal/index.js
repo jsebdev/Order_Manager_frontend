@@ -11,6 +11,8 @@ export const SearchModal = () => {
     setShowSpinner(true);
     searchOrders(searchType, {
       orderId: event.target.orderId.value,
+      startDate: event.target.startDate.value,
+      endDate: event.target.endDate.value,
     });
     setShowSpinner(false);
   };
@@ -41,12 +43,14 @@ export const SearchModal = () => {
               data-bs-parent="#accordion-search"
             >
               <div className="accordion-body">
-                <label htmlFor="orderId">Order Id:</label>
-                <input
-                  type="text"
-                  name="orderId"
-                  required={searchType === "by-id"}
-                />
+                <div className="search-input grid-input">
+                  <label htmlFor="orderId">Order Id:</label>
+                  <input
+                    type="text"
+                    name="orderId"
+                    required={searchType === "by-id"}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -70,7 +74,24 @@ export const SearchModal = () => {
               aria-labelledby="headingTwo"
               data-bs-parent="#accordion-search"
             >
-              <div className="accordion-body">By date</div>
+              <div className="accordion-body">
+                <div className="search-input grid-input">
+                  <label htmlFor="startDate">Start Date:</label>
+                  <input
+                    type="date"
+                    name="startDate"
+                    required={searchType === "by-date"}
+                  />
+                </div>
+                <div className="search-input grid-input">
+                  <label htmlFor="endDate">End Date:</label>
+                  <input
+                    type="date"
+                    name="endDate"
+                    required={searchType === "by-date"}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className="accordion-item">
@@ -93,7 +114,32 @@ export const SearchModal = () => {
               aria-labelledby="headingThree"
               data-bs-parent="#accordion-search"
             >
-              <div className="accordion-body">By location</div>
+              <div className="accordion-body">
+                <div className="search-input grid-input">
+                  <label htmlFor="country">Country: </label>
+                  <input
+                    type="text"
+                    name="country"
+                    required={searchType === "by-location"}
+                  />
+                </div>
+                <div className="search-input grid-input">
+                  <label htmlFor="state">State: </label>
+                  <input
+                    type="text"
+                    name="state"
+                    required={searchType === "by-location"}
+                  />
+                </div>
+                <div className="search-input grid-input">
+                  <label htmlFor="city">City: </label>
+                  <input
+                    type="text"
+                    name="city"
+                    required={searchType === "by-location"}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

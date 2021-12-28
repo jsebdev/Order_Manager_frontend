@@ -158,8 +158,8 @@ the_class.{}.in_(array)).order_by(the_class.id).all()'.format(key))
         Return query of orders between date0 and date1
         the dates format must be %d-%m-%Y
         """
-        date0 = datetime.strptime(d0, '%d-%m-%Y')
-        date1 = datetime.strptime(d1, '%d-%m-%Y')
+        date0 = datetime.strptime(d0, '%Y-%m-%d')
+        date1 = datetime.strptime(d1, '%Y-%m-%d')
         orders = self.__session.query(Order).filter(Order.date >= date0,
                                                     Order.date <= date1).all()
         return orders

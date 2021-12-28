@@ -270,22 +270,31 @@ def orders_by_ids(order_ids):
 def order_by_dates(date0, date1):
     """
     Return info of orders between date0 and date1
-    the dates format must be %d-%m-%Y
+    the dates format must be %Y-%m-%d
     """
     orders = storage.order_by_dates(date0, date1)
     if orders:
         return jsonify(orders_info(orders))
-    return ("Not found", 404)
+    return (jsonify([]), 404)
 
 
-@api.route("/orders/shipping/{<string:key>=<string:value>}")
-@jwt_required()
-def order_by_shipping(key, value):
+@api.route("/orders/shipping/", strict_slashes=False)
+# @jwt_required()
+def order_by_shipping():
     """
     return all orders with the given key (city, state, country)
     """
     kwargs = {}
-    kwargs[key] = value
+    city = request.args.get('city', None)
+    state = request.args.get('state', None)
+    country = request.args.get('country', None)
+
+    if city:
+        kwargs['city'] = city
+    if state:
+        kwargs['state'] = state
+    if country:
+        kwargs['country'] = country
     shippings = storage.all("Shipping", **kwargs)
     orders = [shipping.order for shipping in shippings]
     return jsonify(orders_info(orders))
@@ -338,7 +347,6 @@ def order_info(order):
     # print('the order shipping info is ', order.shipping)
     delivered = 'Not Delivered'
     shipping_info = order.shipping.to_dict() if order.shipping else None
-    print('shipping info:', shipping_info)
     if shipping_info:
         shipping_info.pop('order_id', None)
         shipping_info.pop('order', None)

@@ -1,5 +1,6 @@
 $header-color: #f9f8ff;
 $border-color: #555;
+$hover-color: rgb(214, 214, 214);
 
 header {
   background-color: $header-color;
@@ -80,7 +81,7 @@ header {
     margin-top: 10px;
   }
   li:hover {
-    background-color: rgb(199, 199, 199);
+    background-color: $hover-color;
   }
 }
 

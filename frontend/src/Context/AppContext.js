@@ -105,24 +105,26 @@ function Provider({ children }) {
     }
   };
 
-  const searchOrders = async (searchType, { orderId }) => {
+  const searchOrders = async (searchType, { orderId, startDate, endDate }) => {
     let res = null;
     let endpoint;
     let title;
+    console.log("the search type is", searchType);
     switch (searchType) {
       case "by-id":
         endpoint = "orders/" + orderId;
         title = "Order by Id";
         break;
       case "by-date":
-        console.log("by-date baby");
+        endpoint = "orders/" + startDate + " - " + endDate;
+        title = `Orders between ${startDate} and ${endDate}`;
         break;
       case "by-location":
         console.log("by-location baby");
         break;
     }
     setOrdersToFetch({ endpoint: endpoint });
-    updateItems(endpoint, setOrders);
+    await updateItems(endpoint, setOrders);
     setShowSearchModal(false);
     navigate("/search");
   };
