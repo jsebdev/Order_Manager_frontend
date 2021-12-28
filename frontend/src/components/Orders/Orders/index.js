@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "../../Table";
 import { Context } from "../../../Context/AppContext";
 
-function Orders({ title }) {
+function Orders() {
   const {
     orders,
     deleteItem,
@@ -106,7 +106,7 @@ function Orders({ title }) {
     <>
       {!showSpinner ? (
         <>
-          <h1 className="h1 text-center mt-5">{title}</h1>
+          <h1 className="h1 text-center mt-5">{ordersToFetch.title}</h1>
           {orders[0] ? (
             <Table
               columns={columns}

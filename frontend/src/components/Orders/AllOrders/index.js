@@ -7,8 +7,8 @@ export const AllOrders = () => {
     React.useContext(Context);
   React.useEffect(() => {
     const endpoint = "orders";
-    setOrdersToFetch({ endpoint: endpoint });
+    setOrdersToFetch({ endpoint: endpoint, title: "All Orders" });
     updateItems(endpoint, setOrders);
   }, []);
-  return <Orders title="All Orders" orders={orders}></Orders>;
+  return <Orders></Orders>;
 };

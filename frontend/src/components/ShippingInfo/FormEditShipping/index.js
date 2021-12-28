@@ -17,7 +17,6 @@ export const FormEditShipping = ({ shipping_info, action }) => {
 
   const submitShipping = async (event) => {
     event.preventDefault();
-    debugger;
     setMsg(null);
     setShowSpinner(true);
     const shipping = {

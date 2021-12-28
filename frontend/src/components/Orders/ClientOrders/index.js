@@ -15,5 +15,5 @@ export const ClientOrders = () => {
     });
     updateItems(endpoint, setOrders);
   }, []);
-  return <Orders title={ordersToFetch.client_name + "' Orders"}></Orders>;
+  return <Orders></Orders>;
 };

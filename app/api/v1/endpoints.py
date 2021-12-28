@@ -8,6 +8,7 @@ from werkzeug.exceptions import NotFound
 from flask_jwt_extended import create_access_token, jwt_required
 
 from app.api.v1 import api
+from app.models import shipping
 from app.models.app_user import App_User
 from flask_cors import cross_origin
 
@@ -155,10 +156,9 @@ def create_order():
     client_id = request.json.get("client_id", None)
     subtotal = request.json.get("subtotal", None)
     taxes = request.json.get("taxes", None)
-    paid = request.json.get("paid", False)
 
     newOrder = Order(user_id=client_id, subtotal=subtotal,
-                     taxes=taxes, paid=paid)
+                     taxes=taxes)
     order_dict = newOrder.to_dict()
 
     if (client_id):
@@ -248,8 +248,8 @@ def order_by_id(order_id):
     if order:
         order = order[0]
     else:
-        raise NotFound(order_id)
-    return order_info(order)
+        return (jsonify({"msg": "No order with those id "+order_id}), 404)
+    return jsonify([order_info(order)]), 200
 
 
 @api.route("/orders/[<string:order_ids>]", methods=["GET"])
@@ -262,7 +262,7 @@ def orders_by_ids(order_ids):
     orders = storage.all_inclusive("Order", id=ids)
     if orders:
         return jsonify(orders_info(orders))
-    return ("Not found", 404)
+    return (jsonify({"msg": "No order with those ids"}), 404)
 
 
 @api.route("/orders/<string:date0> - <string:date1>", methods=["GET"])
@@ -328,7 +328,8 @@ def order_info(order):
         payments.append(payment_dict)
         total_payments = total_payments + payment.total
 
-    paid = (order.subtotal or 0) + (order.taxes or 0) - total_payments <= 0
+    paid = (order.subtotal or 0) + (order.taxes or 0) + \
+        (order.shipping.cost if order.shipping else 0) - total_payments <= 0
     if paid:
         order_status = "Paid"
     else:

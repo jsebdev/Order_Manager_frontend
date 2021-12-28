@@ -65,7 +65,7 @@ export const Payments = () => {
           <Table columns={columns} data={data} tableHooks={tableHooks}></Table>
         </div>
       ) : (
-        <p>No hay payments</p>
+        <p className="mx-2 text-center">There are no payments yet</p>
       )}
       {addingPayment ? (
         <form

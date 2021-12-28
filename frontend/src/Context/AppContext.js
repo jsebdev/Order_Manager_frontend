@@ -105,6 +105,26 @@ function Provider({ children }) {
     }
   };
 
+  const searchOrders = async (searchType, { orderId }) => {
+    let res = null;
+    switch (searchType) {
+      case "by-id":
+        console.log("by-id baby");
+        const ordToFetch = "http://localhost:5000/api/v1/orders/" + orderId;
+        setOrdersToFetch(ordToFetch);
+        break;
+      case "by-date":
+        console.log("by-date baby");
+        break;
+      case "by-location":
+        console.log("by-location baby");
+        break;
+    }
+    if (res.status === 404) return [];
+    res = await res.json();
+    return res;
+  };
+
   const createOrder = async (clientToCreate, order) => {
     if (clientToCreate) {
       const res = await createClient(clientToCreate);
@@ -209,6 +229,9 @@ function Provider({ children }) {
       logout();
       navigate("/login");
     }
+    // if (res.status !== 200) {
+    //   alert('something went wrong status code :'+res.status)
+    // }
     return res;
   };
 
@@ -339,7 +362,7 @@ function Provider({ children }) {
       },
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/" + items, opts);
+      let res = await checkFetch("http://localhost:5000/api/v1/" + items, opts);
       if (res.status !== 200) {
         const status = res.status;
         res = await res.json();
@@ -408,6 +431,7 @@ function Provider({ children }) {
         setShowPayments,
         showSearchModal,
         setShowSearchModal,
+        searchOrders,
       }}
     >
       {children}

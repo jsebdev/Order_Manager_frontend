@@ -61,7 +61,7 @@ function Clients() {
               className="btn btn-info"
               onClick={async () => {
                 setOrdersToFetch({
-                  client_name: row.values.name,
+                  title: row.values.name + "'s Orders",
                 });
                 navigate("dashboard/orders/" + row.values.id);
               }}

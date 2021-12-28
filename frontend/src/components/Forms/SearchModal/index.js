@@ -1,13 +1,25 @@
 import React from "react";
+import { Context } from "../../../Context/AppContext";
 import "./SearchModal.scss";
 
 export const SearchModal = () => {
   const [searchType, setSearchType] = React.useState("by-id");
+  const { searchOrders, setShowSpinner } = React.useContext(Context);
+
+  const submitSearch = async (event) => {
+    event.preventDefault();
+    setShowSpinner(true);
+    const res = await searchOrders(searchType, {
+      orderId: event.target.orderId.value,
+    });
+    console.log("las ordenes son", res);
+    setShowSpinner(false);
+  };
 
   return (
     <>
       <h2 className="form-title">Search</h2>
-      <form className="search-form">
+      <form className="search-form" onSubmit={(event) => submitSearch(event)}>
         <div className="accordion w-100 accordion-flus" id="accordion-search">
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingOne">
@@ -29,7 +41,14 @@ export const SearchModal = () => {
               aria-labelledby="headingOne"
               data-bs-parent="#accordion-search"
             >
-              <div className="accordion-body">Search by id</div>
+              <div className="accordion-body">
+                <label htmlFor="orderId">Order Id:</label>
+                <input
+                  type="text"
+                  name="orderId"
+                  required={searchType === "by-id"}
+                />
+              </div>
             </div>
           </div>
           <div className="accordion-item">
@@ -79,7 +98,9 @@ export const SearchModal = () => {
             </div>
           </div>
         </div>
-        <button className="btn btn-primary m-2">Search</button>
+        <button className="btn btn-primary m-2" type="submit">
+          Search
+        </button>
       </form>
     </>
   );
