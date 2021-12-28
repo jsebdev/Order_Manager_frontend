@@ -19,6 +19,7 @@ import { ClientOrders } from "./Orders/ClientOrders";
 import { ShippingInfo } from "./ShippingInfo";
 import { Payments } from "./Payments";
 import { SearchModal } from "./Forms/SearchModal";
+import { Orders } from "./Orders/Orders";
 
 const App = () => {
   const {
@@ -95,6 +96,7 @@ const App = () => {
             element={<LoadingSpinner></LoadingSpinner>}
           ></Route>
           <Route path="/test" element={<Test></Test>}></Route>
+          <Route path="/search" element={<Orders></Orders>}></Route>
         </Routes>
       </div>
       {showNewOrderModal && (

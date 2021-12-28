@@ -6,13 +6,12 @@ export const SearchModal = () => {
   const [searchType, setSearchType] = React.useState("by-id");
   const { searchOrders, setShowSpinner } = React.useContext(Context);
 
-  const submitSearch = async (event) => {
+  const submitSearch = (event) => {
     event.preventDefault();
     setShowSpinner(true);
-    const res = await searchOrders(searchType, {
+    searchOrders(searchType, {
       orderId: event.target.orderId.value,
     });
-    console.log("las ordenes son", res);
     setShowSpinner(false);
   };
 

@@ -248,7 +248,7 @@ def order_by_id(order_id):
     if order:
         order = order[0]
     else:
-        return (jsonify({"msg": "No order with those id "+order_id}), 404)
+        return (jsonify([]), 404)
     return jsonify([order_info(order)]), 200
 
 

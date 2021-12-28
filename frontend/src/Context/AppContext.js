@@ -26,7 +26,7 @@ function Provider({ children }) {
     return new Promise((resolve) => {
       setShowSpinner(true);
       fetchAll(endpoint).then((res) => {
-        if (res.status !== 200) {
+        if (res.status !== 200 && res.status !== 404) {
           setShowNewOrderModal(false);
           setShowSidebar(false);
           logout();
@@ -107,11 +107,12 @@ function Provider({ children }) {
 
   const searchOrders = async (searchType, { orderId }) => {
     let res = null;
+    let endpoint;
+    let title;
     switch (searchType) {
       case "by-id":
-        console.log("by-id baby");
-        const ordToFetch = "http://localhost:5000/api/v1/orders/" + orderId;
-        setOrdersToFetch(ordToFetch);
+        endpoint = "orders/" + orderId;
+        title = "Order by Id";
         break;
       case "by-date":
         console.log("by-date baby");
@@ -120,9 +121,10 @@ function Provider({ children }) {
         console.log("by-location baby");
         break;
     }
-    if (res.status === 404) return [];
-    res = await res.json();
-    return res;
+    setOrdersToFetch({ endpoint: endpoint });
+    updateItems(endpoint, setOrders);
+    setShowSearchModal(false);
+    navigate("/search");
   };
 
   const createOrder = async (clientToCreate, order) => {
