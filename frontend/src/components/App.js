@@ -26,10 +26,6 @@ const App = () => {
     userName,
     login,
     checkUser,
-    logout,
-    showSidebar,
-    setShowSidebar,
-    mobileView,
     signup,
     showNewOrderModal,
     setShowNewOrderModal,
@@ -52,13 +48,7 @@ const App = () => {
 
   return (
     <React.Fragment>
-      <Header
-        userName={userName}
-        logout={logout}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        mobileView={mobileView}
-      ></Header>
+      <Header></Header>
       <div className="body-container">
         <Routes>
           <Route path="/" element={<Welcome userName={userName} />}></Route>

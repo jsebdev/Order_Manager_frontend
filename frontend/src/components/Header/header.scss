@@ -30,7 +30,6 @@ header {
   ul {
     list-style: none;
     padding-left: 0;
-    width: 100%;
     li {
       display: flex;
       justify-content: center;
@@ -42,6 +41,15 @@ header {
     }
     p {
       width: 150px;
+    }
+  }
+  .user-links {
+    width: 100%;
+  }
+  .nav-menu {
+    width: fit-content;
+    a {
+      padding-inline: 8px;
     }
   }
 }
@@ -68,7 +76,11 @@ header {
 .nav-menu {
   margin-top: 1rem;
   li {
+    border-radius: 5px;
     margin-top: 10px;
+  }
+  li:hover {
+    background-color: rgb(199, 199, 199);
   }
 }
 
@@ -87,24 +99,26 @@ header {
     top: 0;
     width: 100%;
     padding: 0;
-    justify-content: center;
-    ul {
+    justify-content: space-around;
+
+    .user-links,
+    .nav-menu {
       width: auto;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: row-reverse;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
     }
-  }
-  .user-links,
-  .nav-menu {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
+    .nav-menu {
+      width: fit-content;
+    }
   }
 
   .user-links {
-    position: absolute;
+    order: 3;
     right: 20px;
     border: none;
     justify-content: end;
@@ -118,7 +132,8 @@ header {
   }
 
   .nav-menu li {
-    margin: 0 10px;
+    margin: 0 5px;
+    padding: 5px 8px;
   }
 
   .logout-link {

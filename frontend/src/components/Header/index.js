@@ -1,26 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../../Context/AppContext";
 import "./header.scss";
 
-function Header({ userName, logout, showSidebar, setShowSidebar, mobileView }) {
+function Header() {
   const handleClick = () => setShowSidebar(!showSidebar);
+  const {
+    userName,
+    logout,
+    showSidebar,
+    setShowSidebar,
+    mobileView,
+    setShowSearchModal,
+    setShowNewOrderModal,
+  } = React.useContext(Context);
 
-  // useEffect(() => checkMobile(), []);
   return (
     <header className="container-fluid p-0">
       <div className="header-container w-100 header d-flex align-items-center justify-content-between px-4">
-        <Link to="/">
-          <i className="bi bi-journal-code fs-1"></i>
-        </Link>
+        {mobileView && (
+          <Link to="/">
+            <i className="bi bi-journal-code fs-1"></i>
+          </Link>
+        )}
         <nav
           className={
             "navbar " +
-            (mobileView
-              ? "flex-column justify-content-start "
-              : "flex-row-reverse ") +
+            (mobileView ? "flex-column justify-content-start " : "") +
             (showSidebar ? "active" : "")
           }
         >
+          {!mobileView && (
+            <Link to="/">
+              <i className="bi bi-journal-code fs-1"></i>
+            </Link>
+          )}
           <ul className="user-links">
             {userName ? (
               <React.Fragment>
@@ -62,6 +76,19 @@ function Header({ userName, logout, showSidebar, setShowSidebar, mobileView }) {
               </li>
               <li>
                 <Link to="/dashboard/clients">Clients</Link>
+              </li>
+              <li>
+                <Link to="#" onClick={() => setShowSearchModal(true)}>
+                  Search
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="#"
+                  onClick={() => setShowNewOrderModal((value) => !value)}
+                >
+                  New Order
+                </Link>
               </li>
             </ul>
           )}
