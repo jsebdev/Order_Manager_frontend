@@ -45,7 +45,9 @@ function Login({ login, userName }) {
               <label htmlFor="password">Password</label>
               <input type="password" name="password" required />
             </div>
-            <button type="submit">Log In</button>
+            <button className="btn btn-primary" type="submit">
+              Log In
+            </button>
           </div>
         </div>
       </form>

@@ -43,7 +43,9 @@ function Signup({ signup, userName }) {
             <label htmlFor="password">Password</label>
             <input type="password" name="password" required />
           </div>
-          <button type="submit">Sign up</button>
+          <button className="btn btn-primary" type="submit">
+            Sign up
+          </button>
         </div>
       </div>
     </form>
