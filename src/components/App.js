@@ -20,6 +20,7 @@ import { ShippingInfo } from "./ShippingInfo";
 import { Payments } from "./Payments";
 import { SearchModal } from "./Forms/SearchModal";
 import { Orders } from "./Orders/Orders";
+import { Navigate } from "react-router-dom";
 
 const App = () => {
   const {
@@ -52,6 +53,10 @@ const App = () => {
       <div className="body-container">
         <Routes>
           <Route path="/" element={<Welcome userName={userName} />}></Route>
+          <Route
+            path="/Order_Manager_frontend"
+            element={<Navigate replace to="/"></Navigate>}
+          ></Route>
           <Route
             path="/login"
             element={<Login login={login} userName={userName} />}
