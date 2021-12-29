@@ -64,7 +64,7 @@ function Orders() {
               className="btn btn-danger"
               onClick={async () => {
                 deleteItem(row.values.order_id).then(() => {
-                  updateItems(ordersToFetch.endpoint, setOrders);
+                  updateItems(ordersToFetch.url, setOrders);
                 });
               }}
             >

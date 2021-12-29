@@ -2,8 +2,14 @@ import React from "react";
 import { Context } from "../../../Context/AppContext";
 
 export const ModalEditClient = () => {
-  const { clientToEdit, editItem, setShowSpinner, updateItems, setClients } =
-    React.useContext(Context);
+  const {
+    generateURL,
+    clientToEdit,
+    editItem,
+    setShowSpinner,
+    updateItems,
+    setClients,
+  } = React.useContext(Context);
   const [msg, setMsg] = React.useState(null);
 
   return (
@@ -27,7 +33,7 @@ export const ModalEditClient = () => {
             "updateclient"
           );
           setMsg(res.msg);
-          updateItems("users", setClients);
+          updateItems(generateURL("users"), setClients);
           setShowSpinner(false);
         }}
       >

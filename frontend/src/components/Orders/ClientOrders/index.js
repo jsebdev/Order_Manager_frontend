@@ -4,16 +4,16 @@ import { Orders } from "../Orders";
 import { useParams } from "react-router-dom";
 
 export const ClientOrders = () => {
-  const { ordersToFetch, setOrdersToFetch, setOrders, updateItems } =
+  const { generateURL, setOrdersToFetch, setOrders, updateItems } =
     React.useContext(Context);
   const { clientId } = useParams();
   React.useEffect(() => {
-    const endpoint = "orders/user/" + clientId;
+    const url = generateURL("orders/user/" + clientId);
     setOrdersToFetch((orders) => {
-      orders.endpoint = endpoint;
+      orders.url = url;
       return orders;
     });
-    updateItems(endpoint, setOrders);
+    updateItems(url, setOrders);
   }, []);
   return <Orders></Orders>;
 };

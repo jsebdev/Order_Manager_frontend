@@ -9,10 +9,14 @@ export const SearchModal = () => {
   const submitSearch = (event) => {
     event.preventDefault();
     setShowSpinner(true);
+    // debugger;
     searchOrders(searchType, {
       orderId: event.target.orderId.value,
       startDate: event.target.startDate.value,
       endDate: event.target.endDate.value,
+      city: event.target.city.value,
+      state: event.target.state.value,
+      country: event.target.country.value,
     });
     setShowSpinner(false);
   };
@@ -117,27 +121,15 @@ export const SearchModal = () => {
               <div className="accordion-body">
                 <div className="search-input grid-input">
                   <label htmlFor="country">Country: </label>
-                  <input
-                    type="text"
-                    name="country"
-                    required={searchType === "by-location"}
-                  />
+                  <input type="text" name="country" />
                 </div>
                 <div className="search-input grid-input">
                   <label htmlFor="state">State: </label>
-                  <input
-                    type="text"
-                    name="state"
-                    required={searchType === "by-location"}
-                  />
+                  <input type="text" name="state" />
                 </div>
                 <div className="search-input grid-input">
                   <label htmlFor="city">City: </label>
-                  <input
-                    type="text"
-                    name="city"
-                    required={searchType === "by-location"}
-                  />
+                  <input type="text" name="city" />
                 </div>
               </div>
             </div>

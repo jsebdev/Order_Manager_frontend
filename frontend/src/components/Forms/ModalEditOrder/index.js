@@ -30,7 +30,8 @@ export const ModalEditOrder = () => {
             "updateorder"
           );
           setMsg(res.msg);
-          updateItems(ordersToFetch.endpoint, setOrders);
+          debugger;
+          updateItems(ordersToFetch.url, setOrders);
           setShowSpinner(false);
         }}
       >

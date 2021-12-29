@@ -36,15 +36,22 @@ export const FormEditShipping = ({ shipping_info, action }) => {
       res = await createShipping(shipping);
     }
     setMsg(res.msg);
-    updateItems(ordersToFetch.endpoint, setOrders);
+    updateItems(ordersToFetch.url, setOrders);
     setShowSpinner(false);
   };
 
   React.useEffect(() => {
+    const newOrder = orders.filter(
+      (order) => order.order_id === orderToEdit.order_id
+    )[0];
     setOrderToEdit(
       orders.filter((order) => order.order_id === orderToEdit.order_id)[0]
     );
   }, [orders]);
+
+  React.useEffect(() => {
+    console.log("in shipping form the order to edit now is ", orderToEdit);
+  }, [orderToEdit]);
 
   return (
     <form className="form-style" onSubmit={(event) => submitShipping(event)}>

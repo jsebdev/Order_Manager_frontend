@@ -13,6 +13,7 @@ const NewOrder = () => {
     setShowSpinner,
     createPayment,
     createShipping,
+    generateURL,
   } = React.useContext(Context);
   const [clientType, setClientType] = React.useState("ExistingClient");
   const [payments, setPayments] = React.useState([]);
@@ -78,7 +79,7 @@ const NewOrder = () => {
   };
 
   React.useEffect(() => {
-    updateItems("users", setClients);
+    updateItems(generateURL("users"), setClients);
   }, []);
 
   const orderSubmited = async (event) => {

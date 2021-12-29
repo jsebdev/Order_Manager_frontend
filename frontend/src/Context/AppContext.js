@@ -22,10 +22,10 @@ function Provider({ children }) {
   const [showPayments, setShowPayments] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
 
-  const updateItems = (endpoint, setter) => {
+  const updateItems = (url, setter) => {
     return new Promise((resolve) => {
       setShowSpinner(true);
-      fetchAll(endpoint).then((res) => {
+      fetchAll(url).then((res) => {
         if (res.status !== 200 && res.status !== 404) {
           setShowNewOrderModal(false);
           setShowSidebar(false);
@@ -105,28 +105,39 @@ function Provider({ children }) {
     }
   };
 
-  const searchOrders = async (searchType, { orderId, startDate, endDate }) => {
-    let res = null;
-    let endpoint;
+  const searchOrders = async (
+    searchType,
+    { orderId, startDate, endDate, city, state, country }
+  ) => {
+    let url = null;
     let title;
     console.log("the search type is", searchType);
     switch (searchType) {
       case "by-id":
-        endpoint = "orders/" + orderId;
+        url = generateURL("orders/" + orderId);
         title = "Order by Id";
         break;
       case "by-date":
-        endpoint = "orders/" + startDate + " - " + endDate;
+        url = generateURL("orders/" + startDate + " - " + endDate);
         title = `Orders between ${startDate} and ${endDate}`;
         break;
       case "by-location":
-        console.log("by-location baby");
+        url = generateURL("orders/shipping", { city, state, country });
+        title = `Orders in ${city} ${state} ${country}`;
         break;
     }
-    setOrdersToFetch({ endpoint: endpoint });
-    await updateItems(endpoint, setOrders);
+    setOrdersToFetch({ url: url, title: title });
+    await updateItems(url, setOrders);
     setShowSearchModal(false);
     navigate("/search");
+  };
+
+  const generateURL = (endpoint, params = null) => {
+    const url = new URL("http://localhost:5000/api/v1/" + endpoint);
+    if (params) {
+      url.search = new URLSearchParams(params);
+    }
+    return url;
   };
 
   const createOrder = async (clientToCreate, order) => {
@@ -356,7 +367,7 @@ function Provider({ children }) {
     setToken(null);
   };
 
-  const fetchAll = async (items) => {
+  const fetchAll = async (url) => {
     setToken(localStorage.getItem("token"));
     const opts = {
       method: "GET",
@@ -366,7 +377,7 @@ function Provider({ children }) {
       },
     };
     try {
-      let res = await checkFetch("http://localhost:5000/api/v1/" + items, opts);
+      let res = await checkFetch(url, opts);
       if (res.status !== 200) {
         const status = res.status;
         res = await res.json();
@@ -436,6 +447,7 @@ function Provider({ children }) {
         showSearchModal,
         setShowSearchModal,
         searchOrders,
+        generateURL,
       }}
     >
       {children}

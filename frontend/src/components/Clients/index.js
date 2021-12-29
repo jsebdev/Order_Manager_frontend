@@ -1,8 +1,6 @@
 import React from "react";
 import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
-import { ModalNew } from "../ModalNew";
-import { ModalEditClient } from "../Forms/ModalEditClient";
 
 function Clients() {
   const {
@@ -11,14 +9,14 @@ function Clients() {
     clients,
     setClients,
     setShowEditClientModal,
-    showEditClientModal,
+    generateURL,
     setClientToEdit,
     showSpinner,
     navigate,
     setOrdersToFetch,
   } = React.useContext(Context);
   React.useEffect(() => {
-    updateItems("users", setClients);
+    updateItems(generateURL("users"), setClients);
   }, []);
 
   const data = React.useMemo(() => [...clients], [clients]);
@@ -72,7 +70,7 @@ function Clients() {
               className="btn btn-danger"
               onClick={async () => {
                 deleteItem(row.values.id).then(() => {
-                  updateItems("users", setClients);
+                  updateItems(generateURL("users"), setClients);
                 });
               }}
             >

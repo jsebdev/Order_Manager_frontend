@@ -47,7 +47,7 @@ export const Payments = () => {
       total: event.target.paymenttotal.value,
       order_id: orderToEdit.order_id,
     });
-    updateItems(ordersToFetch.endpoint, setOrders);
+    updateItems(ordersToFetch.url, setOrders);
     setAddingPayment(false);
     setShowSpinner(false);
   };
