@@ -54,7 +54,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Welcome userName={userName} />}></Route>
           <Route
-            path="/Order_Manager_frontend"
+            path="/Order_Manager_frontend/"
             element={<Navigate replace to="/"></Navigate>}
           ></Route>
           <Route
