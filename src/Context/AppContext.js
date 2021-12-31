@@ -1,3 +1,4 @@
+import { getRoles } from "@testing-library/react";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -58,10 +59,7 @@ function Provider({ children }) {
       },
     };
     try {
-      let res = await checkFetch(
-        "http://localhost:5000/api/v1/delete/" + id,
-        opts
-      );
+      let res = await checkFetch(generateURL("delete/" + id), opts);
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }
@@ -88,7 +86,7 @@ function Provider({ children }) {
       body: JSON.stringify(data),
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/createclient", opts);
+      let res = await fetch(generateURL("createclient"), opts);
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }
@@ -133,7 +131,10 @@ function Provider({ children }) {
   };
 
   const generateURL = (endpoint, params = null) => {
-    const url = new URL("http://localhost:5000/api/v1/" + endpoint);
+    // const url = new URL("http://localhost:5000/api/v1/" + endpoint);
+    const url = new URL(
+      "https://order-manager-api.herokuapp.com/api/v1/" + endpoint
+    );
     if (params) {
       url.search = new URLSearchParams(params);
     }
@@ -158,7 +159,7 @@ function Provider({ children }) {
       body: JSON.stringify(order),
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/createorder", opts);
+      let res = await fetch(generateURL("createorder"), opts);
       if (res.status !== 200) {
         res = await res.json();
         return {
@@ -191,10 +192,7 @@ function Provider({ children }) {
       body: JSON.stringify(payment),
     };
     try {
-      let res = await checkFetch(
-        "http://localhost:5000/api/v1/createpayment",
-        opts
-      );
+      let res = await checkFetch(generateURL("createpayment"), opts);
       if (res.status !== 200) {
         return { state: false, status: res.status, msg: res.msg };
       }
@@ -215,10 +213,7 @@ function Provider({ children }) {
       body: JSON.stringify(shipping),
     };
     try {
-      let res = await fetch(
-        "http://localhost:5000/api/v1/createshipping",
-        opts
-      );
+      let res = await fetch(generateURL("createshipping"), opts);
       if (res.status !== 200) {
         res = await res.json();
         return { state: false, status: res.status, msg: res.msg };
@@ -265,7 +260,7 @@ function Provider({ children }) {
       body: JSON.stringify(data),
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/login", opts);
+      let res = await fetch(generateURL("login"), opts);
       if (res.status === 401) {
         alert("Wrong password or email");
         return false;
@@ -295,10 +290,7 @@ function Provider({ children }) {
       body: JSON.stringify(item),
     };
     try {
-      let res = await checkFetch(
-        "http://localhost:5000/api/v1/" + endpoint,
-        opts
-      );
+      let res = await checkFetch(generateURL(endpoint), opts);
       if (res.status !== 200) {
         const status = res.status;
         res = await res.json();
@@ -333,7 +325,7 @@ function Provider({ children }) {
       body: JSON.stringify(data),
     };
     try {
-      let res = await fetch("http://localhost:5000/api/v1/signup", opts);
+      let res = await fetch(generateURL("signup"), opts);
       if (res.status === 405) {
         alert("There is an user with that email already");
         return false;

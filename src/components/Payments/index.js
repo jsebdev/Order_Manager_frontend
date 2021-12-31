@@ -94,7 +94,9 @@ export const Payments = () => {
               />
             </div>
           </div>
-          <button type="submit">Add Payment</button>
+          <button className="btn btn-primary mx-auto mb-2 my-2" type="submit">
+            Add Payment
+          </button>
         </form>
       ) : (
         <button
