@@ -361,11 +361,12 @@ function Provider({ children }) {
 
   const fetchAll = async (url) => {
     setToken(localStorage.getItem("token"));
+    const tokenAux = localStorage.getItem("token");
     const opts = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + tokenAux,
       },
     };
     try {

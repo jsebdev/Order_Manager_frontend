@@ -30,9 +30,7 @@ export const ModalEditOrder = () => {
             "updateorder"
           );
           setMsg(res.msg);
-          debugger;
           updateItems(ordersToFetch.url, setOrders);
-          setShowSpinner(false);
         }}
       >
         <div className="grid-input">
