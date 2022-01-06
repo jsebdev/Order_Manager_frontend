@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Orders/Orders/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Orders/Orders/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import { Table } from "../../Table";
+import { Context } from "../../../Context/AppContext";
+
+/**
+ * This component display the orders fetched by the state ordersToFetch
+ * @returns order component where the orders are displayed
+ */
+function Orders() {
+  const {
+    orders,
+    deleteItem,
+    showSpinner,
+    updateItems,
+    setOrders,
+    setShowEditOrderModal,
+    setOrderToEdit,
+    ordersToFetch,
+    setShowShippingInfo,
+    setShowPayments,
+  } = React.useContext(Context);
+
+  const data = React.useMemo(() => [...orders], [orders]);
+  const columns = React.useMemo(
+    () =>
+      orders[0]
+        ? Object.keys(orders[0])
+            .filter(
+              (key) =>
+                key !== "shipping_info" &amp;&amp;
+                key !== "user_information" &amp;&amp;
+                key !== "paid" &amp;&amp;
+                key !== "payments"
+            )
+            .map((key) => {
+              let width = 150;
+              if (["subtotal", "taxes", "total"].includes(key)) width = 80;
+              if (["gov_id", "order_status"].includes(key)) width = 100;
+              return { Header: key, accessor: key, width: width };
+            })
+        : [],
+    [orders]
+  );
+
+  const tableHooks = (hooks) => {
+    hooks.visibleColumns.push((columns) => [
+      ...columns,
+      {
+        id: "Options",
+        Header: "Options",
+        width: 300,
+        Cell: ({ row }) => (
+          &lt;div className="button-cell">
+            &lt;button
+              className="btn btn-primary"
+              onClick={() => {
+                setOrderToEdit(
+                  orders.filter(
+                    (order) => order.order_id === row.values.order_id
+                  )[0]
+                );
+                setShowEditOrderModal(true);
+              }}
+            >
+              Edit
+            &lt;/button>
+            &lt;button
+              className="btn btn-danger"
+              onClick={async () => {
+                deleteItem(row.values.order_id).then(() => {
+                  updateItems(ordersToFetch.url, setOrders);
+                });
+              }}
+            >
+              Delete
+            &lt;/button>
+            &lt;button
+              className="btn btn-info"
+              onClick={() => {
+                setOrderToEdit(
+                  orders.filter(
+                    (order) => order.order_id === row.values.order_id
+                  )[0]
+                );
+                setShowShippingInfo(true);
+              }}
+            >
+              Shipping
+            &lt;/button>
+            &lt;button
+              className="btn btn-info"
+              onClick={() => {
+                setOrderToEdit(
+                  orders.filter(
+                    (order) => order.order_id === row.values.order_id
+                  )[0]
+                );
+                setShowPayments(true);
+              }}
+            >
+              Payments
+            &lt;/button>
+          &lt;/div>
+        ),
+      },
+    ]);
+  };
+
+  return (
+    &lt;>
+      {!showSpinner ? (
+        &lt;>
+          &lt;h1 className="h1 text-center mt-5">{ordersToFetch.title}&lt;/h1>
+          {orders[0] ? (
+            &lt;Table
+              columns={columns}
+              data={data}
+              tableHooks={tableHooks}
+              columnOrder={[
+                "order_id",
+                "customer_name",
+                "gov_id",
+                "subtotal",
+                "taxes",
+                "total",
+              ]}
+            >&lt;/Table>
+          ) : (
+            &lt;div className="container text-center pt-4">
+              No orders in the system
+            &lt;/div>
+          )}
+        &lt;/>
+      ) : (
+        &lt;div className="container text-center mt-5 fs-2">
+          Orders comming ...
+        &lt;/div>
+      )}
+    &lt;/>
+  );
+}
+
+export { Orders };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AllOrders">AllOrders</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#ClientOrders">ClientOrders</a></li><li><a href="global.html#Clients">Clients</a></li><li><a href="global.html#Context">Context</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#FormEditShipping">FormEditShipping</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#LoadingSpinner">LoadingSpinner</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModalEditClient">ModalEditClient</a></li><li><a href="global.html#ModalEditOrder">ModalEditOrder</a></li><li><a href="global.html#ModalNew">ModalNew</a></li><li><a href="global.html#NewOrder">NewOrder</a></li><li><a href="global.html#Orders">Orders</a></li><li><a href="global.html#Payments">Payments</a></li><li><a href="global.html#Provider">Provider</a></li><li><a href="global.html#SearchModal">SearchModal</a></li><li><a href="global.html#ShippingInfo">ShippingInfo</a></li><li><a href="global.html#Signup">Signup</a></li><li><a href="global.html#Table">Table</a></li><li><a href="global.html#Welcome">Welcome</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Jan 02 2022 14:46:56 GMT-0500 (Colombia Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

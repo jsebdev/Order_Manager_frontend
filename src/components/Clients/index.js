@@ -2,6 +2,10 @@ import React from "react";
 import { Table } from "../Table";
 import { Context } from "../../Context/AppContext";
 
+/**
+ * Clients Component
+ * @returns Returns table with all the clients
+ */
 function Clients() {
   const {
     deleteItem,
@@ -109,7 +113,7 @@ function Clients() {
         </>
       ) : (
         <div className="container text-center mt-5 fs-2">
-          Clients comming ...
+          Clients coming ...
         </div>
       )}
     </>

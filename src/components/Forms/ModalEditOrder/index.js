@@ -1,6 +1,10 @@
 import React from "react";
 import { Context } from "../../../Context/AppContext";
 
+/**
+ * Update order form
+ * @returns Form to update order info
+ */
 export const ModalEditOrder = () => {
   const {
     ordersToFetch,

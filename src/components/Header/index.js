@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { Context } from "../../Context/AppContext";
 import "./header.scss";
 
+/**
+ * Header component
+ * @returns Header component
+ */
 function Header() {
   const handleClick = () => setShowSidebar(!showSidebar);
   const {
@@ -39,7 +43,7 @@ function Header() {
             {userName ? (
               <React.Fragment>
                 <li className="fs-4">
-                  <p className="m-0">Hola {userName}</p>
+                  <p className="m-0">Hello {userName}</p>
                 </li>
                 <li className="login-link">
                   <Link

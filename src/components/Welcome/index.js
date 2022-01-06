@@ -1,9 +1,16 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../../Context/AppContext";
 import "./Welcome.scss";
 
-function Welcome({ userName }) {
+/**
+ * The welcome component show two option, login or sign up. In case a userName already exists, it means the user is already
+ * logged in an the user is redirected to the /dashboard
+ * @returns The Welcome component
+ */
+function Welcome() {
   const navigate = useNavigate();
+  const { userName } = React.useContext(Context);
   useEffect(() => {
     if (userName !== null) {
       navigate("/dashboard");

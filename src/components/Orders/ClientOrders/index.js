@@ -3,6 +3,10 @@ import { Context } from "../../../Context/AppContext";
 import { Orders } from "../Orders";
 import { useParams } from "react-router-dom";
 
+/**
+ * This Component sets the ordersToFetch state to fetch all orders from a the client with id clientId
+ * @returns Returns the orders component where the orders will be displayed
+ */
 export const ClientOrders = () => {
   const { generateURL, setOrdersToFetch, setOrders, updateItems } =
     React.useContext(Context);

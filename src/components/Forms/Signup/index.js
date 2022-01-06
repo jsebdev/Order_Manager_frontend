@@ -1,9 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import "../sign_up_forms.scss";
+import { Context } from "../../../Context/AppContext";
 
-function Signup({ signup, userName }) {
+/**
+ * Sign up form
+ * @returns - Sign up form
+ */
+function Signup() {
   const navigate = useNavigate();
+  const { signup, userName } = React.useContext(Context);
   const onSubmit = async (event) => {
     event.preventDefault();
     const log = await signup(

@@ -1,9 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../../../Context/AppContext";
 import "../sign_up_forms.scss";
 
-function Login({ login, userName }) {
+/**
+ * Login Form
+ * @returns Login form
+ */
+function Login() {
   const navigate = useNavigate();
+
+  const { login, userName } = React.useContext(Context);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -21,11 +28,6 @@ function Login({ login, userName }) {
       navigate("/dashboard");
     }
   });
-  // React.useLayoutEffect(() => {
-  //   if (userName) {
-  //     navigate("/dashboard");
-  //   }
-  // });
 
   return (
     <React.Fragment>

@@ -2,8 +2,18 @@ import { getRoles } from "@testing-library/react";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * @type {React.Context<Any>}
+ * Context of the whole application
+ */
 const Context = React.createContext();
 
+/**
+ * Returns the provider with all common functions the app is going to use
+ * @sig {children} -> Context.Provider
+ * @param {JSX.Element} props.children - Elements to place inside the provider
+ * @returns Returns the provider
+ */
 function Provider({ children }) {
   const navigate = useNavigate();
   const [userName, setUserName] = useState(null);
@@ -23,6 +33,12 @@ function Provider({ children }) {
   const [showPayments, setShowPayments] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
 
+  /**
+   * This functions updates the orders or the users defined by the url to fetch
+   * @param {url} url - url to fetch items
+   * @param {setter} setter - setter function to update items fetched
+   * @returns A promise of an object with message in the parameter msg
+   */
   const updateItems = (url, setter) => {
     return new Promise((resolve) => {
       setShowSpinner(true);
@@ -40,6 +56,10 @@ function Provider({ children }) {
     });
   };
 
+  /**
+   * This function sets the mobileView state depending of the innerWidth of the window
+   * If the innerWidth is less or equal to 1000, is set true, false otherwise
+   */
   const checkMobile = () => {
     if (window.innerWidth <= 1000) {
       setMobileView(true);
@@ -48,9 +68,21 @@ function Provider({ children }) {
     }
   };
 
-  window.addEventListener("resize", checkMobile);
-  useEffect(() => checkMobile(), []);
+  /**
+   * @typedef {Object} - fetchResponse
+   * This object contains information from the response of a fetch action
+   * @property {Boolean} state - if the response was successful the state is true, false if the response was a failure
+   * @property {Number} status - Http status code of the response
+   * @property {String} msg - message obtained from the response
+   * @property {Object} res - Response if the state is false
+   * @property {Array<Objects>} items - Array of object gotten from the response if the state is true
+   */
 
+  /**
+   * Make a DELETE request to delete item
+   * @param {String} id - id of the item to delete
+   * @returns {fetchResponse} - fetchResponse object with information from the fetch response
+   */
   const deleteItem = async (id) => {
     const opts = {
       method: "DELETE",
@@ -75,6 +107,15 @@ function Provider({ children }) {
     }
   };
 
+  /**
+   * Make a POST request to create a new client
+   * @param {String} client.name - Client's name
+   * @param {String} client.lastname - Client's last name
+   * @param {String} client.govid - Client's government id
+   * @param {String} client.email - Client's email
+   * @param {String} client.company - Client's email
+   * @returns {fetchResponse} - fetchResponse object with information from the fetch response
+   */
   const createClient = async ({ name, lastname, govid, email, company }) => {
     const data = { name, last_name: lastname, gov_id: govid, email, company };
     const opts = {
@@ -103,6 +144,17 @@ function Provider({ children }) {
     }
   };
 
+  /**
+   * Search orders according to the searchType argument. After the call to the updateItems function, the url is redirected to "/search"
+   * @param {String} searchType -  Kind of search to do, it can be one of "by-id", "by-date", "by-location"
+   * @param {String} order.orderId -  Order's id
+   * @param {String} order.startDate -  Start date in date range
+   * @param {String} order.startDate -  End date in date range
+   * @param {String} order.city -  Shipping's city
+   * @param {String} order.state -  Shipping's state
+   * @param {String} order.country -  Shipping's country
+   *
+   */
   const searchOrders = async (
     searchType,
     { orderId, startDate, endDate, city, state, country }
@@ -130,6 +182,12 @@ function Provider({ children }) {
     navigate("/search");
   };
 
+  /**
+   * This function create a new url
+   * @param {endpoint} endpoint - endpoint of the url
+   * @param {Object} params - Object with variables as parameter to send in a get request
+   * @returns A new URL
+   */
   const generateURL = (endpoint, params = null) => {
     // const url = new URL("http://localhost:5000/api/v1/" + endpoint);
     const url = new URL(
@@ -141,6 +199,12 @@ function Provider({ children }) {
     return url;
   };
 
+  /**
+   * This functions send a POST request to create a new order and if necessary send a POST request to create a new client
+   * @param {Object} clientToCreate - Object with the client's attributes to create if any
+   * @param {order} order - Object with the order's attributes to create
+   * @returns {fetchResponse} - fetchResponse object with information from the fetch response
+   */
   const createOrder = async (clientToCreate, order) => {
     if (clientToCreate) {
       const res = await createClient(clientToCreate);
@@ -182,6 +246,11 @@ function Provider({ children }) {
     }
   };
 
+  /**
+   * This functions send a POST request to create a new payment
+   * @param {Object} payment - Object with the payment's attributes
+   * @returns {fetchResponse} - fetchResponse object with information from the fetch response
+   */
   const createPayment = async (payment) => {
     const opts = {
       method: "POST",
@@ -203,6 +272,11 @@ function Provider({ children }) {
     }
   };
 
+  /**
+   * This functions send a POST request to create a new payment
+   * @param {Object} shipping - Object with the shipping's attributes
+   * @returns {fetchResponse} - fetchResponse object with information from the fetch response
+   */
   const createShipping = async (shipping) => {
     const opts = {
       method: "POST",
@@ -226,6 +300,20 @@ function Provider({ children }) {
     }
   };
 
+  /**
+   * @typedef {Object} - fetchOpts
+   * This object contains the options for a fetch
+   * @property {String} method - HTTP method
+   * @property {Object} headers - Object with Http headers as attributes
+   * @property {Body} msg - message obtained from the response
+   */
+
+  /**
+   * This function fetch the url with the options in opts, if the response status is 401 or 422, it means the app is redirected to the login page
+   * @param {URL} url - the url
+   * @param {fetchOps} opts - Object with options for the fetch
+   * @returns {Promise<Response>} - Returns a promise of the fetch's response
+   */
   const checkFetch = async (url, opts) => {
     const res = await fetch(url, opts);
     if (res.status === 401 || res.status === 422) {
@@ -239,19 +327,21 @@ function Provider({ children }) {
       logout();
       navigate("/login");
     }
-    // if (res.status !== 200) {
-    //   alert('something went wrong status code :'+res.status)
-    // }
     return res;
   };
 
+  /**
+   * This function sends a POST request to perform a login
+   * @param {String} email - User's email for login
+   * @param {String} password - User's password for login
+   * @returns {Boolean} - Returns true if the login was successful, false otherwise
+   */
   const login = async (email, password) => {
     const data = {
       email: email,
       password: password,
     };
 
-    // console.log(JSON.stringify(data));
     const opts = {
       method: "POST",
       headers: {
@@ -280,6 +370,12 @@ function Provider({ children }) {
     }
   };
 
+  /**
+   * This functions performs a POST request to update an item
+   * @param {Object} item - Object with item's attributes to update
+   * @param {String} endpoint - endpoint to send request
+   * @returns {fetchResponse} - fetchResponse object with information from the fetch response
+   */
   const editItem = async (item, endpoint) => {
     const opts = {
       method: "PUT",
@@ -310,13 +406,19 @@ function Provider({ children }) {
     }
   };
 
+  /**
+   * Performs the sign up process for a new user
+   * @param {String} name - Name of the new user
+   * @param {email} email - Email of the new user
+   * @param {password} password - Password of the new user
+   * @returns {Boolean} True if the sign up was successful, false otherwise
+   */
   const signup = async (name, email, password) => {
     const data = {
       name: name,
       email: email,
       password: password,
     };
-    // console.log(JSON.stringify(data));
     const opts = {
       method: "POST",
       headers: {
@@ -345,6 +447,9 @@ function Provider({ children }) {
     }
   };
 
+  /**
+   * Sets the userName and token status if they are saved in the localstorage
+   */
   const checkUser = () => {
     const name = localStorage.getItem("userName");
     setUserName(name);
@@ -352,6 +457,9 @@ function Provider({ children }) {
     setToken(tok);
   };
 
+  /**
+   * Deletes the userName and token from the localstorage and from the respectives states
+   */
   const logout = () => {
     localStorage.removeItem("userName");
     localStorage.removeItem("token");
@@ -359,6 +467,11 @@ function Provider({ children }) {
     setToken(null);
   };
 
+  /**
+   * Fetch and array of items from the url
+   * @param {URL} url - url to fetch array of items
+   * @returns {fetchResponse} - fetchResponse object with information from the fetch response
+   */
   const fetchAll = async (url) => {
     setToken(localStorage.getItem("token"));
     const tokenAux = localStorage.getItem("token");
@@ -374,9 +487,6 @@ function Provider({ children }) {
       if (res.status !== 200) {
         const status = res.status;
         res = await res.json();
-        // alert(
-        //   `Something wrong happened, status code is ${status} \nmsg: ${res.msg}`
-        // );
         return { status: status, res: res, items: [] };
       }
       res = await res.json();
@@ -392,6 +502,16 @@ function Provider({ children }) {
       };
     }
   };
+
+  /**
+   * Add the resize listener to the windows.
+   */
+  window.addEventListener("resize", checkMobile);
+
+  /**
+   * Check whether the windows's with is over 1000 px
+   */
+  useEffect(() => checkMobile(), []);
 
   return (
     <Context.Provider

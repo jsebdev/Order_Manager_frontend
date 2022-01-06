@@ -6,6 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "./Context/AppContext";
 import { BrowserRouter as Router } from "react-router-dom";
 
+/**
+ * Render the application in div with id "root"
+ */
 ReactDOM.render(
   <React.StrictMode>
     <Router>

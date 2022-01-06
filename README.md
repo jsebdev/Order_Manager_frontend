@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Order Manager frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the front-end side of an app that handles the process of handling orders for a fictional retail company.
 
-## Available Scripts
+Table of Contents 
+================= 
 
-In the project directory, you can run:
+\* [Order Manager frontend](#order-manager-frontend) 
+  \* [How to run in local](#how-to-run-in-local) 
+  \* [Test the deployed version](#test-the-deployed-version) 
+  \* [How to use](#how-to-use) 
+  \* [Video](#video)
 
-### `npm start`
+## How to run in local
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Make sure to first run the project [Order Manager api](https://github.com/Sebas93cay/Order_Manager_api)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Clone the repository
 
-### `npm test`
+```
+git clone https://github.com/Sebas93cay/Order_Manager_frontend.git
+cd Order_Manager_frontend
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Install project dependencies
 
-### `npm run build`
+```
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Run start script
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Now you can go to to localhost:3000 and start using the application
 
-### `npm run eject`
+## Test the deployed version
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Go to [sebas93cay.github.io/Order_Manager_frontend](https://sebas93cay.github.io/Order_Manager_frontend) and start playing with the clients and orders. The interface is responsive, so feel free to test it in a mobile device as well :)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How to use
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+You need to create a user to use the app. Just go to sign up and provide a name, email (it can be fake) and a password. From then on you will use that email and password to log in.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<center><img style="width:75%" src="./images/welcome.png"></center>
 
-## Learn More
+Once you are logged in, there are 4 main actions to perform in the app
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Create a new order**, in here you can create a new order for an existing or new client, add payments and shipping information.
+- **Search for order**, you can search for order by 3 different ways:
+  - By order Id
+  - By dates
+  - By shipping information
+- **Show all orders**
+- **Show all clients**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<center><img style="width:75%" src="./images/dashboard.png"></center>
 
-### Code Splitting
+## Video
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This was my first serious project for my portfolio, so I did a fun video about it. I hope you can check it out :)
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ <center><a href="https://www.linkedin.com/posts/sebscaicedo_project-video-react-activity-6884715037630443520-nx1f">Video</a></center>

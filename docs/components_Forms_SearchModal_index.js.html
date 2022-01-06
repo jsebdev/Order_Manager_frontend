@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Forms/SearchModal/index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Forms/SearchModal/index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import { Context } from "../../../Context/AppContext";
+import "./SearchModal.scss";
+
+/**
+ * Order search modal form
+ * @returns Form to search for order
+ */
+export const SearchModal = () => {
+  const [searchType, setSearchType] = React.useState("by-id");
+  const { searchOrders, setShowSpinner } = React.useContext(Context);
+
+  const submitSearch = (event) => {
+    event.preventDefault();
+    setShowSpinner(true);
+    // debugger;
+    searchOrders(searchType, {
+      orderId: event.target.orderId.value,
+      startDate: event.target.startDate.value,
+      endDate: event.target.endDate.value,
+      city: event.target.city.value,
+      state: event.target.state.value,
+      country: event.target.country.value,
+    });
+    setShowSpinner(false);
+  };
+
+  return (
+    &lt;>
+      &lt;h2 className="form-title">Search&lt;/h2>
+      &lt;form className="search-form" onSubmit={(event) => submitSearch(event)}>
+        &lt;div className="accordion w-100 accordion-flus" id="accordion-search">
+          &lt;div className="accordion-item">
+            &lt;h2 className="accordion-header" id="headingOne">
+              &lt;button
+                className="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+                onClick={() => setSearchType("by-id")}
+              >
+                Search order by id
+              &lt;/button>
+            &lt;/h2>
+            &lt;div
+              id="collapseOne"
+              className="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#accordion-search"
+            >
+              &lt;div className="accordion-body">
+                &lt;div className="search-input grid-input">
+                  &lt;label htmlFor="orderId">Order Id:&lt;/label>
+                  &lt;input
+                    type="text"
+                    name="orderId"
+                    required={searchType === "by-id"}
+                  />
+                &lt;/div>
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="accordion-item">
+            &lt;h2 className="accordion-header" id="headingTwo">
+              &lt;button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+                onClick={() => setSearchType("by-date")}
+              >
+                Search orders by dates
+              &lt;/button>
+            &lt;/h2>
+            &lt;div
+              id="collapseTwo"
+              className="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#accordion-search"
+            >
+              &lt;div className="accordion-body">
+                &lt;div className="search-input grid-input">
+                  &lt;label htmlFor="startDate">Start Date:&lt;/label>
+                  &lt;input
+                    type="date"
+                    name="startDate"
+                    required={searchType === "by-date"}
+                  />
+                &lt;/div>
+                &lt;div className="search-input grid-input">
+                  &lt;label htmlFor="endDate">End Date:&lt;/label>
+                  &lt;input
+                    type="date"
+                    name="endDate"
+                    required={searchType === "by-date"}
+                  />
+                &lt;/div>
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="accordion-item">
+            &lt;h2 className="accordion-header" id="headingThree">
+              &lt;button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+                onClick={() => setSearchType("by-location")}
+              >
+                Search Orders by location
+              &lt;/button>
+            &lt;/h2>
+            &lt;div
+              id="collapseThree"
+              className="accordion-collapse collapse"
+              aria-labelledby="headingThree"
+              data-bs-parent="#accordion-search"
+            >
+              &lt;div className="accordion-body">
+                &lt;div className="search-input grid-input">
+                  &lt;label htmlFor="country">Country: &lt;/label>
+                  &lt;input type="text" name="country" />
+                &lt;/div>
+                &lt;div className="search-input grid-input">
+                  &lt;label htmlFor="state">State: &lt;/label>
+                  &lt;input type="text" name="state" />
+                &lt;/div>
+                &lt;div className="search-input grid-input">
+                  &lt;label htmlFor="city">City: &lt;/label>
+                  &lt;input type="text" name="city" />
+                &lt;/div>
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+        &lt;button className="btn btn-primary m-2" type="submit">
+          Search
+        &lt;/button>
+      &lt;/form>
+    &lt;/>
+  );
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AllOrders">AllOrders</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#ClientOrders">ClientOrders</a></li><li><a href="global.html#Clients">Clients</a></li><li><a href="global.html#Context">Context</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#FormEditShipping">FormEditShipping</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#LoadingSpinner">LoadingSpinner</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModalEditClient">ModalEditClient</a></li><li><a href="global.html#ModalEditOrder">ModalEditOrder</a></li><li><a href="global.html#ModalNew">ModalNew</a></li><li><a href="global.html#NewOrder">NewOrder</a></li><li><a href="global.html#Orders">Orders</a></li><li><a href="global.html#Payments">Payments</a></li><li><a href="global.html#Provider">Provider</a></li><li><a href="global.html#SearchModal">SearchModal</a></li><li><a href="global.html#ShippingInfo">ShippingInfo</a></li><li><a href="global.html#Signup">Signup</a></li><li><a href="global.html#Table">Table</a></li><li><a href="global.html#Welcome">Welcome</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Jan 02 2022 14:46:56 GMT-0500 (Colombia Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

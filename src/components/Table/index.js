@@ -8,6 +8,14 @@ import {
   useFlexLayout,
 } from "react-table";
 
+/**
+ * Table component
+ * @param {Object[]} props.columns - Array of objects with the column info
+ * @param {Object[]} props.data - Array of objects with the info for each row of the table
+ * @param {Function} props.tableHooks - Function to create the buttons at the end of each row
+ * @param {String[]} props.columnOrder - Array of string indicating the order of the columns
+ * @returns A table component
+ */
 function Table({ columns, data, tableHooks, columnOrder }) {
   const tableInstance = useTable(
     {

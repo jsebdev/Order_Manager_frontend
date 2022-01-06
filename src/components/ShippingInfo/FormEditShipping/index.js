@@ -1,6 +1,13 @@
 import React from "react";
 import { Context } from "../../../Context/AppContext";
 
+/**
+ *
+ * @param {Object} props.shipping_info - Object with the shipping information
+ * @param {String} props.action - If action is set to "create", the form create new shipping information for the order. If
+ * it is set to "update", the form update the shipping information already created
+ * @returns
+ */
 export const FormEditShipping = ({ shipping_info, action }) => {
   const {
     ordersToFetch,

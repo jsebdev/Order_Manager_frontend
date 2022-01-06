@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/App.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/App.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import "./App.scss";
+import { Header } from "./Header";
+import { Welcome } from "./Welcome";
+import { Login } from "./Forms/Login";
+import { Signup } from "./Forms/Signup";
+import { Routes, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { Context } from "../Context/AppContext";
+import { Dashboard } from "./Dashboard";
+import { Clients } from "./Clients";
+import { ModalNew } from "./ModalNew";
+import { NewOrder } from "./Forms/NewOrder";
+import { ModalEditClient } from "./Forms/ModalEditClient";
+import { ModalEditOrder } from "./Forms/ModalEditOrder";
+import { LoadingSpinner } from "./LoadingSpinner";
+import { AllOrders } from "./Orders/AllOrders";
+import { ClientOrders } from "./Orders/ClientOrders";
+import { ShippingInfo } from "./ShippingInfo";
+import { Payments } from "./Payments";
+import { SearchModal } from "./Forms/SearchModal";
+import { Orders } from "./Orders/Orders";
+import { Navigate } from "react-router-dom";
+
+/**
+ * This is the main component
+ * @returns Returns the main App
+ */
+const App = () => {
+  const {
+    userName,
+    login,
+    checkUser,
+    signup,
+    showNewOrderModal,
+    setShowNewOrderModal,
+    showEditClientModal,
+    setShowEditClientModal,
+    showSpinner,
+    showEditOrderModal,
+    setShowEditOrderModal,
+    showShippingInfo,
+    setShowShippingInfo,
+    showPayments,
+    setShowPayments,
+    showSearchModal,
+    setShowSearchModal,
+  } = useContext(Context);
+
+  React.useEffect(() => {
+    checkUser();
+  });
+
+  return (
+    &lt;React.Fragment>
+      &lt;Header>&lt;/Header>
+      &lt;div className="body-container">
+        &lt;Routes>
+          &lt;Route path="/" element={&lt;Welcome />}>&lt;/Route>
+          &lt;Route
+            path="/Order_Manager_frontend/"
+            element={&lt;Navigate replace to="/">&lt;/Navigate>}
+          >&lt;/Route>
+          &lt;Route path="/login" element={&lt;Login />}>&lt;/Route>
+          &lt;Route path="/signup" element={&lt;Signup />}>&lt;/Route>
+          &lt;Route
+            path="/dashboard"
+            element={
+              &lt;Dashboard
+                userName={userName}
+                setShowNewOrderModal={setShowNewOrderModal}
+              />
+            }
+          >&lt;/Route>
+          &lt;Route
+            path="/dashboard/orders"
+            element={&lt;AllOrders>&lt;/AllOrders>}
+          >&lt;/Route>
+          &lt;Route
+            path="/dashboard/orders/:clientId"
+            element={&lt;ClientOrders />}
+          >&lt;/Route>
+          &lt;Route
+            path="/dashboard/clients"
+            element={&lt;Clients>&lt;/Clients>}
+          >&lt;/Route>
+          &lt;Route
+            path="/loading"
+            element={&lt;LoadingSpinner>&lt;/LoadingSpinner>}
+          >&lt;/Route>
+          &lt;Route path="/search" element={&lt;Orders>&lt;/Orders>}>&lt;/Route>
+        &lt;/Routes>
+      &lt;/div>
+      {showNewOrderModal &amp;&amp; (
+        &lt;ModalNew
+          setShowModal={setShowNewOrderModal}
+          elementId={"new-order-modal"}
+        >
+          &lt;NewOrder>&lt;/NewOrder>
+        &lt;/ModalNew>
+      )}
+      {showEditClientModal &amp;&amp; (
+        &lt;ModalNew
+          setShowModal={setShowEditClientModal}
+          elementId={"edit-client-modal"}
+        >
+          &lt;ModalEditClient>&lt;/ModalEditClient>
+        &lt;/ModalNew>
+      )}
+      {showEditOrderModal &amp;&amp; (
+        &lt;ModalNew
+          setShowModal={setShowEditOrderModal}
+          elementId={"edit-order-modal"}
+        >
+          &lt;ModalEditOrder>&lt;/ModalEditOrder>
+        &lt;/ModalNew>
+      )}
+      {showShippingInfo &amp;&amp; (
+        &lt;ModalNew
+          setShowModal={setShowShippingInfo}
+          elementId={"shipping-info-modal"}
+        >
+          &lt;ShippingInfo>&lt;/ShippingInfo>
+        &lt;/ModalNew>
+      )}
+      {showPayments &amp;&amp; (
+        &lt;ModalNew setShowModal={setShowPayments} elementId={"payments-modal"}>
+          &lt;Payments>&lt;/Payments>
+        &lt;/ModalNew>
+      )}
+      {showSearchModal &amp;&amp; (
+        &lt;ModalNew setShowModal={setShowSearchModal} elementId={"search-modal"}>
+          &lt;SearchModal>&lt;/SearchModal>
+        &lt;/ModalNew>
+      )}
+      {showSpinner &amp;&amp; &lt;LoadingSpinner>&lt;/LoadingSpinner>}
+    &lt;/React.Fragment>
+  );
+};
+
+export { App };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AllOrders">AllOrders</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#ClientOrders">ClientOrders</a></li><li><a href="global.html#Clients">Clients</a></li><li><a href="global.html#Context">Context</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#FormEditShipping">FormEditShipping</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#LoadingSpinner">LoadingSpinner</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModalEditClient">ModalEditClient</a></li><li><a href="global.html#ModalEditOrder">ModalEditOrder</a></li><li><a href="global.html#ModalNew">ModalNew</a></li><li><a href="global.html#NewOrder">NewOrder</a></li><li><a href="global.html#Orders">Orders</a></li><li><a href="global.html#Payments">Payments</a></li><li><a href="global.html#Provider">Provider</a></li><li><a href="global.html#SearchModal">SearchModal</a></li><li><a href="global.html#ShippingInfo">ShippingInfo</a></li><li><a href="global.html#Signup">Signup</a></li><li><a href="global.html#Table">Table</a></li><li><a href="global.html#Welcome">Welcome</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sun Jan 02 2022 14:46:56 GMT-0500 (Colombia Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

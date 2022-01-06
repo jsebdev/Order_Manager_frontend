@@ -2,6 +2,10 @@ import React from "react";
 import { Context } from "../../../Context/AppContext";
 import "../inside_forms.scss";
 
+/**
+ * New order form
+ * @returns Form to create a new order
+ */
 const NewOrder = () => {
   const [deliverState, setDeliverState] = React.useState(false);
   const {

@@ -3,6 +3,10 @@ import { Context } from "../../Context/AppContext";
 import { Table } from "../Table";
 import "./payments.scss";
 
+/**
+ * The payment component shows all payments in the order orderToEdit and allows the user to add a new payment
+ * @returns  Payment component
+ */
 export const Payments = () => {
   const {
     orderToEdit,

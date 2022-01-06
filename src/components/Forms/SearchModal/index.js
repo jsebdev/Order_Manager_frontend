@@ -2,6 +2,10 @@ import React from "react";
 import { Context } from "../../../Context/AppContext";
 import "./SearchModal.scss";
 
+/**
+ * Order search modal form
+ * @returns Form to search for order
+ */
 export const SearchModal = () => {
   const [searchType, setSearchType] = React.useState("by-id");
   const { searchOrders, setShowSpinner } = React.useContext(Context);

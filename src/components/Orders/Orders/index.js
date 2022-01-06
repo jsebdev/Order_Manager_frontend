@@ -2,6 +2,10 @@ import React from "react";
 import { Table } from "../../Table";
 import { Context } from "../../../Context/AppContext";
 
+/**
+ * This component display the orders fetched by the state ordersToFetch
+ * @returns order component where the orders are displayed
+ */
 function Orders() {
   const {
     orders,

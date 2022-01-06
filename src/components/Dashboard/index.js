@@ -3,6 +3,10 @@ import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../../Context/AppContext";
 import "./dashboard.scss";
 
+/**
+ * Dashboard component
+ * @returns Component with four principal buttons "New Order", "Search", "Orders", "Clients"
+ */
 function Dashboard() {
   const colClass = `col-option col-8 offset-2 col-md-3 my-2 d-flex flex-column text-center py-4`;
   const { userName, setShowNewOrderModal, setShowSearchModal } =

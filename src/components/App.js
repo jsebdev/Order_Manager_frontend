@@ -10,7 +10,6 @@ import { Dashboard } from "./Dashboard";
 import { Clients } from "./Clients";
 import { ModalNew } from "./ModalNew";
 import { NewOrder } from "./Forms/NewOrder";
-import { Test } from "./test";
 import { ModalEditClient } from "./Forms/ModalEditClient";
 import { ModalEditOrder } from "./Forms/ModalEditOrder";
 import { LoadingSpinner } from "./LoadingSpinner";
@@ -22,6 +21,10 @@ import { SearchModal } from "./Forms/SearchModal";
 import { Orders } from "./Orders/Orders";
 import { Navigate } from "react-router-dom";
 
+/**
+ * This is the main component
+ * @returns Returns the main App
+ */
 const App = () => {
   const {
     userName,
@@ -52,19 +55,13 @@ const App = () => {
       <Header></Header>
       <div className="body-container">
         <Routes>
-          <Route path="/" element={<Welcome userName={userName} />}></Route>
+          <Route path="/" element={<Welcome />}></Route>
           <Route
             path="/Order_Manager_frontend/"
             element={<Navigate replace to="/"></Navigate>}
           ></Route>
-          <Route
-            path="/login"
-            element={<Login login={login} userName={userName} />}
-          ></Route>
-          <Route
-            path="/signup"
-            element={<Signup signup={signup} userName={userName} />}
-          ></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
           <Route
             path="/dashboard"
             element={
@@ -90,7 +87,6 @@ const App = () => {
             path="/loading"
             element={<LoadingSpinner></LoadingSpinner>}
           ></Route>
-          <Route path="/test" element={<Test></Test>}></Route>
           <Route path="/search" element={<Orders></Orders>}></Route>
         </Routes>
       </div>

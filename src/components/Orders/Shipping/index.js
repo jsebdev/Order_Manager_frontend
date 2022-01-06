@@ -1,6 +1,10 @@
 import React from "react";
 import { Context } from "../../../Context/AppContext";
 
+/**
+ * Edit client form
+ * @returns Form to edit client
+ */
 export const ModalEditClient = () => {
   const {
     generateURL,

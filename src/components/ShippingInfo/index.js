@@ -2,6 +2,11 @@ import React from "react";
 import { Context } from "../../Context/AppContext";
 import { FormEditShipping } from "./FormEditShipping";
 
+/**
+ * The shipping modal contains whether a button to add shipping info to the order if the order does not have
+ * shipping info or displays the form to edit the shipping info
+ * @returns Shipping modal
+ */
 export const ShippingInfo = () => {
   const { orderToEdit, orders } = React.useContext(Context);
   const [addShippingInfo, setAddShippingInfo] = React.useState(false);
