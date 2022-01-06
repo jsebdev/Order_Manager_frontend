@@ -5,11 +5,11 @@ This is the front-end side of an app that handles the process of handling orders
 Table of Contents 
 ================= 
 
-\* [Order Manager frontend](#order-manager-frontend) 
-  \* [How to run in local](#how-to-run-in-local) 
-  \* [Test the deployed version](#test-the-deployed-version) 
-  \* [How to use](#how-to-use) 
-  \* [Video](#video)
+* [Order Manager frontend](#order-manager-frontend) 
+  * [How to run in local](#how-to-run-in-local) 
+  * [Test the deployed version](#test-the-deployed-version) 
+  * [How to use](#how-to-use) 
+  * [Video](#video)
 
 ## How to run in local
 
