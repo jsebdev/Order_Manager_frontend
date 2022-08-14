@@ -1,0 +1,4 @@
+root = true
+
+[*.js]
+quote_type = double

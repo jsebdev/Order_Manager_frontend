@@ -3,7 +3,7 @@ import { Header } from "./Header";
 import { Welcome } from "./Welcome";
 import { Login } from "./Forms/Login";
 import { Signup } from "./Forms/Signup";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import React, { useContext } from "react";
 import { Context } from "../Context/AppContext";
 import { Dashboard } from "./Dashboard";
@@ -45,6 +45,10 @@ const App = () => {
     showSearchModal,
     setShowSearchModal,
   } = useContext(Context);
+
+  const location = useLocation();
+
+  console.log("la location is ", location);
 
   React.useEffect(() => {
     checkUser();
