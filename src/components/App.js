@@ -59,10 +59,10 @@ const App = () => {
       <Header></Header>
       <div className="body-container">
         <Routes>
-          <Route path="/" element={<Welcome />}></Route>
+          <Route path="/Order_Manager_frontend" element={<Welcome />}></Route>
           <Route
-            path="/Order_Manager_frontend/"
-            element={<Navigate replace to="/"></Navigate>}
+            path="/"
+            element={<Navigate replace to="/Order_Manager_frontend"></Navigate>}
           ></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>

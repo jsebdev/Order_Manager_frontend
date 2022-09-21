@@ -1,7 +1,7 @@
 {
-  "name": "frontend",
+  "name": "order_manager_frontend",
   "version": "1.0.0",
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "description": "This is the front-end side of an app that handles the process of handling orders for a fictional retail company.",
   "main": "index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",

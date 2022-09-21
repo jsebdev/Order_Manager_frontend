@@ -337,6 +337,7 @@ function Provider({ children }) {
    * @returns {Boolean} - Returns true if the login was successful, false otherwise
    */
   const login = async (email, password) => {
+    setShowSpinner(true);
     const data = {
       email: email,
       password: password,
@@ -351,6 +352,7 @@ function Provider({ children }) {
     };
     try {
       let res = await fetch(generateURL("login"), opts);
+      setShowSpinner(false);
       if (res.status === 401) {
         alert("Wrong password or email");
         return false;
@@ -414,6 +416,7 @@ function Provider({ children }) {
    * @returns {Boolean} True if the sign up was successful, false otherwise
    */
   const signup = async (name, email, password) => {
+    setShowSpinner(true);
     const data = {
       name: name,
       email: email,
@@ -428,6 +431,7 @@ function Provider({ children }) {
     };
     try {
       let res = await fetch(generateURL("signup"), opts);
+      setShowSpinner(false);
       if (res.status === 405) {
         alert("There is an user with that email already");
         return false;
